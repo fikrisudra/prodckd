@@ -1,11 +1,21 @@
 /**
- * MYPRODUCTION TERMINAL - Final Optimized Script
+ * MYPRODUCTION TERMINAL - Final Optimized Script (With Fixed Hash)
  */
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode, currentTabIndex = 0, touchStartX = 0;
 
-// --- FUNGSI PINDAH TAB & PILL STABILIZER ---
+// --- 1. FUNGSI HASH (SHA-256) ---
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    // Mengubah buffer menjadi string hexadecimal
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// --- 2. FUNGSI PINDAH TAB & PILL STABILIZER ---
 function moveTab(index, el = null) {
     currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
@@ -17,7 +27,6 @@ function moveTab(index, el = null) {
     items.forEach(item => item.classList.remove('active'));
     targetEl.classList.add('active');
 
-    // MENGUNCI UKURAN PILL: Tunggu transisi teks selesai sebelum ukur lebar
     requestAnimationFrame(() => {
         setTimeout(() => {
             if (pill && targetEl) {
@@ -30,9 +39,8 @@ function moveTab(index, el = null) {
     index === 1 ? startScanner() : stopScanner();
 }
 
-// --- LOGIKA SWIPE (Anti-Input Interference) ---
+// --- 3. LOGIKA SWIPE (Anti-Input Interference) ---
 document.addEventListener('touchstart', e => {
-    // Abaikan swipe jika menyentuh area input/form agar bisa mengetik
     if (e.target.closest('input') || e.target.closest('button') || e.target.closest('form')) {
         touchStartX = 0;
         return;
@@ -53,12 +61,11 @@ document.addEventListener('touchend', e => {
     touchStartX = 0;
 }, { passive: true });
 
-// --- AUTH & INITIAL LOAD ---
+// --- 4. AUTH & INITIAL LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     const isMainPage = !!document.getElementById('mainSlider');
 
-    // Proteksi halaman & Load data
     if (session && isMainPage) {
         document.getElementById('userName').innerText = session.name;
         if(document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
@@ -68,35 +75,41 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     }
 
-    // Handle Login Form
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            const id = document.getElementById('userId').value;
+            const id = document.getElementById('userId').value.trim(); // Trim spasi
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
 
             try {
+                // PROSES HASH SEBELUM KIRIM
+                const hashedPass = await hashPassword(pass);
+                
+                // Gunakan mode no-cors jika perlu, tapi idealnya GAS sudah return JSON yang benar
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ id, password: pass })
+                    body: JSON.stringify({ id, password: hashedPass })
                 });
+
                 const res = await response.json();
+                
                 if (res.status === 'success') {
                     res.id = id;
                     localStorage.setItem('userSession', JSON.stringify(res));
                     window.location.href = 'main.html';
                 } else {
-                    alert('Gagal: ' + (res.message || 'ID/Password salah'));
+                    alert('Gagal: ' + (res.message || 'ID atau Password salah. Pastikan data di Sheets sudah berupa hash SHA-256.'));
                     btn.disabled = false;
                     btn.innerText = 'Sign In';
                 }
             } catch (err) {
-                alert('Koneksi Error');
+                console.error(err);
+                alert('Koneksi Error: Pastikan Script URL benar dan akses diset ke "Anyone".');
                 btn.disabled = false;
                 btn.innerText = 'Sign In';
             }
@@ -104,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- QR SCANNER & LOGOUT ---
+// --- 5. QR SCANNER & LOGOUT ---
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
     if (!html5QrCode.isScanning) {
