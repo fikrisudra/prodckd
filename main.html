@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -7,110 +7,90 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="native-bg no-scroll">
+<body class="a16-surface no-scroll">
 
-    <div class="app-shell" id="mainSlider">
-        <section class="native-view">
-            <header class="native-app-bar">
-                <div class="profile-chip">
-                    <img src="https://ui-avatars.com/api/?name=User&background=222&color=fff" id="barAvatar">
-                    <div>
-                        <span class="label-tiny">ACTIVE SESSION</span>
-                        <h2 id="userName">User</h2>
-                    </div>
+    <main class="a16-viewport" id="mainSlider">
+        <section class="a16-view">
+            <header class="a16-header">
+                <div class="a16-user-pill">
+                    <img src="" id="barAvatar" alt="Profile">
+                    <h2 id="userName">User</h2>
                 </div>
-                <button class="icon-action-btn" onclick="logout()"><i class="ri-notification-3-line"></i></button>
+                <button class="a16-icon-btn" onclick="logout()"><i class="ri-logout-circle-r-line"></i></button>
             </header>
 
-            <div class="bento-container">
-                <div class="bento-card-full">
-                    <label>OVERALL SYSTEM STATUS</label>
-                    <div class="status-row">
-                        <span class="status-indicator"></span>
-                        <h3>Operational</h3>
-                    </div>
+            <div class="a16-bento">
+                <div class="a16-card large primary">
+                    <label>CORE EFFICIENCY</label>
+                    <div class="a16-stats">98.2<span>%</span></div>
+                    <div class="a16-mini-graph"></div>
                 </div>
-                <div class="bento-card-half orange">
-                    <label>OEE</label>
-                    <div class="data-val">96.4<small>%</small></div>
+                <div class="a16-card medium">
+                    <label>OUTPUT</label>
+                    <div class="a16-stats">1.4k</div>
                 </div>
-                <div class="bento-card-half">
-                    <label>TARGET</label>
-                    <div class="data-val">2.5k</div>
+                <div class="a16-card medium">
+                    <label>DOWNTIME</label>
+                    <div class="a16-stats">0m</div>
                 </div>
-                <div class="bento-card-full glass">
-                    <label>LIVE INSIGHTS</label>
-                    <p>Current production speed is optimized. No bottlenecks detected in Line 02.</p>
+                <div class="a16-card full-width info">
+                    <label>SYSTEM STATUS</label>
+                    <p>All production lines are running within optimal parameters.</p>
                 </div>
             </div>
         </section>
 
-        <section class="native-view">
-            <div class="view-title-bar">
-                <h3>Object Scanner</h3>
-            </div>
-            <div class="native-scanner-container">
+        <section class="a16-view">
+            <div class="a16-view-title">Vision Scanner</div>
+            <div class="a16-scanner-frame">
                 <div id="reader"></div>
-                <div class="scan-overlay">
-                    <div class="scan-corner top-left"></div>
-                    <div class="scan-corner top-right"></div>
-                    <div class="scan-corner bottom-left"></div>
-                    <div class="scan-corner bottom-right"></div>
-                </div>
+                <div class="a16-scanner-reticle"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="native-modal">
-                    <div class="modal-handle"></div>
-                    <i class="ri-checkbox-circle-fill success-icon"></i>
+                <div class="a16-sheet">
+                    <div class="a16-sheet-handle"></div>
+                    <i class="ri-checkbox-circle-fill"></i>
                     <p id="res-text"></p>
-                    <button onclick="restartScanner()" class="btn-native-tonal">Close</button>
+                    <button onclick="restartScanner()" class="a16-btn-tonal">Dismiss</button>
                 </div>
             </div>
         </section>
 
-        <section class="native-view">
-            <div class="profile-header">
-                <div class="avatar-large-squircle">
-                    <i class="ri-user-6-fill"></i>
+        <section class="a16-view">
+            <div class="a16-profile-hero">
+                <div class="a16-avatar-giant">
+                    <i class="ri-user-heart-line"></i>
                 </div>
-                <h3 id="profileName">Operator Name</h3>
-                <p id="profileID" class="label-mono">ID: 000000</p>
+                <h3 id="profileName">-</h3>
+                <p id="profileID" class="a16-mono">ID: -</p>
             </div>
             
-            <div class="native-settings-list">
-                <div class="setting-item">
-                    <i class="ri-shield-check-line"></i>
-                    <span>Security Clearance</span>
-                    <strong>Level 2</strong>
+            <div class="a16-list">
+                <div class="a16-list-item">
+                    <i class="ri-shield-user-line"></i>
+                    <span>Auth Level</span>
+                    <strong>Supervisor</strong>
                 </div>
-                <div class="setting-item">
-                    <i class="ri-database-2-line"></i>
-                    <span>Database Connection</span>
-                    <strong class="text-success">Stable</strong>
-                </div>
-                <div class="setting-item">
-                    <i class="ri-history-line"></i>
-                    <span>Last Sync</span>
-                    <strong>Just now</strong>
+                <div class="a16-list-item">
+                    <i class="ri-wifi-line"></i>
+                    <span>Connection</span>
+                    <strong class="text-online">Secure</strong>
                 </div>
             </div>
-            <button onclick="logout()" class="btn-native-danger">Terminate Session</button>
+            <button onclick="logout()" class="a16-btn-danger">Terminate Session</button>
         </section>
-    </div>
+    </main>
 
-    <nav class="native-nav-bar">
-        <div class="nav-indicator-pill" id="navPill"></div>
-        <button class="nav-btn active" onclick="moveTab(0, this)">
-            <i class="ri-home-6-fill"></i>
-            <span>Home</span>
+    <nav class="a16-nav">
+        <div class="a16-nav-indicator" id="navPill"></div>
+        <button class="a16-nav-item active" onclick="moveTab(0, this)">
+            <i class="ri-home-5-fill"></i>
         </button>
-        <button class="nav-btn" onclick="moveTab(1, this)">
-            <i class="ri-qr-scan-2-line"></i>
-            <span>Scan</span>
+        <button class="a16-nav-item" onclick="moveTab(1, this)">
+            <i class="ri-qr-code-line"></i>
         </button>
-        <button class="nav-btn" onclick="moveTab(2, this)">
-            <i class="ri-user-settings-fill"></i>
-            <span>User</span>
+        <button class="a16-nav-item" onclick="moveTab(2, this)">
+            <i class="ri-settings-5-fill"></i>
         </button>
     </nav>
 
