@@ -2,101 +2,76 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD Ecosystem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MYPROD Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="a16-surface no-scroll">
-
-    <main class="a16-viewport" id="mainSlider">
-        <section class="a16-view">
-            <header class="a16-header">
-                <div class="a16-user-pill">
-                    <img src="" id="barAvatar" alt="P">
-                    <h2 id="userName">User</h2>
-                </div>
-                <div class="a16-status-tag"><span class="pulse-dot"></span> Online</div>
+<body>
+    <main class="app-viewport" id="mainSlider">
+        <section class="page-container">
+            <header class="section-header">
+                <h2 class="section-title">Overview</h2>
+                <div style="background: #E8F5E9; color: #2E7D32; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">LIVE</div>
             </header>
 
-            <div class="a16-bento">
-                <div class="a16-card large primary">
-                    <label>CORE EFFICIENCY</label>
-                    <div class="a16-stats">98.2<span>%</span></div>
+            <div class="bento-grid">
+                <div class="card full accent">
+                    <p class="card-label">Efficiency Rate</p>
+                    <div class="card-value">98.4%</div>
                 </div>
-                <div class="a16-card medium">
-                    <label>OUTPUT</label>
-                    <div class="a16-stats-small">1,402</div>
+                <div class="card">
+                    <p class="card-label">Output</p>
+                    <div class="card-value">1.2k</div>
                 </div>
-                <div class="a16-card medium">
-                    <label>DOWNTIME</label>
-                    <div class="a16-stats-small">0m</div>
+                <div class="card">
+                    <p class="card-label">Active</p>
+                    <div class="card-value">24h</div>
                 </div>
-                <div class="a16-card full-width info">
-                    <label>SISTEM INSIGHT</label>
-                    <p>Produksi berjalan optimal. Tidak ada kendala teknis terdeteksi.</p>
+                <div class="card full">
+                    <p class="card-label">Status Report</p>
+                    <p style="font-weight: 600;">Semua mesin beroperasi normal tanpa kendala.</p>
                 </div>
             </div>
         </section>
 
-        <section class="a16-view">
-            <header class="a16-header">
-                <h2 class="view-title">Vision Scanner</h2>
+        <section class="page-container">
+            <header class="section-header">
+                <h2 class="section-title">Scanner</h2>
             </header>
-            <div class="a16-bento">
-                <div class="a16-card-scanner full-width">
-                    <div id="reader"></div>
-                    <div class="scan-guide"></div>
-                </div>
-                <div class="a16-card full-width">
-                    <label>STATUS SCANNER</label>
-                    <p id="scan-hint">Arahkan kamera ke QR Code produk.</p>
-                </div>
+            <div class="scanner-container">
+                <div id="reader"></div>
             </div>
-            <div id="scanned-result" class="hidden">
-                <div class="a16-sheet">
-                    <div class="a16-sheet-handle"></div>
-                    <div class="sheet-body">
-                        <i class="ri-checkbox-circle-fill"></i>
-                        <p id="res-text">Result</p>
-                        <button onclick="restartScanner()" class="a16-btn-tonal">Tutup</button>
-                    </div>
-                </div>
+            <div class="card full">
+                <p class="card-label">Hasil Scan</p>
+                <p id="res-text" style="font-weight: 700; color: var(--text-sub);">Menunggu input...</p>
             </div>
         </section>
 
-        <section class="a16-view">
-            <header class="a16-header">
-                <h2 class="view-title">Akun Pengguna</h2>
+        <section class="page-container">
+            <header class="section-header">
+                <h2 class="section-title">Account</h2>
             </header>
-            <div class="a16-bento">
-                <div class="a16-card-profile full-width">
-                    <div class="a16-avatar-wrap"><i class="ri-user-smile-3-fill"></i></div>
-                    <div class="profile-meta">
-                        <h3 id="profileName">Operator</h3>
-                        <p id="profileID">ID: ---</p>
-                    </div>
-                </div>
-                <div class="a16-card full-width">
-                    <label>PENGATURAN SISTEM</label>
-                    <div class="a16-list-item"><span>Versi Aplikasi</span> <strong>16.0.4</strong></div>
-                    <div class="a16-list-item"><span>Enkripsi</span> <strong>SHA-256</strong></div>
-                </div>
-                <div class="a16-card full-width danger-card" onclick="logout()">
-                    <div class="logout-flex">
-                        <span>Keluar Sesi</span>
-                        <i class="ri-logout-circle-r-line"></i>
-                    </div>
-                </div>
+            <div class="profile-hero">
+                <div class="avatar-l"><i class="ri-user-fill"></i></div>
+                <h3 id="profileName" style="font-weight: 800; font-size: 20px;">Operator</h3>
+                <p id="profileID" style="color: var(--text-sub); font-weight: 600;">ID: --</p>
             </div>
+            <div class="card full" style="margin-bottom: 12px;">
+                <p class="card-label">Versi Sistem</p>
+                <p style="font-weight: 700;">16.0.4-Stable</p>
+            </div>
+            <button onclick="logout()" class="btn-full" style="background: #FEE2E2; color: var(--danger);">
+                Keluar Sesi <i class="ri-logout-box-r-line"></i>
+            </button>
         </section>
     </main>
 
-    <nav class="a16-nav">
-        <div class="a16-nav-indicator" id="navPill"></div>
-        <button class="a16-nav-item active" onclick="moveTab(0, this)"><i class="ri-home-5-fill"></i></button>
-        <button class="a16-nav-item" onclick="moveTab(1, this)"><i class="ri-qr-scan-2-line"></i></button>
-        <button class="a16-nav-item" onclick="moveTab(2, this)"><i class="ri-user-settings-fill"></i></button>
+    <nav class="nav-bar">
+        <div class="nav-indicator" id="navPill"></div>
+        <button class="nav-btn active" onclick="moveTab(0, this)"><i class="ri-dashboard-fill"></i></button>
+        <button class="nav-btn" onclick="moveTab(1, this)"><i class="ri-qr-code-line"></i></button>
+        <button class="nav-btn" onclick="moveTab(2, this)"><i class="ri-user-settings-line"></i></button>
     </nav>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
