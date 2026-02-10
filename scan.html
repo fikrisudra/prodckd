@@ -7,49 +7,48 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Mengganti warna hitam pekat menjadi Soft Dark */
+        /* Warna latar belakang Soft Dark (Charcoal) */
+        body { background-color: #f3f4f6; }
+
+        /* Container kamera tanpa border, sangat minimalis */
+        .scanner-wrapper {
+            margin: 1.5rem;
+            background: #2d3748; /* Abu-abu gelap lembut */
+            border-radius: 30px;
+            overflow: hidden;
+            line-height: 0;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
         #reader {
-            background-color: #1f2937 !important; /* Soft Dark Charcoal */
             border: none !important;
         }
-        #reader video {
-            border-radius: 24px;
-            object-fit: cover;
-        }
-        /* Menghilangkan border kartu agar menyatu dengan BG */
-        .scanner-container {
-            margin: 1rem;
-            border-radius: 24px;
-            overflow: hidden;
-            position: relative;
-            background: #1f2937;
-        }
+
+        /* Menghilangkan semua elemen UI bawaan library yang mengganggu */
+        #reader img { display: none; }
+        #reader video { width: 100% !important; object-fit: cover; }
     </style>
 </head>
 <body>
     <div class="app-container fade-in">
-        <header style="padding: 2.5rem 1.5rem 1.5rem; text-align: center;">
-            <h2 style="font-size: 1.5rem; letter-spacing: -1px;">Quick Scanner</h2>
-            <p style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Arahkan kamera ke QR Code</p>
+        <header style="padding: 3rem 1.5rem 2rem; text-align: center;">
+            <h2 style="font-size: 1.6rem; font-weight: 700; color: #1f2937;">Quick Scanner</h2>
+            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 5px;">Aplikasi akan mendeteksi QR Code otomatis</p>
         </header>
         
-        <div class="scanner-container">
+        <div class="scanner-wrapper">
             <div id="reader"></div>
-            
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; pointer-events: none; z-index: 10;">
-                <div style="position: absolute; top: 0; left: 0; width: 25px; height: 25px; border-top: 4px solid var(--accent); border-left: 4px solid var(--accent); border-radius: 8px 0 0 0;"></div>
-                <div style="position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 4px solid var(--accent); border-right: 4px solid var(--accent); border-radius: 0 8px 0 0;"></div>
-                <div style="position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 4px solid var(--accent); border-left: 4px solid var(--accent); border-radius: 0 0 0 8px;"></div>
-                <div style="position: absolute; bottom: 0; right: 0; width: 25px; height: 25px; border-bottom: 4px solid var(--accent); border-right: 4px solid var(--accent); border-radius: 0 0 8px 0;"></div>
-            </div>
         </div>
 
-        <div id="scanned-result" class="hidden fade-in" style="padding: 1.5rem; text-align: center;">
-            <div style="background: var(--accent-soft); padding: 1.5rem; border-radius: 20px;">
-                <p style="font-size: 0.75rem; color: var(--accent); font-weight: 800; text-transform: uppercase;">Data Terdeteksi</p>
-                <p id="res-text" style="font-weight: 600; margin-top: 10px; font-size: 1.1rem; color: var(--text);"></p>
-                <button onclick="location.reload()" style="margin-top: 20px; background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 14px; font-weight: 700; width: 100%;">
-                    Scan Kembali
+        <div id="scanned-result" class="hidden" style="padding: 0 1.5rem;">
+            <div class="card" style="background: white; border: none; text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                <div style="color: var(--accent); margin-bottom: 10px;">
+                    <i class="fa-solid fa-circle-check fa-2x"></i>
+                </div>
+                <p style="font-size: 0.75rem; color: #9ca3af; font-weight: 700; text-transform: uppercase;">Hasil Pemindaian</p>
+                <p id="res-text" style="font-weight: 600; font-size: 1.1rem; margin: 10px 0; color: #1f2937; word-break: break-all;"></p>
+                <button onclick="location.reload()" style="width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 14px; font-weight: 700; margin-top: 10px; cursor: pointer;">
+                    Scan Lagi
                 </button>
             </div>
         </div>
@@ -59,22 +58,29 @@
     <script src="script.js"></script>
     <script>
         const html5QrCode = new Html5Qrcode("reader");
+        
+        // Konfigurasi tanpa kotak pembatas (qrbox) agar visual benar-benar bersih
         const config = { 
-            fps: 25, 
-            qrbox: { width: 200, height: 200 },
+            fps: 25,
             aspectRatio: 1.0 
         };
 
         Html5Qrcode.getCameras().then(cameras => {
             if (cameras && cameras.length > 0) {
+                // Pilih kamera belakang
                 const backCamera = cameras.find(cam => cam.label.toLowerCase().includes('back')) || cameras[0];
+                
                 html5QrCode.start(backCamera.id, config, (decodedText) => {
+                    // Berhasil Scan
                     document.getElementById('scanned-result').classList.remove('hidden');
                     document.getElementById('res-text').innerText = decodedText;
-                    if(navigator.vibrate) navigator.vibrate(50);
+                    
+                    if(navigator.vibrate) navigator.vibrate(70); // Feedback getar halus
                     html5QrCode.stop();
                 });
             }
+        }).catch(err => {
+            console.error("Camera Error:", err);
         });
     </script>
 </body>
