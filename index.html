@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login | MyProd</title>
+    <title>Sign In | MyProd</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="material-surface">
-    <div class="login-expressive fade-in">
-        <header class="brand-header">
-            <div class="icon-shape"><i class="fa-solid fa-industry"></i></div>
-            <h1 class="display-large">MY<span>PROD</span></h1>
-            <p class="body-medium">Sistem Terminal Produksi</p>
+<body class="m3-surface">
+    <div class="m3-login-container">
+        <header class="m3-login-header fade-in">
+            <div class="m3-app-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <h1 class="display-medium">MY<span>PROD</span></h1>
+            <p class="body-large">Production Terminal v16</p>
         </header>
 
-        <form id="loginForm" class="expressive-form">
-            <div class="field-container">
-                <input type="number" id="userId" class="material-input" placeholder=" " required autofocus>
-                <label class="floating-label">ID Karyawan</label>
+        <form id="loginForm" class="m3-form">
+            <div class="m3-field">
+                <input type="number" id="userId" class="m3-input" placeholder=" " required autofocus>
+                <label>ID Karyawan</label>
             </div>
             
-            <div class="field-container">
-                <input type="password" id="password" class="material-input" placeholder=" " required>
-                <label class="floating-label">Password</label>
+            <div class="m3-field">
+                <input type="password" id="password" class="m3-input" placeholder=" " required>
+                <label>Password</label>
             </div>
 
-            <button type="submit" id="loginBtn" class="fab-extended">
-                <span class="label">Masuk</span>
+            <button type="submit" id="loginBtn" class="m3-btn-large">
+                <span>Sign In</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </form>

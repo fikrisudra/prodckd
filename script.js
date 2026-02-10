@@ -1,6 +1,7 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode, currentTabIndex = 0, touchStartX = 0;
 
+// Proper Security: SHA-256
 async function hashPassword(str) {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
@@ -8,32 +9,29 @@ async function hashPassword(str) {
     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Seamless Navigation & Pill Positioning
 function moveTab(index, el = null) {
     currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
     const pill = document.getElementById('navPill');
-    const items = document.querySelectorAll('.nav-dest');
+    const items = document.querySelectorAll('.m3-nav-item');
     const target = el || items[index];
 
-    // Slide Page
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
-    
-    // Switch Active State
     items.forEach(item => item.classList.remove('active'));
     target.classList.add('active');
 
-    // M3 Indicator Positioning (X axis only)
     if (pill) {
         const targetRect = target.getBoundingClientRect();
-        const navRect = document.querySelector('.nav-bar-m3').getBoundingClientRect();
-        const centerOffset = targetRect.left + (targetRect.width / 2) - (pill.offsetWidth / 2);
-        pill.style.transform = `translateX(${centerOffset}px)`;
+        // Calculate exact horizontal center
+        const offset = targetRect.left + (targetRect.width / 2) - (pill.offsetWidth / 2);
+        pill.style.transform = `translateX(${offset}px)`;
     }
 
     index === 1 ? startScanner() : stopScanner();
 }
 
-// Swipe with M3 Easing
+// Android Fluid Swipe
 document.addEventListener('touchstart', e => {
     if (e.target.closest('input, button')) touchStartX = 0;
     else touchStartX = e.changedTouches[0].screenX;
@@ -48,13 +46,12 @@ document.addEventListener('touchend', e => {
     }
 }, { passive: true });
 
-// Lifecycle
+// App Init
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     const isMain = !!document.getElementById('mainSlider');
 
-    // Initial Nav Position
-    if (isMain) setTimeout(() => moveTab(0), 100);
+    if (isMain) setTimeout(() => moveTab(0), 150);
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -65,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerHTML = 'Memproses...';
+            btn.innerHTML = 'Authenticating...';
 
             try {
                 const hp = await hashPassword(pass);
@@ -77,14 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userSession', JSON.stringify(res));
                     window.location.href = 'main.html';
                 } else {
-                    alert(res.message || 'ID/Password Salah');
+                    alert('Gagal: ' + (res.message || 'ID/Password salah'));
                     btn.disabled = false;
-                    btn.innerText = 'Masuk';
+                    btn.innerText = 'Sign In';
                 }
             } catch (err) {
-                alert('Gangguan Jaringan');
+                alert('Connection Error');
                 btn.disabled = false;
-                btn.innerText = 'Masuk';
+                btn.innerText = 'Sign In';
             }
         });
     }
@@ -93,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
     if (!html5QrCode.isScanning) {
-        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 250 }, (text) => {
+        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 220 }, (text) => {
             document.getElementById('res-text').innerText = text;
             document.getElementById('scanned-result').classList.remove('hidden');
-            if(navigator.vibrate) navigator.vibrate(60);
+            if(navigator.vibrate) navigator.vibrate(50);
             stopScanner();
         }).catch(() => {});
     }

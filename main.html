@@ -7,76 +7,71 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="material-surface overflow-hidden">
+<body class="m3-surface no-scroll">
 
-    <div class="main-slider" id="mainSlider">
-        <section class="page">
-            <header class="top-app-bar">
-                <h2 class="headline-small">Dashboard</h2>
-                <div class="user-chip"><i class="fa-solid fa-user-circle"></i> <span id="userName">User</span></div>
+    <div class="m3-slider" id="mainSlider">
+        <section class="m3-page">
+            <header class="m3-app-bar">
+                <h2 class="title-large">Terminal</h2>
+                <div class="m3-avatar-chip"><span id="userName">User</span></div>
             </header>
 
-            <div class="expressive-grid">
-                <div class="card-expressive primary-container">
-                    <span class="label-large">STATUS</span>
-                    <h3 class="title-large">Line 01 Aktif</h3>
+            <div class="m3-content-grid">
+                <div class="m3-card primary">
+                    <span class="label-small">OPERATIONAL STATUS</span>
+                    <h3 class="headline-small">Aktif • Shift 1</h3>
                 </div>
-                
-                <div class="card-expressive secondary-container">
-                    <span class="label-large">OUTPUT</span>
-                    <h3 class="display-medium">85%</h3>
+                <div class="m3-card secondary">
+                    <span class="label-small">EFFICIENCY RATE</span>
+                    <h3 class="headline-small">96.4%</h3>
                 </div>
-
-                <div class="card-expressive tertiary-container full-width">
-                    <span class="label-large">NOTIFIKASI</span>
-                    <p class="body-large">Semua sistem berjalan normal.</p>
+                <div class="m3-card full surface-variant">
+                    <span class="label-small">SYSTEM UPDATE</span>
+                    <p class="body-medium">Koneksi ke Google Sheets stabil.</p>
                 </div>
             </div>
         </section>
 
-        <section class="page">
-            <header class="top-app-bar text-center">
-                <h2 class="headline-small">Scanner</h2>
+        <section class="m3-page">
+            <header class="m3-app-bar center">
+                <h2 class="title-large">Quick Scan</h2>
             </header>
-            <div class="scanner-container">
+            <div class="m3-scanner-view">
                 <div id="reader"></div>
-                <div class="scanner-overlay"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="bottom-sheet">
-                    <div class="handle"></div>
+                <div class="m3-bottom-sheet">
+                    <div class="m3-handle"></div>
                     <p id="res-text" class="body-large"></p>
-                    <button onclick="restartScanner()" class="btn-tonal">Scan Ulang</button>
+                    <button onclick="restartScanner()" class="m3-btn-tonal">Rescan</button>
                 </div>
             </div>
         </section>
 
-        <section class="page">
-            <header class="top-app-bar">
-                <h2 class="headline-small">Akun</h2>
-            </header>
-            <div class="profile-section">
-                <div class="profile-avatar"><i class="fa-solid fa-circle-user"></i></div>
-                <h3 id="profileName" class="headline-medium">-</h3>
-                <p id="profileID" class="body-large">ID: -</p>
-                <button onclick="logout()" class="btn-outline">Sign Out</button>
+        <section class="m3-page">
+            <header class="m3-app-bar"><h2 class="title-large">Account</h2></header>
+            <div class="m3-profile-card">
+                <div class="m3-user-avatar"><i class="fa-solid fa-user-gear"></i></div>
+                <h3 id="profileName" class="headline-small">-</h3>
+                <p id="profileID" class="body-medium">ID: -</p>
+                <button onclick="logout()" class="m3-btn-outline">Logout</button>
             </div>
         </section>
     </div>
 
-    <nav class="nav-bar-m3">
-        <div class="active-indicator" id="navPill"></div>
-        <button class="nav-dest active" onclick="moveTab(0, this)">
-            <div class="icon-wrapper"><i class="fa-solid fa-house"></i></div>
-            <span class="label-small">Home</span>
+    <nav class="m3-nav">
+        <div class="m3-pill" id="navPill"></div>
+        <button class="m3-nav-item active" onclick="moveTab(0, this)">
+            <div class="m3-icon"><i class="fa-solid fa-house-chimney"></i></div>
+            <span>Home</span>
         </button>
-        <button class="nav-dest" onclick="moveTab(1, this)">
-            <div class="icon-wrapper"><i class="fa-solid fa-qrcode"></i></div>
-            <span class="label-small">Scan</span>
+        <button class="m3-nav-item" onclick="moveTab(1, this)">
+            <div class="m3-icon"><i class="fa-solid fa-barcode-read"></i></div>
+            <span>Scan</span>
         </button>
-        <button class="nav-dest" onclick="moveTab(2, this)">
-            <div class="icon-wrapper"><i class="fa-solid fa-user"></i></div>
-            <span class="label-small">Profil</span>
+        <button class="m3-nav-item" onclick="moveTab(2, this)">
+            <div class="m3-icon"><i class="fa-solid fa-id-card"></i></div>
+            <span>User</span>
         </button>
     </nav>
 
