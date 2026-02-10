@@ -3,77 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terminal | MYPRODUCTION</title>
+    <title>Terminal | MyProduction</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="overflow: hidden;">
+<body class="app-body">
 
     <div class="main-slider" id="mainSlider">
-        
-        <section class="tab-content">
-            <div class="header-meta">
-                <p>Welcome back,</p>
+        <section class="page-content">
+            <div class="header-section">
+                <span>Selamat Datang,</span>
                 <h2 id="userName">User</h2>
             </div>
-
-            <div class="card accent-card">
-                <p class="label">ACTIVE ROLE</p>
-                <h3 id="userRole">Production Operator</h3>
+            <div class="card-hero">
+                <small>STATUS PRODUKSI</small>
+                <h3>Operator Aktif</h3>
             </div>
-
-            <div class="stats-grid">
-                <div class="card">
-                    <p class="label">OUTPUT</p>
-                    <h3 class="stat-value">89%</h3>
+            <div class="grid-info">
+                <div class="card-flat">
+                    <small>OUTPUT</small>
+                    <p>85%</p>
                 </div>
-                <div class="card">
-                    <p class="label">EFFICIENCY</p>
-                    <h3 class="stat-value text-accent">92%</h3>
+                <div class="card-flat">
+                    <small>TARGET</small>
+                    <p>1200</p>
                 </div>
             </div>
         </section>
 
-        <section class="tab-content">
-            <div class="header-meta text-center">
-                <h2>Quick Scan</h2>
+        <section class="page-content">
+            <div class="header-section text-center">
+                <h2>Scanner</h2>
             </div>
-            <div class="scanner-wrapper">
+            <div class="scanner-box">
                 <div id="reader"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="card result-card">
+                <div class="card-flat result-box">
                     <p id="res-text"></p>
-                    <button onclick="restartScanner()" class="btn-primary">Rescan</button>
+                    <button onclick="restartScanner()" class="btn-sub">Scan Ulang</button>
                 </div>
             </div>
         </section>
 
-        <section class="tab-content">
-            <div class="header-meta text-center">
-                <h2>Account</h2>
+        <section class="page-content">
+            <div class="header-section text-center">
+                <h2>Profil</h2>
             </div>
-            <div class="card profile-card">
-                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+            <div class="profile-card">
+                <div class="user-icon"><i class="fa-solid fa-circle-user"></i></div>
                 <h3 id="profileName">-</h3>
-                <p id="profileID" class="muted-text">ID: -</p>
+                <p id="profileID">ID: -</p>
             </div>
-            <div style="padding: 1.5rem;">
-                <button onclick="logout()" class="btn-logout">Sign Out</button>
-            </div>
+            <button onclick="logout()" class="btn-danger">Keluar Aplikasi</button>
         </section>
-
     </div>
 
-    <nav class="bottom-nav">
+    <nav class="nav-bar">
         <div class="nav-pill" id="navPill"></div>
-        <button class="nav-item active" onclick="moveTab(0, this)">
+        <button class="nav-link active" onclick="moveTab(0, this)">
             <i class="fa-solid fa-house"></i><span>Home</span>
         </button>
-        <button class="nav-item" onclick="moveTab(1, this)">
+        <button class="nav-link" onclick="moveTab(1, this)">
             <i class="fa-solid fa-qrcode"></i><span>Scan</span>
         </button>
-        <button class="nav-item" onclick="moveTab(2, this)">
+        <button class="nav-link" onclick="moveTab(2, this)">
             <i class="fa-solid fa-user"></i><span>User</span>
         </button>
     </nav>
