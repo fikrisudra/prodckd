@@ -1,9 +1,12 @@
+/* --- MYPRODUCTION - Modern Mobile First Style --- */
+
 /* Import Font Modern */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
     --primary: #000000;
-    --accent: #4f46e5;
+    --accent: #f97316;    /* Ganti ke Orange */
+    --accent-soft: #fff7ed;
     --bg: #ffffff;
     --card: #f9fafb;
     --text: #111827;
@@ -50,18 +53,19 @@ body {
     border: 1px solid #f1f5f9; 
 }
 
-/* Tombol Utama */
+/* Tombol Utama (Sekarang Menggunakan Aksen Orange) */
 .btn-primary { 
     width: 100%; 
-    background: var(--primary); 
+    background: var(--accent); 
     color: white; 
     padding: 1.1rem; 
     border: none; 
     border-radius: 16px; 
-    font-weight: 600; 
+    font-weight: 700; 
     cursor: pointer; 
     transition: 0.2s; 
     font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2); /* Shadow Orange halus */
 }
 .btn-primary:active { transform: scale(0.97); }
 
@@ -76,7 +80,10 @@ body {
     transition: 0.2s; 
     background: #ffffff;
 }
-.form-group input:focus { outline: none; border-color: var(--primary); }
+.form-group input:focus { 
+    outline: none; 
+    border-color: var(--accent); /* Fokus input jadi Orange */
+}
 
 /* Navigasi Kapsul Melayang */
 .bottom-nav { 
@@ -107,9 +114,26 @@ body {
 }
 .nav-item i { font-size: 1.1rem; }
 .nav-item span { display: none; }
-.nav-item.active { background: var(--primary); color: white; }
+
+/* Menu Aktif Sekarang Orange */
+.nav-item.active { 
+    background: var(--accent); 
+    color: white; 
+}
 .nav-item.active span { display: inline; font-weight: 600; }
 
 /* Utilities */
 .hidden { display: none; }
-#reader { border: none !important; border-radius: 20px; overflow: hidden; width: 100% !important; }
+
+/* Scan Engine Modern Look */
+#reader { 
+    border: none !important; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    width: 100% !important; 
+}
+
+/* Custom Overlay Scanner */
+.scanner-overlay {
+    border: 2px solid var(--accent) !important;
+}
