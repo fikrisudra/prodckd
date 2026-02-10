@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MYPRODUCTION | Terminal</title>
+    <title>Dashboard | MYPRODUCTION</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body style="overflow: hidden;">
 
     <div class="main-slider" id="mainSlider">
-        
         <section class="tab-content">
             <header class="app-header">
-                <p>Selamat bekerja,</p>
-                <h2 id="userName">Memuat...</h2>
+                <p>Overview</p>
+                <h2 id="userName">Loading...</h2>
             </header>
-
             <div class="card accent-card fade-in">
-                <p class="label">JABATAN AKTIF</p>
-                <p id="userRole" class="value">Production Operator</p>
+                <p class="label">JABATAN</p>
+                <p id="userRole" class="value">Operator</p>
             </div>
-
             <div class="stats-grid">
-                <div class="card stat-item fade-in">
+                <div class="card">
                     <p class="label">PRODUKSI</p>
                     <h3 class="stat-value">89%</h3>
                 </div>
-                <div class="card stat-item fade-in">
+                <div class="card">
                     <p class="label">EFFISIENSI</p>
                     <h3 class="stat-value text-orange">92%</h3>
                 </div>
@@ -36,9 +33,9 @@
 
         <section class="tab-content">
             <header class="app-header text-center">
-                <h2>Quick Scanner</h2>
+                <h2>Scanner</h2>
             </header>
-            <div class="scanner-container fade-in">
+            <div class="scanner-wrapper">
                 <div id="reader"></div>
             </div>
             <div id="scanned-result" class="hidden">
@@ -51,24 +48,23 @@
 
         <section class="tab-content">
             <header class="app-header text-center">
-                <h2>User Profile</h2>
+                <h2>Account</h2>
             </header>
-            <div class="card profile-card fade-in">
-                <div class="profile-icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h3 id="profileName">Memuat...</h3>
-                <p id="profileID" class="profile-id">ID: -</p>
+            <div class="card profile-card text-center">
+                <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+                <h3 id="profileName">User</h3>
+                <p id="profileID" class="muted-text">ID: -</p>
             </div>
-            <div style="padding: 1rem;">
+            <div style="padding: 1.5rem;">
                 <button onclick="logout()" class="btn-logout">Sign Out</button>
             </div>
         </section>
-
     </div>
 
     <nav class="bottom-nav">
         <div class="nav-pill" id="navPill"></div>
         <button class="nav-item active" onclick="moveTab(0, this)">
-            <i class="fa-solid fa-house"></i><span>Home</span>
+            <i class="fa-solid fa-grid-2"></i><span>Home</span>
         </button>
         <button class="nav-item" onclick="moveTab(1, this)">
             <i class="fa-solid fa-qrcode"></i><span>Scan</span>

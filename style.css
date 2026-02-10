@@ -1,46 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
 
 :root {
-    --primary: #000000;
     --accent: #f97316;
-    --accent-soft: #fff7ed;
     --bg: #ffffff;
     --card: #f8fafc;
     --text: #0f172a;
     --muted: #64748b;
-    --nav-bg: #111827;
+    --nav-bg: #0f172a;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background-color: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; }
 
-/* Login UI */
-.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: radial-gradient(circle at top left, #fff7ed 0%, #ffffff 100%); }
+/* Login Page */
+.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #fefefe; padding: 2rem; }
 .login-box { width: 100%; max-width: 400px; }
-.logo-text { font-size: 3.5rem; line-height: 0.8; letter-spacing: -4px; font-weight: 800; }
+.logo-text { font-size: 3.5rem; line-height: 0.8; letter-spacing: -3px; font-weight: 800; margin-bottom: 10px; }
 .logo-text span { color: var(--accent); }
-.logo-line { width: 45px; height: 5px; background: var(--accent); margin: 20px 0 15px; border-radius: 10px; }
+.logo-line { width: 40px; height: 6px; background: var(--accent); border-radius: 10px; margin-bottom: 2rem; }
 
-/* FIX LABEL SPACING */
-.input-label { display: block; font-size: 0.75rem; font-weight: 800; color: var(--accent); margin-bottom: 12px; margin-left: 4px; letter-spacing: 1px; }
-.form-group { margin-bottom: 1.8rem; }
-.form-group input { width: 100%; padding: 1.2rem; border: 1.5px solid #e2e8f0; border-radius: 18px; font-size: 1rem; transition: 0.3s; }
-.form-group input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 5px var(--accent-soft); }
+/* Form Elements */
+.input-label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; letter-spacing: 1px; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group input { 
+    width: 100%; padding: 1.2rem; border-radius: 20px; border: 2px solid #f1f5f9; 
+    background: #f8fafc; font-size: 1rem; transition: all 0.3s ease; 
+}
+.form-group input:focus { border-color: var(--accent); outline: none; background: #fff; }
 
-/* Bottom Nav UI */
-.bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--nav-bg); padding: 8px; border-radius: 40px; display: flex; gap: 6px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 10000; }
-.nav-pill { position: absolute; background: var(--accent); border-radius: 32px; z-index: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); height: calc(100% - 16px); pointer-events: none; }
-.nav-item { position: relative; z-index: 1; border: none; background: none; color: #94a3b8; padding: 14px 24px; border-radius: 32px; display: flex; align-items: center; justify-content: center; min-width: 60px; transition: color 0.3s; }
+/* Bottom Nav - The Seamless Pill */
+.bottom-nav { 
+    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); 
+    background: var(--nav-bg); padding: 8px; border-radius: 35px; display: flex; 
+    align-items: center; gap: 5px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 9999;
+}
+.nav-pill { 
+    position: absolute; background: var(--accent); border-radius: 30px; 
+    height: calc(100% - 16px); z-index: 0; 
+    transition: all 0.5s cubic-bezier(0.6, 0.05, 0.01, 0.9); /* High precision transition */
+}
+.nav-item { 
+    position: relative; z-index: 1; border: none; background: none; 
+    color: #94a3b8; padding: 12px 22px; border-radius: 30px; 
+    display: flex; align-items: center; cursor: pointer; transition: color 0.4s ease;
+}
 .nav-item.active { color: white; }
-.nav-item span { font-weight: 700; font-size: 0.9rem; max-width: 0; opacity: 0; overflow: hidden; transition: all 0.3s ease; white-space: nowrap; }
+.nav-item span { 
+    font-weight: 700; font-size: 0.85rem; max-width: 0; opacity: 0; 
+    overflow: hidden; transition: all 0.4s ease; white-space: nowrap;
+}
 .nav-item.active span { max-width: 100px; opacity: 1; margin-left: 10px; }
 
-/* Slider & Tabs */
-.main-slider { display: flex; width: 300vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
-.tab-content { width: 100vw; height: 100vh; overflow-y: auto; padding-bottom: 120px; }
-.app-header { padding: 4rem 1.5rem 1.5rem; }
-.card { background: var(--card); border-radius: 30px; padding: 1.8rem; margin: 1rem; border: 1px solid #f1f5f9; }
+/* SPA Slider */
+.main-slider { display: flex; width: 300vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.6, 0.05, 0.01, 0.9); }
+.tab-content { width: 100vw; height: 100vh; overflow-y: auto; padding-bottom: 100px; }
+
+/* Cards */
+.card { background: var(--card); border-radius: 28px; padding: 1.5rem; margin: 1rem; border: 1px solid #f1f5f9; }
 .accent-card { background: var(--accent); color: white; border: none; }
-.btn-primary { width: 100%; background: var(--accent); color: white; padding: 1.2rem; border: none; border-radius: 18px; font-weight: 700; cursor: pointer; }
-.btn-logout { width: 100%; padding: 1.1rem; border-radius: 16px; border: 1px solid #fee2e2; background: #fff5f5; color: #ef4444; font-weight: 700; cursor: pointer; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+
+.btn-primary { width: 100%; padding: 1.2rem; border-radius: 20px; border: none; background: var(--accent); color: white; font-weight: 700; cursor: pointer; }
+.btn-logout { width: 100%; padding: 1rem; border-radius: 18px; border: 2px solid #fee2e2; background: #fff; color: #ef4444; font-weight: 700; }
+.fade-in { animation: fadeIn 0.6s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .hidden { display: none !important; }
