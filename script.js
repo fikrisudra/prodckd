@@ -1,6 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 
-// 1. Fungsi Hash SHA-256
+// --- Utility: Hash Password ---
 async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -9,7 +9,7 @@ async function hashPassword(password) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// 2. Fungsi Inject Navbar Capsule
+// --- Injector: Navigasi Bawah ---
 function injectNavbar() {
     const page = window.location.pathname.split("/").pop() || 'index.html';
     const navHTML = `
@@ -32,49 +32,52 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-// 3. Event Listener Utama
+// --- Main Logic ---
 document.addEventListener('DOMContentLoaded', async () => {
     const page = window.location.pathname.split("/").pop() || 'index.html';
     const session = JSON.parse(localStorage.getItem('userSession'));
 
-    // Proteksi Halaman
-    if (!session && page !== 'index.html') {
+    if (session && page !== 'index.html') {
+        injectNavbar();
+        if (document.getElementById('userName')) document.getElementById('userName').innerText = session.name;
+        if (document.getElementById('userRole')) document.getElementById('userRole').innerText = session.role;
+        if (document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
+        if (document.getElementById('profileID')) document.getElementById('profileID').innerText = session.id;
+    } else if (!session && page !== 'index.html') {
         window.location.href = 'index.html';
-        return;
     }
 
-    if (session && page !== 'index.html') injectNavbar();
-
-    // Logika Login
-    if (page === 'index.html') {
-        if (session) window.location.href = 'dashboard.html';
-        const form = document.getElementById('loginForm');
-        form?.addEventListener('submit', async (e) => {
+    // Login logic
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            btn.disabled = true; btn.innerText = 'Checking...';
+            const msg = document.getElementById('message');
+            btn.disabled = true; btn.innerText = 'Mohon Tunggu...';
             
-            const passHash = await hashPassword(document.getElementById('password').value);
+            const hashed = await hashPassword(document.getElementById('password').value);
+            const id = document.getElementById('userId').value;
+
             try {
                 const res = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ id: document.getElementById('userId').value, password: passHash })
+                    body: JSON.stringify({ id: id, password: hashed })
                 });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    localStorage.setItem('userSession', JSON.stringify(data));
+                const result = await res.json();
+                if (result.status === 'success') {
+                    result.id = id; // simpan id ke session
+                    localStorage.setItem('userSession', JSON.stringify(result));
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert('Login Gagal!');
-                    btn.disabled = false; btn.innerText = 'Login';
+                    msg.innerText = "ID atau Password Salah!";
+                    msg.classList.remove('hidden');
+                    btn.disabled = false; btn.innerText = 'Masuk Aplikasi';
                 }
-            } catch (e) { alert('Error Koneksi'); btn.disabled = false; }
+            } catch (err) {
+                alert("Kesalahan Koneksi Server");
+                btn.disabled = false;
+            }
         });
     }
-
-    // Logika Dashboard & Profile
-    if (document.getElementById('userName')) document.getElementById('userName').innerText = session.name;
-    if (document.getElementById('userRole')) document.getElementById('userRole').innerText = session.role;
-    if (document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
-    if (document.getElementById('profileID')) document.getElementById('profileID').innerText = session.id || 'N/A';
 });

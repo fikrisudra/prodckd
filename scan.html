@@ -1,18 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 <body>
-    <div class="content">
+    <div class="app-container fade-in">
+        <header class="header"><div class="brand">SCAN<span style="color:var(--text-main)">QR</span></div></header>
         <div class="card">
-            <h2 style="margin-bottom:1rem">Scan QR Code</h2>
             <div id="reader"></div>
-            <div id="result" style="margin-top:1rem; font-weight:bold; color:var(--primary-color)"></div>
+            <div id="scanned-result" class="hidden" style="margin-top: 1rem; padding: 1rem; background: var(--primary-soft); border-radius: 1rem; color: var(--primary); font-weight: 700; text-align: center;"></div>
         </div>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 0 2rem;">Arahkan kamera ke kode QR untuk memindai secara otomatis.</p>
     </div>
+
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="script.js"></script>
     <script>
-        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
-        scanner.render((text) => {
-            document.getElementById('result').innerText = "Hasil Scan: " + text;
-            // Di sini Anda bisa menambahkan fetch untuk kirim data scan ke Google Sheets
+        function onScanSuccess(decodedText, decodedResult) {
+            // Berhenti setelah scan berhasil agar tidak loop
+            html5QrcodeScanner.clear();
+            const resultDiv = document.getElementById('scanned-result');
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerText = "Berhasil: " + decodedText;
+            
+            // Contoh: Mengarahkan atau mengolah data
+            // alert("Data terscan: " + decodedText);
+        }
+
+        // Langsung jalankan scanner saat halaman dimuat
+        const html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+            fps: 15, 
+            qrbox: {width: 250, height: 250},
+            aspectRatio: 1.0
         });
+        html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
+</html>

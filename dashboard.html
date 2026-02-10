@@ -8,36 +8,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">FAST<span style="color:var(--text-main)">APP</span></div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </button>
-    </nav>
+    <div class="app-container fade-in">
+        <header class="header">
+            <div class="brand">FAST<span style="color:var(--text-main)">APP</span></div>
+            <button onclick="logout()" style="background:none; border:none; color:var(--danger); font-size:1.2rem;"><i class="fa-solid fa-power-off"></i></button>
+        </header>
 
-    <div class="content fade-in">
-        <div class="card">
-            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500;">Overview</p>
-            <h1 style="margin: 0.5rem 0;">Halo, <span id="userName">...</span>! 👋</h1>
-            <div style="display: inline-block; background: #eef2ff; color: var(--primary); padding: 5px 15px; border-radius: 10px; font-size: 0.8rem; font-weight: 700;">
-                <i class="fa-solid fa-shield-halved"></i> <span id="userRole">...</span>
+        <div class="card" style="background: var(--primary); color: white;">
+            <p style="opacity: 0.8; font-size: 0.9rem;">Selamat Datang kembali,</p>
+            <h2 id="userName" style="margin: 0.2rem 0 1rem 0;">...</h2>
+            <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;">
+                <i class="fa-solid fa-user-shield"></i> &nbsp;<span id="userRole">...</span>
             </div>
         </div>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-            <div class="card" style="text-align:center;">
-                <i class="fa-solid fa-clock" style="color:var(--primary); font-size:1.2rem;"></i>
-                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:5px;">Sesi Aktif</p>
-                <p style="font-weight:700;">12 Menit</p>
+
+        <div style="padding: 0 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="card" style="margin: 0; text-align: center;">
+                <i class="fa-solid fa-qrcode" style="font-size: 1.5rem; color: var(--primary);"></i>
+                <p style="font-size: 0.8rem; margin-top: 5px; font-weight: 600;">Total Scan</p>
+                <h3 style="margin-top: 5px;">24</h3>
             </div>
-            <div class="card" style="text-align:center;">
-                <i class="fa-solid fa-check-double" style="color:var(--primary); font-size:1.2rem;"></i>
-                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:5px;">Scan Hari Ini</p>
-                <p style="font-weight:700;">0</p>
+            <div class="card" style="margin: 0; text-align: center;">
+                <i class="fa-solid fa-bolt" style="font-size: 1.5rem; color: #f59e0b;"></i>
+                <p style="font-size: 0.8rem; margin-top: 5px; font-weight: 600;">Poin</p>
+                <h3 style="margin-top: 5px;">150</h3>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

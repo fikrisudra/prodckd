@@ -2,31 +2,33 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Modern App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-card fade-in">
-            <div style="background: var(--primary); width: 60px; height: 60px; border-radius: 1rem; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                <i class="fa-solid fa-bolt"></i>
+<body style="justify-content: center; align-items: center;">
+    <div class="app-container fade-in" style="display: flex; align-items: center;">
+        <div class="card" style="width: 100%; margin: 2rem; border: none; box-shadow: none; background: transparent;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="background: var(--primary); width: 70px; height: 70px; border-radius: 1.5rem; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; letter-spacing: -1px;">Selamat Datang</h2>
+                <p style="color: var(--text-muted);">Masuk untuk melanjutkan</p>
             </div>
-            <h2>Selamat Datang</h2>
-            <p>Silakan masuk untuk melanjutkan akses</p>
             <form id="loginForm">
                 <div class="form-group">
-                    <label>ID Pengguna</label>
-                    <input type="number" id="userId" placeholder="Masukkan ID" required>
+                    <label>ID USER</label>
+                    <input type="number" id="userId" placeholder="Contoh: 1001" required>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>PASSWORD</label>
                     <input type="password" id="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" id="loginBtn" class="btn-primary">Masuk Sekarang</button>
+                <button type="submit" id="loginBtn" class="btn-primary">Masuk Aplikasi</button>
             </form>
-            <div id="message" class="hidden" style="margin-top: 15px; color: var(--accent); font-size: 0.85rem;"></div>
+            <div id="message" style="text-align: center; margin-top: 1rem; color: var(--danger); font-weight: 600;" class="hidden"></div>
         </div>
     </div>
     <script src="script.js"></script>
