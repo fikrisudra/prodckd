@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login | Terminal</title>
+    <title>Auth | Terminal</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="bg-clean">
-    <div class="auth-container fade-in">
-        <header class="auth-header">
-            <h1 class="logo">MY<span>PROD</span></h1>
-            <p>Sistem Produksi Digital</p>
+<body class="industrial-bg">
+    <div class="auth-layer">
+        <header class="brand-zone fade-in">
+            <div class="status-dot"></div>
+            <h1 class="display-heavy">TERMINAL<span>.01</span></h1>
+            <p class="mono-text">SECURE ACCESS REQUIRED</p>
         </header>
 
-        <form id="loginForm" class="auth-form">
-            <div class="input-group">
-                <input type="number" id="userId" placeholder="ID Karyawan" required autofocus>
+        <form id="loginForm" class="industrial-form">
+            <div class="input-container">
+                <input type="number" id="userId" placeholder="OPERATOR ID" required autofocus>
             </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" required>
+            <div class="input-container">
+                <input type="password" id="password" placeholder="ACCESS KEY" required>
             </div>
-            <button type="submit" id="loginBtn" class="btn-black">
-                Masuk <i class="ri-arrow-right-line"></i>
+            <button type="submit" id="loginBtn" class="btn-expressive">
+                AUTHENTICATE <i class="ri-shield-keyhole-line"></i>
             </button>
         </form>
     </div>

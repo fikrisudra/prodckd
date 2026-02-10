@@ -11,21 +11,28 @@ async function hashPassword(str) {
 function moveTab(index, el = null) {
     currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
-    const items = document.querySelectorAll('.nav-btn');
+    const dot = document.getElementById('navPill');
+    const items = document.querySelectorAll('.nav-item');
     const target = el || items[index];
 
-    // Geser halaman secara linear (tanpa bounce)
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
     
     items.forEach(item => item.classList.remove('active'));
     target.classList.add('active');
 
+    if (dot) {
+        const targetRect = target.getBoundingClientRect();
+        const navRect = document.querySelector('.nav-hybrid').getBoundingClientRect();
+        const centerX = targetRect.left - navRect.left + (targetRect.width / 2) - 3;
+        dot.style.transform = `translateX(${centerX}px)`;
+    }
+
     index === 1 ? startScanner() : stopScanner();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const session = JSON.parse(localStorage.getItem('userSession'));
-    const isMain = !!document.getElementById('mainSlider');
+    // Initial dot positioning
+    setTimeout(() => moveTab(0), 100);
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -36,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerHTML = 'Otentikasi...';
+            btn.innerHTML = 'SYNCING_DATA...';
 
             try {
                 const hp = await hashPassword(pass);
@@ -48,18 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userSession', JSON.stringify(res));
                     window.location.href = 'main.html';
                 } else {
-                    alert('Gagal: ' + (res.message || 'ID/Password salah'));
+                    alert('ACCESS_DENIED: ' + (res.message || 'Invalid Credentials'));
                     btn.disabled = false;
-                    btn.innerHTML = 'Masuk <i class="ri-arrow-right-line"></i>';
+                    btn.innerHTML = 'AUTHENTICATE <i class="ri-shield-keyhole-line"></i>';
                 }
             } catch (err) {
-                alert('Gangguan koneksi.');
+                alert('NETWORK_FAILURE');
                 btn.disabled = false;
             }
         });
     }
 
-    if (session && isMain) {
+    const session = JSON.parse(localStorage.getItem('userSession'));
+    if (session && document.getElementById('userName')) {
         document.getElementById('userName').innerText = session.name;
         document.getElementById('profileName').innerText = session.name;
         document.getElementById('profileID').innerText = 'ID: ' + session.id;
@@ -69,9 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
     if (!html5QrCode.isScanning) {
-        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 220 }, (text) => {
-            document.getElementById('res-text').innerText = text;
+        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 250 }, (text) => {
+            document.getElementById('res-text').innerText = 'SCANNED_DATA: ' + text;
             document.getElementById('scanned-result').classList.remove('hidden');
+            if(navigator.vibrate) navigator.vibrate(40);
             stopScanner();
         }).catch(() => {});
     }

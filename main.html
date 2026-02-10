@@ -3,79 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terminal</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="bg-clean overflow-hidden">
+<body class="industrial-bg no-scroll">
 
-    <main class="content-wrapper" id="mainSlider">
-        <section class="page-view">
-            <div class="top-nav-minimal">
-                <span class="date-text">Selasa, 10 Feb</span>
-                <button class="icon-btn" onclick="logout()"><i class="ri-logout-circle-line"></i></button>
-            </div>
-            
-            <div class="hero-minimal">
-                <h2 id="userName">User</h2>
-                <p>Operator Line A</p>
-            </div>
-
-            <div class="minimal-grid">
-                <div class="m-card">
-                    <label>EFEKTIVITAS</label>
-                    <div class="m-val">94<span>%</span></div>
+    <div class="viewport-slider" id="mainSlider">
+        <section class="page">
+            <div class="app-bar-hybrid">
+                <div class="meta-info">
+                    <span class="mono-text">SYS.ACTIVE</span>
+                    <h2 id="userName">Operator</h2>
                 </div>
-                <div class="m-card">
-                    <label>OUTPUT</label>
-                    <div class="m-val">1.2k</div>
+                <div class="user-avatar-hex"><i class="ri-user-settings-fill"></i></div>
+            </div>
+
+            <div class="expressive-grid">
+                <div class="card-heavy accent">
+                    <label class="mono-text">LINE EFFICIENCY</label>
+                    <div class="data-row">
+                        <span class="val-large">92.4</span><span class="unit">%</span>
+                    </div>
+                </div>
+                <div class="card-heavy">
+                    <label class="mono-text">SHIFT OUTPUT</label>
+                    <div class="data-row">
+                        <span class="val-large">1,402</span>
+                    </div>
+                </div>
+                <div class="card-flat full">
+                    <label class="mono-text">LOGS</label>
+                    <p class="body-text">Terminal connected to cloud-relay-v16. Ready for scan.</p>
                 </div>
             </div>
         </section>
 
-        <section class="page-view">
-            <div class="center-header">
-                <h3>Scanner</h3>
+        <section class="page">
+            <div class="header-minimal center">
+                <h3 class="mono-text">OPTICAL_SCANNER</h3>
             </div>
-            <div class="scan-frame">
+            <div class="scanner-frame-expressive">
                 <div id="reader"></div>
+                <div class="scan-reticle"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="result-minimal">
-                    <p id="res-text"></p>
-                    <button onclick="restartScanner()" class="btn-outline">Ulangi</button>
+                <div class="bottom-sheet-expressive">
+                    <p id="res-text" class="mono-text"></p>
+                    <button onclick="restartScanner()" class="btn-outline-heavy">RETRY_SCAN</button>
                 </div>
             </div>
         </section>
 
-        <section class="page-view">
-            <div class="profile-minimal">
-                <div class="avatar-border">
-                    <i class="ri-user-3-line"></i>
-                </div>
-                <h3 id="profileName">-</h3>
-                <p id="profileID" class="muted">ID: -</p>
+        <section class="page">
+            <div class="profile-layout">
+                <div class="hex-bg"><i class="ri-fingerprint-line"></i></div>
+                <h3 id="profileName" class="display-small">-</h3>
+                <p id="profileID" class="mono-text">AUTH_ID: -</p>
                 
-                <div class="settings-list">
-                    <div class="s-item">Notifikasi <span>On</span></div>
-                    <div class="s-item">Mode Gelap <span>Off</span></div>
+                <div class="industrial-list">
+                    <div class="list-item"><span>SECURITY_LEVEL</span> <strong>L3</strong></div>
+                    <div class="list-item"><span>ENCRYPTION</span> <strong>SHA-256</strong></div>
                 </div>
+                <button onclick="logout()" class="btn-danger-minimal">TERMINATE SESSION</button>
             </div>
         </section>
-    </main>
+    </div>
 
-    <nav class="nav-minimal">
-        <button class="nav-btn active" onclick="moveTab(0, this)">
-            <i class="ri-home-5-line"></i>
-            <div class="dot"></div>
+    <nav class="nav-hybrid">
+        <div class="nav-dot-indicator" id="navPill"></div>
+        <button class="nav-item active" onclick="moveTab(0, this)">
+            <i class="ri-dashboard-3-line"></i>
         </button>
-        <button class="nav-btn" onclick="moveTab(1, this)">
-            <i class="ri-qr-scan-2-line"></i>
-            <div class="dot"></div>
+        <button class="nav-item" onclick="moveTab(1, this)">
+            <i class="ri-qr-code-line"></i>
         </button>
-        <button class="nav-btn" onclick="moveTab(2, this)">
-            <i class="ri-user-settings-line"></i>
-            <div class="dot"></div>
+        <button class="nav-item" onclick="moveTab(2, this)">
+            <i class="ri-shield-user-line"></i>
         </button>
     </nav>
 
