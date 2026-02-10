@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Utama</title>
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">SistemApp</div>
-        <button onclick="logout()" class="btn-logout">Keluar</button>
-    </nav>
-
-    <main class="content">
-        <div class="welcome-card">
-            <h1>Halo, <span id="userName">...</span>!</h1>
-            <p style="margin-top: 0.5rem; color: #64748b;">
-                Role Anda: <span id="userRole" class="role-badge">...</span>
-            </p>
-            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #e2e8f0;">
-            <p>Ini adalah halaman utama aplikasi Anda yang terhubung dengan Google Sheets.</p>
-        </div>
-    </main>
-
+    <nav class="navbar"><div class="nav-brand">App</div><button onclick="logout()" class="btn-logout">Exit</button></nav>
+    <div class="content">
+        <div class="card"><h1>Halo, <span id="userName">...</span></h1><p>Role: <span id="userRole">...</span></p></div>
+    </div>
     <script src="script.js"></script>
 </body>
-</html>
