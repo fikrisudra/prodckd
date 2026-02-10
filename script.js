@@ -11,7 +11,7 @@ async function hashPassword(str) {
 function moveTab(index, el = null) {
     const slider = document.getElementById('mainSlider');
     const pill = document.getElementById('navPill');
-    const items = document.querySelectorAll('.nav-trigger');
+    const items = document.querySelectorAll('.nav-btn');
     const target = el || items[index];
 
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
@@ -19,14 +19,17 @@ function moveTab(index, el = null) {
     target.classList.add('active');
 
     if (pill) {
-        const offset = target.offsetLeft - 8;
-        pill.style.transform = `translateX(${offset}px)`;
+        const targetRect = target.getBoundingClientRect();
+        const navRect = document.querySelector('.native-nav-bar').getBoundingClientRect();
+        const centerX = targetRect.left - navRect.left + (targetRect.width / 2) - 32;
+        pill.style.transform = `translateX(${centerX}px)`;
     }
 
     index === 1 ? startScanner() : stopScanner();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Initial UI positioning
     setTimeout(() => moveTab(0), 100);
 
     const loginForm = document.getElementById('loginForm');
@@ -35,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             btn.disabled = true;
-            btn.innerText = 'Verifying...';
+            btn.innerHTML = 'Verifying Credential...';
 
             try {
                 const id = document.getElementById('userId').value.trim();
@@ -50,14 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userSession', JSON.stringify({...res, id}));
                     window.location.href = 'main.html';
                 } else {
-                    alert('Invalid ID or Password');
+                    alert('Identity Mismatch: Access Denied');
                     btn.disabled = false;
-                    btn.innerText = 'Sign In';
+                    btn.innerHTML = 'Confirm Identity <i class="ri-arrow-right-line"></i>';
                 }
             } catch (err) {
-                alert('Connection Error');
+                alert('Connection Loss: Server Unreachable');
                 btn.disabled = false;
-                btn.innerText = 'Sign In';
             }
         });
     }
@@ -67,17 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('userName').innerText = session.name;
         document.getElementById('profileName').innerText = session.name;
         document.getElementById('profileID').innerText = 'Employee ID: ' + session.id;
+        document.getElementById('barAvatar').src = `https://ui-avatars.com/api/?name=${session.name}&background=222&color=fff`;
     }
 });
 
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
-    html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 250 }, (text) => {
-        document.getElementById('res-text').innerText = text;
+    html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: { width: 250, height: 250 } }, (text) => {
+        document.getElementById('res-text').innerText = 'SCANNED: ' + text;
         document.getElementById('scanned-result').classList.remove('hidden');
-        if(navigator.vibrate) navigator.vibrate(60);
+        if(navigator.vibrate) navigator.vibrate(50);
         stopScanner();
     }).catch(() => {});
+}
+
+function restartScanner() {
+    document.getElementById('scanned-result').classList.add('hidden');
+    startScanner();
 }
 
 function stopScanner() { if (html5QrCode?.isScanning) html5QrCode.stop(); }

@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>MYPROD</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="native-surface">
-    <div class="app-container center-content fade-in">
-        <div class="brand-identity">
-            <div class="brand-logo"><i class="ri-command-fill"></i></div>
-            <h1 class="brand-title">MYPROD</h1>
-            <p class="brand-subtitle">Production Ecosystem</p>
+<body class="native-bg">
+    <div class="auth-container fade-in">
+        <div class="brand-section">
+            <div class="app-icon-squircle">
+                <i class="ri-box-3-fill"></i>
+            </div>
+            <h1 class="app-name">MY<span>PROD</span></h1>
+            <p class="app-tagline">Advanced Production Control</p>
         </div>
 
-        <form id="loginForm" class="native-form">
-            <div class="input-wrap">
+        <form id="loginForm" class="native-form-group">
+            <div class="input-field-squircle">
+                <i class="ri-user-smile-line"></i>
                 <input type="number" id="userId" placeholder="Employee ID" required autofocus>
             </div>
-            <div class="input-wrap">
-                <input type="password" id="password" placeholder="Password" required>
+            <div class="input-field-squircle">
+                <i class="ri-lock-password-line"></i>
+                <input type="password" id="password" placeholder="Access Key" required>
             </div>
-            <button type="submit" id="loginBtn" class="primary-action">
-                Sign In
+            <button type="submit" id="loginBtn" class="btn-native-primary">
+                Confirm Identity <i class="ri-arrow-right-line"></i>
             </button>
         </form>
     </div>
