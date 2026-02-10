@@ -24,7 +24,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'URL_WEB_APP_GOOGLE_SCRIPT_ANDA'; // Ganti dengan URL Deployment Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHuYRvvehjxm1_Bf1hrvkEhF_mJuWlFuRdgWAimw3P5m4rzhLBw2_PCysFR3Fnz1pK/exec'; // Ganti dengan URL Deployment Anda
 
         async function hashPassword(password) {
             const encoder = new TextEncoder();
