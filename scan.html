@@ -1,0 +1,18 @@
+<body>
+    <div class="content">
+        <div class="card">
+            <h2 style="margin-bottom:1rem">Scan QR Code</h2>
+            <div id="reader"></div>
+            <div id="result" style="margin-top:1rem; font-weight:bold; color:var(--primary-color)"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="script.js"></script>
+    <script>
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        scanner.render((text) => {
+            document.getElementById('result').innerText = "Hasil Scan: " + text;
+            // Di sini Anda bisa menambahkan fetch untuk kirim data scan ke Google Sheets
+        });
+    </script>
+</body>
