@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-blue-600">My Dashboard</h1>
+        <button onclick="logout()" class="text-red-500 font-medium">Logout</button>
+    </nav>
+
+    <div class="p-8">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-semibold mb-2">Selamat Datang, <span id="userName">...</span>!</h2>
+            <p class="text-gray-600">Anda login sebagai: <span id="userRole" class="font-bold text-blue-500">...</span></p>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-blue-50 rounded border border-blue-100">
+                    <p class="text-sm text-blue-600 font-bold uppercase">Status Akun</p>
+                    <p class="text-lg">Aktif</p>
+                </div>
+                </div>
+        </div>
+    </div>
+
+    <script>
+        // Proteksi Halaman: Cek apakah user sudah login
+        const session = JSON.parse(localStorage.getItem('userSession'));
+
+        if (!session) {
+            window.location.href = 'index.html';
+        } else {
+            // Tampilkan data user
+            document.getElementById('userName').innerText = session.name;
+            document.getElementById('userRole').innerText = session.role;
+        }
+
+        function logout() {
+            localStorage.removeItem('userSession');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
