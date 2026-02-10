@@ -1,7 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode, currentTabIndex = 0, touchStartX = 0;
 
-// Proper SHA-256 Hashing
 async function hashPassword(str) {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
@@ -9,31 +8,32 @@ async function hashPassword(str) {
     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// Seamless Tab Transition
 function moveTab(index, el = null) {
     currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
     const pill = document.getElementById('navPill');
-    const items = document.querySelectorAll('.nav-link');
+    const items = document.querySelectorAll('.nav-dest');
     const target = el || items[index];
 
-    // Slide Halaman
+    // Slide Page
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
     
-    // Aktifkan Link
+    // Switch Active State
     items.forEach(item => item.classList.remove('active'));
     target.classList.add('active');
 
-    // Geser Pill tanpa Bounce/Resizing kasar
+    // M3 Indicator Positioning (X axis only)
     if (pill) {
-        pill.style.width = `${target.offsetWidth}px`;
-        pill.style.transform = `translateX(${target.offsetLeft - 6}px)`; 
+        const targetRect = target.getBoundingClientRect();
+        const navRect = document.querySelector('.nav-bar-m3').getBoundingClientRect();
+        const centerOffset = targetRect.left + (targetRect.width / 2) - (pill.offsetWidth / 2);
+        pill.style.transform = `translateX(${centerOffset}px)`;
     }
 
     index === 1 ? startScanner() : stopScanner();
 }
 
-// Anti-Bounce Swipe Detection
+// Swipe with M3 Easing
 document.addEventListener('touchstart', e => {
     if (e.target.closest('input, button')) touchStartX = 0;
     else touchStartX = e.changedTouches[0].screenX;
@@ -48,19 +48,13 @@ document.addEventListener('touchend', e => {
     }
 }, { passive: true });
 
-// Lifecycle & Auth
+// Lifecycle
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     const isMain = !!document.getElementById('mainSlider');
 
-    if (session && isMain) {
-        document.getElementById('userName').innerText = session.name;
-        if(document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
-        if(document.getElementById('profileID')) document.getElementById('profileID').innerText = 'ID: ' + session.id;
-        setTimeout(() => moveTab(0), 300);
-    } else if (!session && isMain) {
-        window.location.href = 'index.html';
-    }
+    // Initial Nav Position
+    if (isMain) setTimeout(() => moveTab(0), 100);
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -71,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerText = 'Verifikasi...';
+            btn.innerHTML = 'Memproses...';
 
             try {
                 const hp = await hashPassword(pass);
@@ -83,12 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userSession', JSON.stringify(res));
                     window.location.href = 'main.html';
                 } else {
-                    alert(res.message || 'Gagal Login');
+                    alert(res.message || 'ID/Password Salah');
                     btn.disabled = false;
                     btn.innerText = 'Masuk';
                 }
             } catch (err) {
-                alert('Gangguan Koneksi');
+                alert('Gangguan Jaringan');
                 btn.disabled = false;
                 btn.innerText = 'Masuk';
             }
@@ -99,9 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
     if (!html5QrCode.isScanning) {
-        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 200 }, (text) => {
+        html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 250 }, (text) => {
             document.getElementById('res-text').innerText = text;
             document.getElementById('scanned-result').classList.remove('hidden');
+            if(navigator.vibrate) navigator.vibrate(60);
             stopScanner();
         }).catch(() => {});
     }

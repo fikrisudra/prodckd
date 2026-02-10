@@ -3,72 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Terminal | MyProduction</title>
+    <title>Dashboard | MyProd</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="app-body">
+<body class="material-surface overflow-hidden">
 
     <div class="main-slider" id="mainSlider">
-        <section class="page-content">
-            <div class="header-section">
-                <span>Selamat Datang,</span>
-                <h2 id="userName">User</h2>
-            </div>
-            <div class="card-hero">
-                <small>STATUS PRODUKSI</small>
-                <h3>Operator Aktif</h3>
-            </div>
-            <div class="grid-info">
-                <div class="card-flat">
-                    <small>OUTPUT</small>
-                    <p>85%</p>
+        <section class="page">
+            <header class="top-app-bar">
+                <h2 class="headline-small">Dashboard</h2>
+                <div class="user-chip"><i class="fa-solid fa-user-circle"></i> <span id="userName">User</span></div>
+            </header>
+
+            <div class="expressive-grid">
+                <div class="card-expressive primary-container">
+                    <span class="label-large">STATUS</span>
+                    <h3 class="title-large">Line 01 Aktif</h3>
                 </div>
-                <div class="card-flat">
-                    <small>TARGET</small>
-                    <p>1200</p>
+                
+                <div class="card-expressive secondary-container">
+                    <span class="label-large">OUTPUT</span>
+                    <h3 class="display-medium">85%</h3>
+                </div>
+
+                <div class="card-expressive tertiary-container full-width">
+                    <span class="label-large">NOTIFIKASI</span>
+                    <p class="body-large">Semua sistem berjalan normal.</p>
                 </div>
             </div>
         </section>
 
-        <section class="page-content">
-            <div class="header-section text-center">
-                <h2>Scanner</h2>
-            </div>
-            <div class="scanner-box">
+        <section class="page">
+            <header class="top-app-bar text-center">
+                <h2 class="headline-small">Scanner</h2>
+            </header>
+            <div class="scanner-container">
                 <div id="reader"></div>
+                <div class="scanner-overlay"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="card-flat result-box">
-                    <p id="res-text"></p>
-                    <button onclick="restartScanner()" class="btn-sub">Scan Ulang</button>
+                <div class="bottom-sheet">
+                    <div class="handle"></div>
+                    <p id="res-text" class="body-large"></p>
+                    <button onclick="restartScanner()" class="btn-tonal">Scan Ulang</button>
                 </div>
             </div>
         </section>
 
-        <section class="page-content">
-            <div class="header-section text-center">
-                <h2>Profil</h2>
+        <section class="page">
+            <header class="top-app-bar">
+                <h2 class="headline-small">Akun</h2>
+            </header>
+            <div class="profile-section">
+                <div class="profile-avatar"><i class="fa-solid fa-circle-user"></i></div>
+                <h3 id="profileName" class="headline-medium">-</h3>
+                <p id="profileID" class="body-large">ID: -</p>
+                <button onclick="logout()" class="btn-outline">Sign Out</button>
             </div>
-            <div class="profile-card">
-                <div class="user-icon"><i class="fa-solid fa-circle-user"></i></div>
-                <h3 id="profileName">-</h3>
-                <p id="profileID">ID: -</p>
-            </div>
-            <button onclick="logout()" class="btn-danger">Keluar Aplikasi</button>
         </section>
     </div>
 
-    <nav class="nav-bar">
-        <div class="nav-pill" id="navPill"></div>
-        <button class="nav-link active" onclick="moveTab(0, this)">
-            <i class="fa-solid fa-house"></i><span>Home</span>
+    <nav class="nav-bar-m3">
+        <div class="active-indicator" id="navPill"></div>
+        <button class="nav-dest active" onclick="moveTab(0, this)">
+            <div class="icon-wrapper"><i class="fa-solid fa-house"></i></div>
+            <span class="label-small">Home</span>
         </button>
-        <button class="nav-link" onclick="moveTab(1, this)">
-            <i class="fa-solid fa-qrcode"></i><span>Scan</span>
+        <button class="nav-dest" onclick="moveTab(1, this)">
+            <div class="icon-wrapper"><i class="fa-solid fa-qrcode"></i></div>
+            <span class="label-small">Scan</span>
         </button>
-        <button class="nav-link" onclick="moveTab(2, this)">
-            <i class="fa-solid fa-user"></i><span>User</span>
+        <button class="nav-dest" onclick="moveTab(2, this)">
+            <div class="icon-wrapper"><i class="fa-solid fa-user"></i></div>
+            <span class="label-small">Profil</span>
         </button>
     </nav>
 
