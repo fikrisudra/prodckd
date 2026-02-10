@@ -1,4 +1,4 @@
-/* --- MYPRODUCTION - Modern Mobile First Style --- */
+/* --- MYPRODUCTION - Modern SPA Slider Style --- */
 
 /* Import Font Modern */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -26,21 +26,26 @@
 body { 
     background-color: var(--bg); 
     color: var(--text); 
-    min-height: 100vh; 
+    height: 100vh;
+    overflow: hidden; /* Mencegah scroll body utama karena menggunakan slider */
+}
+
+/* --- Logic Slider Konten Utama --- */
+.main-slider {
     display: flex;
-    flex-direction: column;
+    width: 300vw; /* 3 Tab: Dashboard, Scan, Profile */
+    height: 100vh;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Container Utama untuk Mobile */
-.app-container { 
-    width: 100%; 
-    max-width: 480px; 
-    margin: 0 auto; 
-    padding-bottom: 100px; 
-    min-height: 100vh;
+.tab-content {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 110px; /* Ruang untuk nav kapsul */
 }
 
-/* Animasi Halaman */
+/* Animasi Fade In per Tab */
 .fade-in { animation: fadeIn 0.4s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -66,28 +71,10 @@ body {
     cursor: pointer; 
     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
 }
 .btn-primary:active { transform: scale(0.96); }
 
-/* Input Form */
-.form-group { margin-bottom: 1.2rem; }
-.form-group input { 
-    width: 100%; 
-    padding: 1rem; 
-    border: 1.5px solid #e5e7eb; 
-    border-radius: 14px; 
-    font-size: 1rem; 
-    transition: 0.2s; 
-    background: #ffffff;
-}
-.form-group input:focus { 
-    outline: none; 
-    border-color: var(--accent); 
-    box-shadow: 0 0 0 4px var(--accent-soft);
-}
-
-/* --- Navigasi Kapsul Smooth Transition --- */
+/* --- Navigasi Kapsul dengan Pill Animation --- */
 .bottom-nav { 
     position: fixed; 
     bottom: 25px; 
@@ -104,6 +91,16 @@ body {
     z-index: 1000;
 }
 
+/* Pill Latar Belakang Oranye yang Bergeser */
+.nav-pill {
+    position: absolute;
+    background: var(--accent);
+    height: calc(100% - 12px);
+    border-radius: 30px;
+    z-index: -1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .nav-item { 
     text-decoration: none; 
     color: var(--muted); 
@@ -115,8 +112,9 @@ body {
     gap: 0px; 
     font-size: 0.85rem; 
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-    overflow: hidden;
-    position: relative;
+    cursor: pointer;
+    background: transparent;
+    border: none;
 }
 
 .nav-item i { 
@@ -124,40 +122,36 @@ body {
     transition: transform 0.4s ease;
 }
 
-/* Teks Menu - Hidden by default for slide effect */
 .nav-item span { 
     display: inline-block;
     max-width: 0;
     opacity: 0;
     font-weight: 700;
-    letter-spacing: -0.2px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
 }
 
-/* --- State Aktif (Smooth Slide & Expand) --- */
+/* State Aktif (Warna teks jadi putih karena ada Pill di belakangnya) */
 .nav-item.active { 
-    background: var(--accent); 
     color: white; 
     gap: 8px; 
     padding: 12px 22px;
 }
 
-.nav-item.active i {
-    transform: scale(1.1);
-}
-
 .nav-item.active span { 
-    max-width: 100px; /* Memberikan ruang untuk teks bergeser keluar */
+    max-width: 100px;
     opacity: 1;
 }
 
-/* Utilities */
-.hidden { display: none; }
-
-/* Scan Engine Look */
-#reader { 
-    border: none !important; 
-    border-radius: 24px; 
-    overflow: hidden; 
+/* Scanner Container */
+.scanner-container {
+    margin: 1.5rem;
+    background: #1f2937;
+    border-radius: 30px;
+    overflow: hidden;
+    line-height: 0;
 }
+
+#reader { border: none !important; }
+
+.hidden { display: none; }

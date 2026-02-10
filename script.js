@@ -1,6 +1,7 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
+let html5QrCode; // Global variable untuk scanner
 
-// --- 1. Fungsi Keamanan (Hashing Password) ---
+// --- 1. Fungsi Keamanan ---
 async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -15,38 +16,61 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-// --- 3. Fungsi Inject Navigasi Kapsul dengan Transisi Smooth ---
-function injectNavbar() {
-    const path = window.location.pathname;
-    const page = path.split("/").pop() || 'index.html';
+// --- 3. Logika Perpindahan Tab (SPA Slider) ---
+function moveTab(index, el) {
+    // Geser Konten Utama
+    const slider = document.getElementById('mainSlider');
+    if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
 
-    const navHTML = `
-        <div class="bottom-nav">
-            <a href="dashboard.html" class="nav-item ${page === 'dashboard.html' ? 'active' : ''}">
-                <i class="fa-solid fa-house"></i><span>Home</span>
-            </a>
-            <a href="scan.html" class="nav-item ${page === 'scan.html' ? 'active' : ''}">
-                <i class="fa-solid fa-qrcode"></i><span>Scan</span>
-            </a>
-            <a href="profile.html" class="nav-item ${page === 'profile.html' ? 'active' : ''}">
-                <i class="fa-solid fa-user"></i><span>User</span>
-            </a>
-        </div>`;
-    
-    // Inject ke body
-    document.body.insertAdjacentHTML('beforeend', navHTML);
+    // Update Class Active pada Nav Item
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    el.classList.add('active');
 
-    // Sedikit delay untuk memastikan transisi CSS slide-out teks berjalan saat navbar muncul
-    setTimeout(() => {
-        const activeItem = document.querySelector('.nav-item.active span');
-        if (activeItem) {
-            activeItem.style.opacity = "1";
-            activeItem.style.maxWidth = "100px";
-        }
-    }, 50);
+    // Geser Pill Background
+    const pill = document.getElementById('navPill');
+    if (pill) {
+        pill.style.width = `${el.offsetWidth}px`;
+        pill.style.left = `${el.offsetLeft}px`;
+    }
+
+    // Manajemen Kamera (Scan adalah tab index 1)
+    if (index === 1) {
+        startScanner();
+    } else {
+        stopScanner();
+    }
 }
 
-// --- 4. Logika Utama Saat Halaman Dimuat ---
+// --- 4. Fungsi Scanner ---
+function startScanner() {
+    if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode("reader");
+    }
+    
+    // Pastikan tidak start dua kali
+    if (!html5QrCode.isScanning) {
+        const config = { fps: 20, qrbox: 200 };
+        html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+            document.getElementById('res-text').innerText = decodedText;
+            document.getElementById('scanned-result').classList.remove('hidden');
+            if(navigator.vibrate) navigator.vibrate(70);
+            stopScanner();
+        }).catch(err => console.error("Scanner Error:", err));
+    }
+}
+
+function stopScanner() {
+    if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(err => console.error("Stop Error:", err));
+    }
+}
+
+function restartScanner() {
+    document.getElementById('scanned-result').classList.add('hidden');
+    startScanner();
+}
+
+// --- 5. Logika Utama ---
 document.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
     const page = path.split("/").pop() || 'index.html';
@@ -58,11 +82,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Jika sudah login, tampilkan data & navbar
+    // Inisialisasi Halaman Utama (Main/Dashboard SPA)
     if (session && page !== 'index.html') {
-        injectNavbar();
-        
-        // Populate Data dengan pengecekan elemen
+        // Populate Data
         const elements = {
             'userName': session.name,
             'userRole': session.role,
@@ -74,12 +96,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             const el = document.getElementById(id);
             if (el) el.innerText = elements[id];
         });
+
+        // Inisialisasi Posisi Pill Pertama Kali
+        const activeItem = document.querySelector('.nav-item.active');
+        const pill = document.getElementById('navPill');
+        if (activeItem && pill) {
+            // Beri sedikit delay agar layout render sempurna dulu
+            setTimeout(() => {
+                pill.style.width = `${activeItem.offsetWidth}px`;
+                pill.style.left = `${activeItem.offsetLeft}px`;
+            }, 100);
+        }
     }
 
-    // Logika Khusus Halaman Login
+    // Logika Login (Tetap Multi-Page)
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        if (session) window.location.href = 'dashboard.html';
+        if (session) window.location.href = 'main.html'; // Pindah ke halaman gabungan
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -104,16 +137,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (result.status === 'success') {
                     result.id = id;
                     localStorage.setItem('userSession', JSON.stringify(result));
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'main.html'; // Pindah ke halaman gabungan
                 } else {
-                    msg.innerText = result.message || "Invalid Credentials";
+                    msg.innerText = result.message || "ID atau Password Salah";
                     msg.classList.remove('hidden');
                     btn.disabled = false;
                     btn.innerText = 'Sign In';
                 }
             } catch (error) {
-                console.error(error);
-                alert("Server Connection Error");
+                alert("Gangguan Koneksi ke Server");
                 btn.disabled = false;
                 btn.innerText = 'Sign In';
             }

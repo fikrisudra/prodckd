@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MYPRODUCTION</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="overflow: hidden;">
+
+    <div class="main-slider" id="mainSlider">
+        
+        <section class="tab-content">
+            <header style="padding: 2.5rem 1.5rem 1rem;">
+                <p style="color: var(--muted); font-size: 0.9rem;">Selamat bekerja,</p>
+                <h2 id="userName" style="font-size: 1.8rem;">...</h2>
+            </header>
+
+            <div class="card" style="background: var(--accent); color: white; border: none;">
+                <p style="font-size: 0.7rem; opacity: 0.9; font-weight: 800; letter-spacing: 1px;">JABATAN</p>
+                <p id="userRole" style="font-weight: 600; font-size: 1.1rem; margin-top: 4px;">...</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 0 0.5rem;">
+                <div class="card" style="margin: 0.5rem;">
+                    <p style="font-size: 0.7rem; color: var(--muted); font-weight: 800;">PRODUKSI</p>
+                    <h3 style="margin-top: 8px; font-size: 1.5rem;">89%</h3>
+                </div>
+                <div class="card" style="margin: 0.5rem;">
+                    <p style="font-size: 0.7rem; color: var(--muted); font-weight: 800;">EFFISIENSI</p>
+                    <h3 style="margin-top: 8px; font-size: 1.5rem; color: var(--accent);">92%</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-content">
+            <header style="padding: 2.5rem 1.5rem 1rem; text-align: center;">
+                <h2 style="font-size: 1.5rem;">Quick Scanner</h2>
+            </header>
+            <div class="scanner-container">
+                <div id="reader"></div>
+            </div>
+            <div id="scanned-result" class="hidden" style="padding: 0 1.5rem;">
+                <div class="card" style="text-align: center; background: var(--accent-soft);">
+                    <p id="res-text" style="font-weight: 700; word-break: break-all;"></p>
+                    <button onclick="restartScanner()" class="btn-primary" style="margin-top: 1rem; padding: 0.8rem;">Scan Lagi</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="tab-content">
+            <header style="padding: 2.5rem 1.5rem 1rem; text-align: center;">
+                <h2 style="font-size: 1.5rem;">User Profile</h2>
+            </header>
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <div style="width: 80px; height: 80px; background: var(--accent-soft); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-user-tie" style="font-size: 2rem; color: var(--accent);"></i>
+                </div>
+                <h3 id="profileName" style="font-size: 1.4rem;">...</h3>
+                <p style="color: var(--accent); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; margin-top: 5px;">Operator</p>
+            </div>
+            <div style="padding: 1rem;">
+                <button onclick="logout()" style="width: 100%; padding: 1rem; background: #fff5f5; color: var(--danger); border: 1px solid #fee2e2; border-radius: 15px; font-weight: 700;">
+                    Sign Out
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-pill" id="navPill"></div>
+        <div class="nav-item active" onclick="moveTab(0, this)">
+            <i class="fa-solid fa-house"></i><span>Home</span>
+        </div>
+        <div class="nav-item" onclick="moveTab(1, this)">
+            <i class="fa-solid fa-qrcode"></i><span>Scan</span>
+        </div>
+        <div class="nav-item" onclick="moveTab(2, this)">
+            <i class="fa-solid fa-user"></i><span>User</span>
+        </div>
+    </nav>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="script.js"></script>
+</body>
+</html>
