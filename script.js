@@ -1,5 +1,8 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
-let html5QrCode; // Global variable untuk scanner
+let html5QrCode; 
+let currentTabIndex = 0;
+let touchStartX = 0;
+let touchEndX = 0;
 
 // --- 1. Fungsi Keamanan (Hashing Password) ---
 async function hashPassword(password) {
@@ -17,52 +20,80 @@ function logout() {
 }
 
 // --- 3. Logika Utama SPA Slider & Pill Navigation ---
-function moveTab(index, el) {
-    // Geser Konten Utama (Slider)
+function moveTab(index, el = null) {
+    currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
+    const pill = document.getElementById('navPill');
+    const items = document.querySelectorAll('.nav-item');
+    
+    // Jika dipanggil dari swipe (el null), cari elemen navigasi berdasarkan index
+    const targetEl = el || items[index];
+
+    // Geser Konten Utama (Slider)
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
 
     // Update State Navigasi
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    el.classList.add('active');
+    items.forEach(item => item.classList.remove('active'));
+    if (targetEl) targetEl.classList.add('active');
 
-    // Geser Pill Background (Latar Oranye)
-    const pill = document.getElementById('navPill');
-    if (pill) {
-        pill.style.width = `${el.offsetWidth}px`;
-        pill.style.left = `${el.offsetLeft}px`;
+    // Geser Pill Background secara presisi
+    if (pill && targetEl) {
+        pill.style.width = `${targetEl.offsetWidth}px`;
+        pill.style.left = `${targetEl.offsetLeft}px`;
     }
 
     // Manajemen Kamera Otomatis
-    if (index === 1) { // Index 1 adalah tab Scan
-        startScanner();
-    } else {
-        stopScanner();
+    index === 1 ? startScanner() : stopScanner();
+}
+
+// --- 4. Fungsi Swipe Gesture (Geser Jari) ---
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeThreshold = 60; // Sensitivitas geseran
+    const totalTabs = 3;
+
+    // Geser ke Kiri (Pindah ke kanan)
+    if (touchStartX - touchEndX > swipeThreshold) {
+        if (currentTabIndex < totalTabs - 1) {
+            moveTab(currentTabIndex + 1);
+        }
+    } 
+    // Geser ke Kanan (Pindah ke kiri)
+    else if (touchEndX - touchStartX > swipeThreshold) {
+        if (currentTabIndex > 0) {
+            moveTab(currentTabIndex - 1);
+        }
     }
 }
 
-// --- 4. Fungsi Scanner (HTML5 QR Code) ---
+// --- 5. Fungsi Scanner (HTML5 QR Code) ---
 function startScanner() {
     if (!html5QrCode) {
         html5QrCode = new Html5Qrcode("reader");
     }
     
-    // Cegah kamera aktif ganda
     if (!html5QrCode.isScanning) {
         const config = { fps: 20, qrbox: 200 };
         html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
-            // Berhasil Scan
             document.getElementById('res-text').innerText = decodedText;
             document.getElementById('scanned-result').classList.remove('hidden');
-            if(navigator.vibrate) navigator.vibrate(70); // Feedback getar
+            if(navigator.vibrate) navigator.vibrate(70);
             stopScanner();
-        }).catch(err => console.error("Kamera Error:", err));
+        }).catch(err => console.warn("Kamera ditunda atau error"));
     }
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.error("Gagal stop kamera:", err));
+        html5QrCode.stop().catch(err => console.error("Gagal stop kamera"));
     }
 }
 
@@ -71,13 +102,12 @@ function restartScanner() {
     startScanner();
 }
 
-// --- 5. Logika Saat Halaman Dimuat ---
+// --- 6. Logika Saat Halaman Dimuat ---
 document.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
     const page = path.split("/").pop() || 'index.html';
     const session = JSON.parse(localStorage.getItem('userSession'));
 
-    // Proteksi: Jika belum login, tendang ke index.html
     if (!session && page !== 'index.html') {
         window.location.href = 'index.html';
         return;
@@ -85,7 +115,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // A. Logika Halaman Utama (main.html)
     if (session && page === 'main.html') {
-        // Tampilkan Data User ke UI
         const dataMap = {
             'userName': session.name,
             'userRole': session.role,
@@ -98,14 +127,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (el) el.innerText = dataMap[id];
         });
 
-        // Inisialisasi Posisi Pill Pertama Kali (Home Aktif)
+        // Inisialisasi Pill Posisi 0
         const activeItem = document.querySelector('.nav-item.active');
-        const pill = document.getElementById('navPill');
-        if (activeItem && pill) {
-            setTimeout(() => {
-                pill.style.width = `${activeItem.offsetWidth}px`;
-                pill.style.left = `${activeItem.offsetLeft}px`;
-            }, 300); // Delay sedikit agar layout terhitung sempurna
+        if (activeItem) {
+            setTimeout(() => moveTab(0, activeItem), 300);
         }
     }
 
@@ -145,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     btn.innerText = 'Sign In';
                 }
             } catch (error) {
-                alert("Koneksi server gagal. Coba lagi.");
+                alert("Koneksi server gagal.");
                 btn.disabled = false;
                 btn.innerText = 'Sign In';
             }

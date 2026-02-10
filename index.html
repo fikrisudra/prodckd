@@ -7,50 +7,45 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="display: flex; align-items: center; justify-content: center; background: #ffffff; min-height: 100vh; overflow: hidden;">
+<body class="login-page">
 
-    <div class="app-container fade-in" style="width: 100%; padding: 2rem;">
-        
-        <div style="width: 100%; max-width: 400px; margin: 0 auto;">
+    <div class="app-container fade-in">
+        <div class="login-box">
             
-            <div style="text-align: left; margin-bottom: 3.5rem;">
-                <h1 style="font-size: 3rem; line-height: 0.9; letter-spacing: -3px; font-weight: 800; color: var(--text);">
-                    MY<br><span style="color: var(--accent);">PROD.</span>
+            <div class="brand-section">
+                <h1 class="logo-text">
+                    MY<br><span>PROD.</span>
                 </h1>
-                <div style="width: 40px; height: 4px; background: var(--accent); margin-top: 15px; border-radius: 2px;"></div>
-                <p style="color: var(--muted); margin-top: 1rem; font-weight: 500; font-size: 0.95rem; letter-spacing: -0.2px;">
+                <div class="logo-line"></div>
+                <p class="sub-logo">
                     Production Monitoring System
                 </p>
             </div>
 
             <form id="loginForm">
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; display: block; letter-spacing: 0.5px;">EMPLOYEE ID</label>
-                    <input type="number" id="userId" placeholder="Masukkan ID Karyawan" required autofocus 
-                           style="background: var(--card); border: 1.5px solid #f1f5f9;">
+                <div class="form-group">
+                    <label class="input-label">EMPLOYEE ID</label>
+                    <input type="number" id="userId" placeholder="Masukkan ID Karyawan" required autofocus>
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 2rem;">
-                    <label style="font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; display: block; letter-spacing: 0.5px;">PASSWORD</label>
-                    <input type="password" id="password" placeholder="••••••••" required 
-                           style="background: var(--card); border: 1.5px solid #f1f5f9;">
+                    <label class="input-label">PASSWORD</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" id="loginBtn" class="btn-primary" style="padding: 1.2rem; font-size: 1rem; letter-spacing: 0.5px;">
-                    Sign In <i class="fa-solid fa-arrow-right" style="margin-left: 8px; font-size: 0.9rem;"></i>
+                <button type="submit" id="loginBtn" class="btn-primary">
+                    Sign In <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
                 </button>
             </form>
 
-            <div id="message" class="hidden fade-in" 
-                 style="margin-top: 1.5rem; color: var(--danger); font-size: 0.85rem; text-align: center; font-weight: 600; padding: 10px; background: #fff5f5; border-radius: 12px;">
-            </div>
+            <div id="message" class="hidden error-box"></div>
             
-            <div style="position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; font-size: 0.75rem; color: #cbd5e1; font-weight: 500;">
-                <p style="margin-bottom: 4px;">&copy; 2026 MYPRODUCTION</p>
+            <div class="login-footer">
+                <p>&copy; 2026 MYPRODUCTION</p>
                 <p>Made with <span style="color: #fda4af;">♥️</span> by Fikri Sudrajat</p>
             </div>
+            
         </div>
-
     </div>
 
     <script src="script.js"></script>
