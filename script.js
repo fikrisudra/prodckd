@@ -15,9 +15,8 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-// --- 3. Fungsi Inject Navigasi Kapsul ---
+// --- 3. Fungsi Inject Navigasi Kapsul dengan Transisi Smooth ---
 function injectNavbar() {
-    // Cek halaman aktif untuk menentukan menu mana yang biru (active)
     const path = window.location.pathname;
     const page = path.split("/").pop() || 'index.html';
 
@@ -33,7 +32,18 @@ function injectNavbar() {
                 <i class="fa-solid fa-user"></i><span>User</span>
             </a>
         </div>`;
+    
+    // Inject ke body
     document.body.insertAdjacentHTML('beforeend', navHTML);
+
+    // Sedikit delay untuk memastikan transisi CSS slide-out teks berjalan saat navbar muncul
+    setTimeout(() => {
+        const activeItem = document.querySelector('.nav-item.active span');
+        if (activeItem) {
+            activeItem.style.opacity = "1";
+            activeItem.style.maxWidth = "100px";
+        }
+    }, 50);
 }
 
 // --- 4. Logika Utama Saat Halaman Dimuat ---
@@ -42,25 +52,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     const page = path.split("/").pop() || 'index.html';
     const session = JSON.parse(localStorage.getItem('userSession'));
 
-    // Proteksi Halaman: Jika belum login, tendang ke index.html
+    // Proteksi Halaman
     if (!session && page !== 'index.html') {
         window.location.href = 'index.html';
         return;
     }
 
-    // Jika sudah login, tampilkan navigasi & isi data
+    // Jika sudah login, tampilkan data & navbar
     if (session && page !== 'index.html') {
         injectNavbar();
-        if (document.getElementById('userName')) document.getElementById('userName').innerText = session.name;
-        if (document.getElementById('userRole')) document.getElementById('userRole').innerText = session.role;
-        if (document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
-        if (document.getElementById('profileID')) document.getElementById('profileID').innerText = 'ID: ' + session.id;
+        
+        // Populate Data dengan pengecekan elemen
+        const elements = {
+            'userName': session.name,
+            'userRole': session.role,
+            'profileName': session.name,
+            'profileID': 'ID: ' + (session.id || '-')
+        };
+
+        Object.keys(elements).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = elements[id];
+        });
     }
 
     // Logika Khusus Halaman Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        // Jika sudah login tapi buka index.html, langsung ke dashboard
         if (session) window.location.href = 'dashboard.html';
 
         loginForm.addEventListener('submit', async (e) => {
@@ -69,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const msg = document.getElementById('message');
             
             btn.disabled = true;
-            btn.innerText = 'Authenticating...';
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
             msg.classList.add('hidden');
 
             const id = document.getElementById('userId').value;
@@ -84,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const result = await response.json();
 
                 if (result.status === 'success') {
-                    result.id = id; // Simpan ID ke dalam sesi
+                    result.id = id;
                     localStorage.setItem('userSession', JSON.stringify(result));
                     window.location.href = 'dashboard.html';
                 } else {
@@ -94,6 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     btn.innerText = 'Sign In';
                 }
             } catch (error) {
+                console.error(error);
                 alert("Server Connection Error");
                 btn.disabled = false;
                 btn.innerText = 'Sign In';
