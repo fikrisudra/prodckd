@@ -26,16 +26,24 @@
                 <span>Scan QR</span>
             </div>
             <div class="action-item">
-                <div class="action-icon"><i class="ri-time-line"></i></div>
+                <div class="action-icon"><i class="ri-history-line"></i></div>
                 <span>Riwayat</span>
             </div>
             <div class="action-item">
-                <div class="action-icon"><i class="ri-pie-chart-2-line"></i></div>
-                <span>Laporan</span>
+                <div class="action-icon"><i class="ri-box-3-line"></i></div>
+                <span>Stok</span>
             </div>
             <div class="action-item">
-                <div class="action-icon"><i class="ri-chat-smile-3-line"></i></div>
-                <span>Bantuan</span>
+                <div class="action-icon"><i class="ri-settings-5-line"></i></div>
+                <span>Mesin</span>
+            </div>
+            <div class="action-item">
+                <div class="action-icon"><i class="ri-error-warning-line"></i></div>
+                <span>Kendala</span>
+            </div>
+            <div class="action-item">
+                <div class="action-icon"><i class="ri-booklet-line"></i></div>
+                <span>Panduan</span>
             </div>
         </div>
 
@@ -89,34 +97,31 @@
     <div id="scanner-modal" class="scanner-modal">
         <div class="modal-content">
             <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800; color: var(--text-main);">Scan QR Produksi</h3>
-            
             <div class="scanner-box">
                 <div id="reader"></div>
             </div>
-            
             <div id="res-text" style="text-align: center; margin-top: 15px; font-size: 13px; font-weight: 700; color: var(--text-sub);">
                 Arahkan kamera ke Kode QR
             </div>
-            
             <div class="close-modal" onclick="closeScanner()">BATALKAN</div>
         </div>
     </div>
 
     <nav class="bottom-nav">
         <button class="nav-item active" id="btn-home" onclick="switchTab('home')">
-            <i class="ri-home-smile-2-fill"></i>
+            <i class="ri-home-5-line"></i>
             <span>Beranda</span>
         </button>
         
-        <button class="nav-item" id="btn-scan" onclick="openScanner()">
-            <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 18px; display: flex; align-items: center; justify-content: center; color: white; margin-bottom: -15px; transform: translateY(-10px); box-shadow: 0 5px 15px rgba(255,140,50,0.4);">
-                <i class="ri-qr-scan-2-line" style="font-size: 24px;"></i>
+        <div class="nav-item" id="btn-scan-main" onclick="openScanner()">
+            <div class="scan-wrapper">
+                <i class="ri-qr-scan-2-line"></i>
             </div>
-            <span style="margin-top: 12px;">Scan</span>
-        </button>
+            <span>Scan</span>
+        </div>
         
         <button class="nav-item" id="btn-profile" onclick="switchTab('profile')">
-            <i class="ri-user-settings-fill"></i>
+            <i class="ri-user-3-line"></i>
             <span>Profil</span>
         </button>
     </nav>
