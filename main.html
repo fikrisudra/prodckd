@@ -3,68 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dashboard | MYPRODUCTION</title>
+    <title>Terminal | MYPRODUCTION</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body style="overflow: hidden;">
 
     <div class="main-slider" id="mainSlider">
+        
         <section class="tab-content">
-            <header class="app-header">
-                <p>Overview</p>
-                <h2 id="userName">Loading...</h2>
-            </header>
-            <div class="card accent-card fade-in">
-                <p class="label">JABATAN</p>
-                <p id="userRole" class="value">Operator</p>
+            <div class="header-meta">
+                <p>Welcome back,</p>
+                <h2 id="userName">User</h2>
             </div>
+
+            <div class="card accent-card">
+                <p class="label">ACTIVE ROLE</p>
+                <h3 id="userRole">Production Operator</h3>
+            </div>
+
             <div class="stats-grid">
                 <div class="card">
-                    <p class="label">PRODUKSI</p>
+                    <p class="label">OUTPUT</p>
                     <h3 class="stat-value">89%</h3>
                 </div>
                 <div class="card">
-                    <p class="label">EFFISIENSI</p>
-                    <h3 class="stat-value text-orange">92%</h3>
+                    <p class="label">EFFICIENCY</p>
+                    <h3 class="stat-value text-accent">92%</h3>
                 </div>
             </div>
         </section>
 
         <section class="tab-content">
-            <header class="app-header text-center">
-                <h2>Scanner</h2>
-            </header>
+            <div class="header-meta text-center">
+                <h2>Quick Scan</h2>
+            </div>
             <div class="scanner-wrapper">
                 <div id="reader"></div>
             </div>
             <div id="scanned-result" class="hidden">
                 <div class="card result-card">
-                    <p id="res-text" class="res-data"></p>
-                    <button onclick="restartScanner()" class="btn-primary">Scan Lagi</button>
+                    <p id="res-text"></p>
+                    <button onclick="restartScanner()" class="btn-primary">Rescan</button>
                 </div>
             </div>
         </section>
 
         <section class="tab-content">
-            <header class="app-header text-center">
+            <div class="header-meta text-center">
                 <h2>Account</h2>
-            </header>
-            <div class="card profile-card text-center">
-                <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
-                <h3 id="profileName">User</h3>
+            </div>
+            <div class="card profile-card">
+                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                <h3 id="profileName">-</h3>
                 <p id="profileID" class="muted-text">ID: -</p>
             </div>
             <div style="padding: 1.5rem;">
                 <button onclick="logout()" class="btn-logout">Sign Out</button>
             </div>
         </section>
+
     </div>
 
     <nav class="bottom-nav">
         <div class="nav-pill" id="navPill"></div>
         <button class="nav-item active" onclick="moveTab(0, this)">
-            <i class="fa-solid fa-grid-2"></i><span>Home</span>
+            <i class="fa-solid fa-house"></i><span>Home</span>
         </button>
         <button class="nav-item" onclick="moveTab(1, this)">
             <i class="fa-solid fa-qrcode"></i><span>Scan</span>
