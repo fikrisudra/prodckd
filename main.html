@@ -109,19 +109,21 @@
 
     <nav class="bottom-nav">
         <button class="nav-item active" id="btn-home" onclick="switchTab('home')">
-            <i class="ri-home-5-line"></i>
+            <i class="ri-home-5-fill"></i>
             <span>Beranda</span>
         </button>
         
-        <div class="nav-item" id="btn-scan-main" onclick="openScanner()">
-            <div class="scan-wrapper">
-                <i class="ri-qr-scan-2-line"></i>
+        <div class="nav-item" onclick="openScanner()">
+            <div class="scan-container">
+                <div class="scan-wrapper">
+                    <i class="ri-qr-scan-2-line"></i>
+                </div>
+                <span class="scan-label">Scan</span>
             </div>
-            <span>Scan</span>
         </div>
         
         <button class="nav-item" id="btn-profile" onclick="switchTab('profile')">
-            <i class="ri-user-3-line"></i>
+            <i class="ri-user-3-fill"></i>
             <span>Profil</span>
         </button>
     </nav>

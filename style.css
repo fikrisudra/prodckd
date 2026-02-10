@@ -1,3 +1,4 @@
+/* --- GOOGLE FONTS & VARIABEL --- */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -11,6 +12,7 @@
     --radius-lg: 24px;
 }
 
+/* --- RESET & DASAR --- */
 * { 
     margin: 0; 
     padding: 0; 
@@ -91,7 +93,7 @@ body {
     box-shadow: 0 8px 24px rgba(255, 140, 50, 0.25);
 }
 
-/* --- MAIN DASHBOARD (KARTU MENU GRID) --- */
+/* --- MAIN DASHBOARD (HEADER & GRID) --- */
 .app-header { 
     background: var(--primary); 
     padding: 30px 24px 75px; 
@@ -108,7 +110,7 @@ body {
     border: 2px solid rgba(255,255,255,0.4); 
 }
 
-/* Perbaikan Grid 3-Kolom Presisi */
+/* Dashboard Menu Grid 3-Kolom */
 .quick-actions { 
     background: #fff; 
     margin: -45px 20px 25px; 
@@ -145,14 +147,14 @@ body {
     align-items: center; 
     justify-content: center; 
     font-size: 24px;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .action-item:active .action-icon {
     transform: scale(0.9);
 }
 
-/* Content Cards */
+/* Konten Section */
 .content-section { padding: 0 20px 120px; }
 .section-label { font-weight: 800; font-size: 16px; margin-bottom: 15px; display: block; color: var(--text-main); }
 .info-card { 
@@ -172,55 +174,101 @@ body {
     display: none; align-items: center; justify-content: center;
     padding: 24px;
 }
+
 .scanner-modal.active { display: flex; }
+
 .modal-content {
     width: 100%; max-width: 400px; 
     background: #fff; border-radius: 32px;
     padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
+
 .scanner-box {
     width: 100%; aspect-ratio: 1/1; 
     border-radius: 24px; overflow: hidden;
     background: #000;
 }
+
 #reader { width: 100% !important; height: 100% !important; }
+
 .close-modal {
     margin-top: 20px; text-align: center; 
     font-weight: 800; color: var(--primary); font-size: 14px;
+    cursor: pointer;
 }
 
-/* --- BOTTOM NAV (PRESISI & FLOATING SCAN) --- */
+/* --- BOTTOM NAVIGATION (PRESISI & FLOATING) --- */
 .bottom-nav { 
-    position: fixed; bottom: 0; left: 0; right: 0; 
-    height: 75px; background: #fff; 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    height: 75px; 
+    background: #FFFFFF; 
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     align-items: center; 
     border-top: 1px solid var(--border); 
     z-index: 1000;
     padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
 }
 
 .nav-item { 
-    border: none; background: none; color: #BDC3C7; 
-    display: flex; flex-direction: column; align-items: center; 
-    justify-content: center; gap: 4px; height: 100%;
+    border: none; 
+    background: none; 
+    color: #BDC3C7; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
 }
 
 .nav-item.active { color: var(--primary); }
 .nav-item i { font-size: 24px; }
 .nav-item span { font-size: 10px; font-weight: 700; }
 
-/* Floating Action Button untuk Scan */
-#btn-scan-main .scan-wrapper {
-    width: 56px; height: 56px; 
-    background: var(--primary); 
-    border-radius: 18px; 
-    display: flex; align-items: center; justify-content: center; 
-    color: white; 
-    margin-top: -38px;
-    box-shadow: 0 8px 20px rgba(255, 140, 50, 0.4);
-    border: 4px solid #fff;
+/* Container khusus Tombol Scan */
+.scan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
+.scan-wrapper {
+    width: 60px; 
+    height: 60px; 
+    background: var(--primary); 
+    border-radius: 20px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: white; 
+    position: absolute;
+    top: -32px; 
+    border: 5px solid #FFFFFF; 
+    box-shadow: 0 10px 20px rgba(255, 140, 50, 0.3);
+    font-size: 26px;
+    transition: transform 0.2s ease;
+}
+
+.scan-wrapper:active {
+    transform: scale(0.9) translateY(2px);
+}
+
+.scan-label {
+    margin-top: 32px; 
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* UTILITY */
 .hidden { display: none; }
