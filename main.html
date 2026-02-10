@@ -2,102 +2,69 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD Dashboard</title>
+    <title>Dashboard | MYPROD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
-    <main class="app-viewport" id="mainSlider">
-        <section class="page-container">
-            <header class="section-header">
-                <h1 class="section-title">Dashboard</h1>
-                <div style="background: #E8F5E9; color: #2E7D32; padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; letter-spacing: 1px;">LIVE</div>
-            </header>
+    <aside class="sidebar">
+        <div class="sidebar-brand">MY<span>PROD</span></div>
+        <nav>
+            <a href="#" class="nav-link active" onclick="showPage('dash', this)"><i class="ri-dashboard-line"></i> Dashboard</a>
+            <a href="#" class="nav-link" onclick="showPage('scan', this)"><i class="ri-qr-scan-line"></i> Scanner</a>
+            <a href="#" class="nav-link" onclick="showPage('user', this)"><i class="ri-user-line"></i> Profile</a>
+        </nav>
+        <div style="margin-top: auto;">
+            <a href="#" onclick="logout()" class="nav-link" style="color: #F87171;"><i class="ri-logout-box-line"></i> Logout</a>
+        </div>
+    </aside>
 
-            <div class="bento-grid">
-                <div class="card full accent">
-                    <p class="card-label">Efficiency Rate</p>
-                    <div class="card-value">98.4%</div>
-                </div>
-                <div class="card">
-                    <p class="card-label">Output</p>
-                    <div class="card-value">1.2k</div>
-                </div>
-                <div class="card">
-                    <p class="card-label">Active</p>
-                    <div class="card-value">24h</div>
-                </div>
-                <div class="card full">
-                    <p class="card-label">Status Report</p>
-                    <p style="font-weight: 700; font-size: 14px;">Sistem beroperasi optimal tanpa kendala teknis.</p>
-                </div>
-            </div>
-        </section>
+    <main class="main-content">
+        <header class="top-bar">
+            <h3 id="page-title">Dashboard Overview</h3>
+            <div class="user-info" style="font-weight: 700; font-size: 14px;" id="topUserName">Admin</div>
+        </header>
 
-        <section class="page-container">
-            <header class="section-header">
-                <h1 class="section-title">Vision</h1>
-            </header>
-            
-            <div class="scanner-container">
-                <div id="reader"></div>
-                <div class="scanner-overlay">
-                    <div class="scanner-frame">
-                        <div class="scanner-laser"></div>
+        <div class="content-body">
+            <div id="page-dash" class="page">
+                <div class="web-grid">
+                    <div class="web-card">
+                        <p class="card-title">Efficiency Rate</p>
+                        <div class="card-val" style="color: var(--accent);">98.4%</div>
+                    </div>
+                    <div class="web-card">
+                        <p class="card-title">Total Output</p>
+                        <div class="card-val">12,402</div>
+                    </div>
+                    <div class="web-card">
+                        <p class="card-title">Active Lines</p>
+                        <div class="card-val">12/12</div>
                     </div>
                 </div>
             </div>
 
-            <div class="card full">
-                <p class="card-label">Scan Result</p>
-                <p id="res-text" style="font-weight: 800; color: var(--text-sub); text-align: center; padding: 10px 0;">READY TO SCAN</p>
-            </div>
-        </section>
-
-        <section class="page-container">
-            <header class="section-header">
-                <h1 class="section-title">Account</h1>
-            </header>
-            
-            <div class="profile-hero">
-                <div class="avatar-l"><i class="ri-user-smile-fill"></i></div>
-                <h3 id="profileName" style="font-weight: 800; font-size: 24px; letter-spacing: -0.5px;">Operator</h3>
-                <p id="profileID" style="color: var(--text-sub); font-weight: 700; font-size: 14px; margin-top: 4px;">ID: --</p>
-            </div>
-
-            <div class="card full" style="margin-bottom: 12px;">
-                <p class="card-label">System Architecture</p>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                    <span style="font-weight: 700; font-size: 14px;">MYPROD Engine</span>
-                    <span style="font-weight: 800; color: var(--accent-color); font-size: 12px;">V16.0.4</span>
+            <div id="page-scan" class="page hidden">
+                <div class="web-card" style="max-width: 800px;">
+                    <p class="card-title">System Vision Scanner</p>
+                    <div class="scanner-web-box">
+                        <div id="reader"></div>
+                    </div>
+                    <div id="res-text" style="margin-top: 20px; font-weight: 700;">READY</div>
                 </div>
             </div>
 
-            <button onclick="logout()" class="btn-full btn-danger">
-                Sign Out <i class="ri-logout-circle-r-line"></i>
-            </button>
-        </section>
+            <div id="page-user" class="page hidden">
+                <div class="web-card" style="max-width: 500px;">
+                    <p class="card-title">Account Information</p>
+                    <h2 id="profileName">---</h2>
+                    <p id="profileID" style="color: var(--text-muted); margin-bottom: 20px;">ID: --</p>
+                    <div style="padding: 15px; background: var(--bg-body); border-radius: 8px;">
+                        <p style="font-size: 12px; font-weight: 700;">SYSTEM ROLE: OPERATOR</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
-
-    <nav class="nav-bar">
-        <div class="nav-indicator" id="navPill"></div>
-        
-        <button class="nav-btn active" onclick="moveTab(0, this)">
-            <i class="ri-dashboard-3-fill"></i>
-            <span>Dashboard</span>
-        </button>
-        
-        <button class="nav-btn" onclick="moveTab(1, this)">
-            <i class="ri-qr-scan-2-line"></i>
-            <span>Vision</span>
-        </button>
-        
-        <button class="nav-btn" onclick="moveTab(2, this)">
-            <i class="ri-user-6-fill"></i>
-            <span>Profile</span>
-        </button>
-    </nav>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="script.js"></script>

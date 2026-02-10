@@ -2,37 +2,23 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD | Secure Login</title>
+    <title>MYPROD | Web Access</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="auth-wrapper">
-        <header class="brand-header">
-            <h1 class="brand-title">MY<span>PROD</span></h1>
-            <p class="brand-subtitle">Production Control System</p>
-        </header>
-
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="number" id="userId" placeholder="ID Karyawan" required autofocus>
+<body style="background: #fff;">
+    <div class="login-screen">
+        <div class="login-box">
+            <div class="login-typo">
+                <h1>MY<span>PROD</span></h1>
+                <p>CORE SYSTEM ACCESS</p>
             </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Kata Sandi" required>
-            </div>
-            
-            <button type="submit" id="loginBtn" class="btn-full">
-                AUTHENTICATE
-            </button>
-        </form>
-
-        <footer style="margin-top: 40px; text-align: center;">
-            <p style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1px;">
-                SECURED BY SHA-256 ENCRYPTION
-            </p>
-        </footer>
+            <form id="loginForm">
+                <input type="number" id="userId" class="web-input" placeholder="Employee ID" required>
+                <input type="password" id="password" class="web-input" placeholder="Password" required>
+                <button type="submit" id="loginBtn" class="btn-web">SIGN IN</button>
+            </form>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
