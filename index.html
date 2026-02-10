@@ -3,34 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login</title>
+    <title>Login | MYPRODUCTION</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="justify-content: center; align-items: center;">
-    <div class="app-container fade-in" style="display: flex; align-items: center;">
-        <div class="card" style="width: 100%; margin: 2rem; border: none; box-shadow: none; background: transparent;">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <div style="background: var(--primary); width: 70px; height: 70px; border-radius: 1.5rem; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <h2 style="font-size: 1.8rem; letter-spacing: -1px;">Selamat Datang</h2>
-                <p style="color: var(--text-muted);">Masuk untuk melanjutkan</p>
+<body style="display: flex; align-items: center; justify-content: center; background: #ffffff;">
+    <div class="app-container fade-in" style="display: flex; align-items: center; padding: 2rem;">
+        
+        <div style="width: 100%;">
+            <div style="text-align: left; margin-bottom: 3rem;">
+                <h1 style="font-size: 2.8rem; line-height: 1; letter-spacing: -2px;">MY<br>PROD.</h1>
+                <p style="color: var(--muted); margin-top: 0.8rem; font-weight: 500;">Production Monitoring System</p>
             </div>
+
             <form id="loginForm">
                 <div class="form-group">
-                    <label>ID USER</label>
-                    <input type="number" id="userId" placeholder="Contoh: 1001" required>
+                    <input type="number" id="userId" placeholder="Employee ID" required autofocus>
                 </div>
                 <div class="form-group">
-                    <label>PASSWORD</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <input type="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit" id="loginBtn" class="btn-primary">Masuk Aplikasi</button>
+                <button type="submit" id="loginBtn" class="btn-primary">Sign In</button>
             </form>
-            <div id="message" style="text-align: center; margin-top: 1rem; color: var(--danger); font-weight: 600;" class="hidden"></div>
+
+            <div id="message" class="hidden" style="margin-top: 1.5rem; color: var(--danger); font-size: 0.85rem; text-align: center; font-weight: 600;"></div>
+            
+            <p style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: #ccc; width: 100%; text-align: center;">
+                &copy; 2026 MYPRODUCTION Terminal
+            </p>
         </div>
+
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

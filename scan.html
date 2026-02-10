@@ -3,41 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan QR</title>
+    <title>Scanner | MYPRODUCTION</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container fade-in">
-        <header class="header"><div class="brand">SCAN<span style="color:var(--text-main)">QR</span></div></header>
-        <div class="card">
-            <div id="reader"></div>
-            <div id="scanned-result" class="hidden" style="margin-top: 1rem; padding: 1rem; background: var(--primary-soft); border-radius: 1rem; color: var(--primary); font-weight: 700; text-align: center;"></div>
+        <header style="padding: 2.5rem 1.5rem 1rem; text-align: center;">
+            <h2 style="font-size: 1.5rem; letter-spacing: -1px;">Quick Scanner</h2>
+            <p style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">Posisikan QR Code di tengah kotak</p>
+        </header>
+        
+        <div class="card" style="padding: 0; overflow: hidden; position: relative; background: #000; border: 4px solid #fff;">
+            <div id="reader" style="width: 100%;"></div>
+            
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; border: 2px solid rgba(255,255,255,0.8); border-radius: 24px; pointer-events: none; z-index: 10; box-shadow: 0 0 0 1000px rgba(0,0,0,0.5);">
+                <div style="position: absolute; top: -2px; left: -2px; width: 30px; height: 30px; border-top: 5px solid var(--accent); border-left: 5px solid var(--accent); border-radius: 20px 0 0 0;"></div>
+                <div style="position: absolute; top: -2px; right: -2px; width: 30px; height: 30px; border-top: 5px solid var(--accent); border-right: 5px solid var(--accent); border-radius: 0 20px 0 0;"></div>
+                <div style="position: absolute; bottom: -2px; left: -2px; width: 30px; height: 30px; border-bottom: 5px solid var(--accent); border-left: 5px solid var(--accent); border-radius: 0 0 0 20px;"></div>
+                <div style="position: absolute; bottom: -2px; right: -2px; width: 30px; height: 30px; border-bottom: 5px solid var(--accent); border-right: 5px solid var(--accent); border-radius: 0 0 20px 0;"></div>
+            </div>
         </div>
-        <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 0 2rem;">Arahkan kamera ke kode QR untuk memindai secara otomatis.</p>
+
+        <div id="scanned-result" class="card hidden" style="background: #f0fdf4; border-color: #bbf7d0; text-align: center;">
+            <p style="font-size: 0.7rem; color: #166534; font-weight: 800; text-transform: uppercase;">Berhasil Dipindai</p>
+            <p id="res-text" style="word-break: break-all; font-weight: 600; margin-top: 8px; color: var(--text);"></p>
+            <button onclick="location.reload()" style="margin-top: 15px; background: #166534; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;">Scan Lagi</button>
+        </div>
     </div>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="script.js"></script>
     <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // Berhenti setelah scan berhasil agar tidak loop
-            html5QrcodeScanner.clear();
-            const resultDiv = document.getElementById('scanned-result');
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerText = "Berhasil: " + decodedText;
-            
-            // Contoh: Mengarahkan atau mengolah data
-            // alert("Data terscan: " + decodedText);
-        }
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 20, qrbox: { width: 220, height: 220 } };
 
-        // Langsung jalankan scanner saat halaman dimuat
-        const html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
-            fps: 15, 
-            qrbox: {width: 250, height: 250},
-            aspectRatio: 1.0
+        // Start Camera Instantly
+        Html5Qrcode.getCameras().then(cameras => {
+            if (cameras && cameras.length > 0) {
+                // Priority to back camera
+                const backCamera = cameras.find(cam => cam.label.toLowerCase().includes('back')) || cameras[cameras.length - 1];
+                html5QrCode.start(backCamera.id, config, (decodedText) => {
+                    // Success callback
+                    document.getElementById('scanned-result').classList.remove('hidden');
+                    document.getElementById('res-text').innerText = decodedText;
+                    
+                    // Vibration for feedback
+                    if(navigator.vibrate) navigator.vibrate(100);
+                    
+                    // Auto stop to save battery after success
+                    html5QrCode.stop();
+                });
+            }
+        }).catch(err => {
+            console.error("Camera Error:", err);
+            alert("Izin kamera diperlukan untuk fitur Scan.");
         });
-        html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
 </html>
