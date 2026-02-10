@@ -1,7 +1,7 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode; // Global variable untuk scanner
 
-// --- 1. Fungsi Keamanan ---
+// --- 1. Fungsi Keamanan (Hashing Password) ---
 async function hashPassword(password) {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
@@ -16,52 +16,53 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-// --- 3. Logika Perpindahan Tab (SPA Slider) ---
+// --- 3. Logika Utama SPA Slider & Pill Navigation ---
 function moveTab(index, el) {
-    // Geser Konten Utama
+    // Geser Konten Utama (Slider)
     const slider = document.getElementById('mainSlider');
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
 
-    // Update Class Active pada Nav Item
+    // Update State Navigasi
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     el.classList.add('active');
 
-    // Geser Pill Background
+    // Geser Pill Background (Latar Oranye)
     const pill = document.getElementById('navPill');
     if (pill) {
         pill.style.width = `${el.offsetWidth}px`;
         pill.style.left = `${el.offsetLeft}px`;
     }
 
-    // Manajemen Kamera (Scan adalah tab index 1)
-    if (index === 1) {
+    // Manajemen Kamera Otomatis
+    if (index === 1) { // Index 1 adalah tab Scan
         startScanner();
     } else {
         stopScanner();
     }
 }
 
-// --- 4. Fungsi Scanner ---
+// --- 4. Fungsi Scanner (HTML5 QR Code) ---
 function startScanner() {
     if (!html5QrCode) {
         html5QrCode = new Html5Qrcode("reader");
     }
     
-    // Pastikan tidak start dua kali
+    // Cegah kamera aktif ganda
     if (!html5QrCode.isScanning) {
         const config = { fps: 20, qrbox: 200 };
         html5QrCode.start({ facingMode: "environment" }, config, (decodedText) => {
+            // Berhasil Scan
             document.getElementById('res-text').innerText = decodedText;
             document.getElementById('scanned-result').classList.remove('hidden');
-            if(navigator.vibrate) navigator.vibrate(70);
+            if(navigator.vibrate) navigator.vibrate(70); // Feedback getar
             stopScanner();
-        }).catch(err => console.error("Scanner Error:", err));
+        }).catch(err => console.error("Kamera Error:", err));
     }
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.error("Stop Error:", err));
+        html5QrCode.stop().catch(err => console.error("Gagal stop kamera:", err));
     }
 }
 
@@ -70,49 +71,48 @@ function restartScanner() {
     startScanner();
 }
 
-// --- 5. Logika Utama ---
+// --- 5. Logika Saat Halaman Dimuat ---
 document.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
     const page = path.split("/").pop() || 'index.html';
     const session = JSON.parse(localStorage.getItem('userSession'));
 
-    // Proteksi Halaman
+    // Proteksi: Jika belum login, tendang ke index.html
     if (!session && page !== 'index.html') {
         window.location.href = 'index.html';
         return;
     }
 
-    // Inisialisasi Halaman Utama (Main/Dashboard SPA)
-    if (session && page !== 'index.html') {
-        // Populate Data
-        const elements = {
+    // A. Logika Halaman Utama (main.html)
+    if (session && page === 'main.html') {
+        // Tampilkan Data User ke UI
+        const dataMap = {
             'userName': session.name,
             'userRole': session.role,
             'profileName': session.name,
             'profileID': 'ID: ' + (session.id || '-')
         };
 
-        Object.keys(elements).forEach(id => {
+        Object.keys(dataMap).forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.innerText = elements[id];
+            if (el) el.innerText = dataMap[id];
         });
 
-        // Inisialisasi Posisi Pill Pertama Kali
+        // Inisialisasi Posisi Pill Pertama Kali (Home Aktif)
         const activeItem = document.querySelector('.nav-item.active');
         const pill = document.getElementById('navPill');
         if (activeItem && pill) {
-            // Beri sedikit delay agar layout render sempurna dulu
             setTimeout(() => {
                 pill.style.width = `${activeItem.offsetWidth}px`;
                 pill.style.left = `${activeItem.offsetLeft}px`;
-            }, 100);
+            }, 300); // Delay sedikit agar layout terhitung sempurna
         }
     }
 
-    // Logika Login (Tetap Multi-Page)
+    // B. Logika Halaman Login (index.html)
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        if (session) window.location.href = 'main.html'; // Pindah ke halaman gabungan
+        if (session) window.location.href = 'main.html';
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (result.status === 'success') {
                     result.id = id;
                     localStorage.setItem('userSession', JSON.stringify(result));
-                    window.location.href = 'main.html'; // Pindah ke halaman gabungan
+                    window.location.href = 'main.html';
                 } else {
                     msg.innerText = result.message || "ID atau Password Salah";
                     msg.classList.remove('hidden');
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     btn.innerText = 'Sign In';
                 }
             } catch (error) {
-                alert("Gangguan Koneksi ke Server");
+                alert("Koneksi server gagal. Coba lagi.");
                 btn.disabled = false;
                 btn.innerText = 'Sign In';
             }
