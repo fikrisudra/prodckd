@@ -1,65 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
-
 :root {
-    --bg: #0a0a0a;
-    --surface: #141414;
-    --accent: #f97316; /* Industrial Orange */
-    --text: #ffffff;
-    --muted: #404040;
-    --m3-ease: cubic-bezier(0.2, 0, 0, 1);
+    --n-bg: #f8f9fa;
+    --n-text: #1a1a1a;
+    --n-accent: #f97316;
+    --n-surface: #ffffff;
+    --n-ease: cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy Native Feel */
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
-body.industrial-bg { background: var(--bg); color: var(--text); }
-.mono-text { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 1px; }
-.no-scroll { overflow: hidden; height: 100vh; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; }
+body.native-surface { background: var(--n-bg); color: var(--n-text); overflow: hidden; }
 
-/* Auth Layout */
-.auth-layer { padding: 40px; display: flex; flex-direction: column; justify-content: center; height: 100vh; }
-.display-heavy { font-size: 3rem; font-weight: 700; letter-spacing: -2px; line-height: 1; }
-.display-heavy span { color: var(--muted); }
-.status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 10px #22c55e; }
+/* Sign-In Layout */
+.app-container { height: 100vh; padding: 40px; display: flex; flex-direction: column; }
+.center-content { justify-content: center; align-items: center; }
+.brand-logo { width: 64px; height: 64px; background: var(--n-accent); color: #fff; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(249, 115, 22, 0.2); }
+.brand-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
+.brand-subtitle { font-size: 0.9rem; color: #666; font-weight: 500; }
 
-.industrial-form { margin-top: 50px; }
-.input-container { margin-bottom: 10px; }
-input { 
-    width: 100%; padding: 20px; border: 1px solid var(--muted); border-radius: 12px; 
-    background: var(--surface); color: white; font-size: 1rem; transition: 0.3s;
-}
-input:focus { border-color: var(--accent); outline: none; background: #000; }
+.native-form { width: 100%; max-width: 320px; margin-top: 48px; }
+.input-wrap input { width: 100%; padding: 18px; border-radius: 16px; border: 1.5px solid transparent; background: #fff; font-size: 1rem; margin-bottom: 12px; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+.input-wrap input:focus { border-color: var(--n-accent); background: #fff; }
+.primary-action { width: 100%; padding: 18px; border-radius: 16px; border: none; background: var(--n-text); color: #fff; font-weight: 600; font-size: 1rem; cursor: pointer; }
 
-.btn-expressive { 
-    width: 100%; padding: 20px; border-radius: 12px; border: none; 
-    background: var(--text); color: var(--bg); font-weight: 700; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center; margin-top: 20px;
-}
+/* Navigation Bar */
+.native-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #fff; padding: 8px; border-radius: 24px; display: flex; gap: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); z-index: 1000; border: 1px solid rgba(0,0,0,0.03); }
+.nav-trigger { border: none; background: none; color: #ccc; font-size: 1.6rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; z-index: 2; transition: 0.3s; }
+.nav-trigger.active { color: #fff; }
+.nav-indicator { position: absolute; background: var(--n-text); width: 48px; height: 48px; border-radius: 18px; z-index: 1; transition: transform 0.5s var(--n-ease); }
 
-/* Hybrid Navigation */
-.nav-hybrid { 
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-    background: rgba(20, 20, 20, 0.9); padding: 10px 30px; border-radius: 30px; 
-    display: flex; gap: 40px; border: 1px solid var(--muted); backdrop-filter: blur(10px);
-}
-.nav-item { border: none; background: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; transition: 0.3s; z-index: 2; }
-.nav-item.active { color: var(--text); }
-.nav-dot-indicator { 
-    position: absolute; background: var(--accent); width: 6px; height: 6px; 
-    border-radius: 50%; bottom: 8px; z-index: 1; transition: transform 0.4s var(--m3-ease); 
-}
+/* View System */
+.view-manager { display: flex; width: 300vw; transition: transform 0.6s var(--n-ease); }
+.native-view { width: 100vw; height: 100vh; padding: 60px 24px 120px; overflow-y: auto; }
+.view-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+.user-display { font-size: 1.8rem; font-weight: 700; }
 
-/* Page Design */
-.viewport-slider { display: flex; width: 300vw; height: 100vh; transition: transform 0.5s var(--m3-ease); }
-.page { width: 100vw; height: 100vh; padding: 40px 24px 120px; overflow-y: auto; }
+/* Grid & Cards */
+.native-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.n-card { background: #fff; padding: 24px; border-radius: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+.n-card.primary { background: #fff2e8; color: var(--n-accent); }
+.full-span { grid-column: span 2; }
+.n-label { font-size: 0.75rem; font-weight: 700; color: #999; text-transform: uppercase; }
+.n-data { font-size: 2rem; font-weight: 800; margin-top: 4px; }
 
-.card-heavy { background: var(--surface); padding: 25px; border-radius: 24px; border: 1px solid var(--muted); margin-bottom: 15px; }
-.card-heavy.accent { border-color: var(--accent); }
-.val-large { font-size: 3rem; font-weight: 700; }
-
-.scanner-frame-expressive { 
-    width: 100%; aspect-ratio: 1; background: #000; border-radius: 32px; 
-    overflow: hidden; position: relative; border: 1px solid var(--muted); 
-}
-
-.btn-danger-minimal { width: 100%; padding: 15px; background: none; border: 1px solid #ef4444; color: #ef4444; border-radius: 12px; font-weight: 700; margin-top: 20px; }
-
-.hidden { display: none; }
+/* Scanner Native */
+.native-scanner-box { width: 100%; aspect-ratio: 1; border-radius: 36px; overflow: hidden; position: relative; border: 4px solid #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }

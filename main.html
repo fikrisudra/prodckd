@@ -1,85 +1,84 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MYPROD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="industrial-bg no-scroll">
+<body class="native-surface no-scroll">
 
-    <div class="viewport-slider" id="mainSlider">
-        <section class="page">
-            <div class="app-bar-hybrid">
-                <div class="meta-info">
-                    <span class="mono-text">SYS.ACTIVE</span>
-                    <h2 id="userName">Operator</h2>
+    <div class="view-manager" id="mainSlider">
+        <section class="native-view">
+            <header class="view-header">
+                <div>
+                    <p class="welcome-text">Active Now</p>
+                    <h2 id="userName" class="user-display">Operator</h2>
                 </div>
-                <div class="user-avatar-hex"><i class="ri-user-settings-fill"></i></div>
-            </div>
+                <div class="status-chip"><span class="pulse"></span> Live</div>
+            </header>
 
-            <div class="expressive-grid">
-                <div class="card-heavy accent">
-                    <label class="mono-text">LINE EFFICIENCY</label>
-                    <div class="data-row">
-                        <span class="val-large">92.4</span><span class="unit">%</span>
-                    </div>
+            <div class="native-grid">
+                <div class="n-card primary">
+                    <span class="n-label">OEE SCORE</span>
+                    <div class="n-data">94.2<small>%</small></div>
                 </div>
-                <div class="card-heavy">
-                    <label class="mono-text">SHIFT OUTPUT</label>
-                    <div class="data-row">
-                        <span class="val-large">1,402</span>
-                    </div>
+                <div class="n-card">
+                    <span class="n-label">DAILY UNITS</span>
+                    <div class="n-data">3,120</div>
                 </div>
-                <div class="card-flat full">
-                    <label class="mono-text">LOGS</label>
-                    <p class="body-text">Terminal connected to cloud-relay-v16. Ready for scan.</p>
+                <div class="n-card full-span glass">
+                    <span class="n-label">SYSTEM UPDATES</span>
+                    <p class="n-msg">Cloud sync active. All production lines stable.</p>
                 </div>
             </div>
         </section>
 
-        <section class="page">
-            <div class="header-minimal center">
-                <h3 class="mono-text">OPTICAL_SCANNER</h3>
+        <section class="native-view">
+            <div class="center-header">
+                <h3 class="view-title">Scanner</h3>
             </div>
-            <div class="scanner-frame-expressive">
+            <div class="native-scanner-box">
                 <div id="reader"></div>
-                <div class="scan-reticle"></div>
+                <div class="scanner-guide"></div>
             </div>
             <div id="scanned-result" class="hidden">
-                <div class="bottom-sheet-expressive">
-                    <p id="res-text" class="mono-text"></p>
-                    <button onclick="restartScanner()" class="btn-outline-heavy">RETRY_SCAN</button>
+                <div class="native-sheet">
+                    <div class="sheet-handle"></div>
+                    <div id="res-text" class="sheet-content"></div>
+                    <button onclick="restartScanner()" class="secondary-action">Dismiss</button>
                 </div>
             </div>
         </section>
 
-        <section class="page">
-            <div class="profile-layout">
-                <div class="hex-bg"><i class="ri-fingerprint-line"></i></div>
-                <h3 id="profileName" class="display-small">-</h3>
-                <p id="profileID" class="mono-text">AUTH_ID: -</p>
-                
-                <div class="industrial-list">
-                    <div class="list-item"><span>SECURITY_LEVEL</span> <strong>L3</strong></div>
-                    <div class="list-item"><span>ENCRYPTION</span> <strong>SHA-256</strong></div>
+        <section class="native-view">
+            <div class="profile-section">
+                <div class="user-avatar-wrap">
+                    <img src="https://ui-avatars.com/api/?name=User&background=f97316&color=fff" id="avatarImg" alt="Avatar">
                 </div>
-                <button onclick="logout()" class="btn-danger-minimal">TERMINATE SESSION</button>
+                <h3 id="profileName" class="profile-name">-</h3>
+                <p id="profileID" class="profile-meta">ID: -</p>
+                
+                <div class="native-menu">
+                    <div class="menu-item">Version <span>16.0.4</span></div>
+                    <div class="menu-item">Security <span>AES-256</span></div>
+                </div>
+                <button onclick="logout()" class="danger-action">Sign Out</button>
             </div>
         </section>
     </div>
 
-    <nav class="nav-hybrid">
-        <div class="nav-dot-indicator" id="navPill"></div>
-        <button class="nav-item active" onclick="moveTab(0, this)">
-            <i class="ri-dashboard-3-line"></i>
+    <nav class="native-nav">
+        <div class="nav-indicator" id="navPill"></div>
+        <button class="nav-trigger active" onclick="moveTab(0, this)">
+            <i class="ri-home-5-fill"></i>
         </button>
-        <button class="nav-item" onclick="moveTab(1, this)">
-            <i class="ri-qr-code-line"></i>
+        <button class="nav-trigger" onclick="moveTab(1, this)">
+            <i class="ri-qr-scan-2-line"></i>
         </button>
-        <button class="nav-item" onclick="moveTab(2, this)">
-            <i class="ri-shield-user-line"></i>
+        <button class="nav-trigger" onclick="moveTab(2, this)">
+            <i class="ri-user-6-line"></i>
         </button>
     </nav>
 

@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Auth | Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MYPROD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="industrial-bg">
-    <div class="auth-layer">
-        <header class="brand-zone fade-in">
-            <div class="status-dot"></div>
-            <h1 class="display-heavy">TERMINAL<span>.01</span></h1>
-            <p class="mono-text">SECURE ACCESS REQUIRED</p>
-        </header>
+<body class="native-surface">
+    <div class="app-container center-content fade-in">
+        <div class="brand-identity">
+            <div class="brand-logo"><i class="ri-command-fill"></i></div>
+            <h1 class="brand-title">MYPROD</h1>
+            <p class="brand-subtitle">Production Ecosystem</p>
+        </div>
 
-        <form id="loginForm" class="industrial-form">
-            <div class="input-container">
-                <input type="number" id="userId" placeholder="OPERATOR ID" required autofocus>
+        <form id="loginForm" class="native-form">
+            <div class="input-wrap">
+                <input type="number" id="userId" placeholder="Employee ID" required autofocus>
             </div>
-            <div class="input-container">
-                <input type="password" id="password" placeholder="ACCESS KEY" required>
+            <div class="input-wrap">
+                <input type="password" id="password" placeholder="Password" required>
             </div>
-            <button type="submit" id="loginBtn" class="btn-expressive">
-                AUTHENTICATE <i class="ri-shield-keyhole-line"></i>
+            <button type="submit" id="loginBtn" class="primary-action">
+                Sign In
             </button>
         </form>
     </div>
