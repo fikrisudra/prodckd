@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD | Sign In</title>
+    <title>MYPROD | Authentikasi</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body class="a16-surface">
+<body class="a16-surface no-scroll">
     <div class="a16-auth-container fade-in">
         <header class="a16-hero">
             <div class="a16-logo-blob">
-                <i class="ri-instance-fill"></i>
+                <i class="ri-command-fill"></i>
             </div>
             <h1 class="a16-display">MY<span>PROD</span></h1>
-            <p class="a16-label">INTELLIGENT PRODUCTION</p>
+            <p class="a16-label-locked"><i class="ri-lock-2-line"></i> SECURE ACCESS</p>
         </header>
 
         <form id="loginForm" class="a16-card-group">
             <div class="a16-input-field">
-                <input type="number" id="userId" placeholder="Employee ID" required autofocus>
+                <i class="ri-user-6-line"></i>
+                <input type="number" id="userId" placeholder="ID Karyawan" required autofocus>
             </div>
             <div class="a16-input-field">
+                <i class="ri-key-2-line"></i>
                 <input type="password" id="password" placeholder="Access Key" required>
             </div>
             <button type="submit" id="loginBtn" class="a16-btn-primary">
-                Sign In <i class="ri-arrow-right-up-line"></i>
+                Masuk Sistem <i class="ri-arrow-right-up-line"></i>
             </button>
         </form>
+        
+        <footer class="a16-auth-footer">
+            <p>V16.0.4 • Encrypted Session</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
