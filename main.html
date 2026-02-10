@@ -20,53 +20,31 @@
             <div class="card accent-card fade-in">
                 <p class="label">JABATAN AKTIF</p>
                 <p id="userRole" class="value">Production Operator</p>
-                <div style="margin-top: 15px; opacity: 0.7; font-size: 0.75rem;">
-                    <i class="fa-solid fa-clock"></i> Shift Pagi (08:00 - 16:00)
-                </div>
             </div>
 
             <div class="stats-grid">
                 <div class="card stat-item fade-in">
                     <p class="label">PRODUKSI</p>
                     <h3 class="stat-value">89%</h3>
-                    <div style="width: 100%; height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 8px;">
-                        <div style="width: 89%; height: 100%; background: var(--text); border-radius: 2px;"></div>
-                    </div>
                 </div>
                 <div class="card stat-item fade-in">
                     <p class="label">EFFISIENSI</p>
                     <h3 class="stat-value text-orange">92%</h3>
-                    <div style="width: 100%; height: 4px; background: var(--accent-soft); border-radius: 2px; margin-top: 8px;">
-                        <div style="width: 92%; height: 100%; background: var(--accent); border-radius: 2px;"></div>
-                    </div>
                 </div>
-            </div>
-
-            <div class="card fade-in" style="background: white;">
-                <p class="label">PENGUMUMAN</p>
-                <p style="font-size: 0.85rem; margin-top: 5px; line-height: 1.4;">
-                    Maintenance mesin Line A dijadwalkan pukul 14:00 WIB. Harap pastikan area bersih sebelum teknisi datang.
-                </p>
             </div>
         </section>
 
         <section class="tab-content">
             <header class="app-header text-center">
                 <h2>Quick Scanner</h2>
-                <p style="color: var(--muted); font-size: 0.85rem;">Scan material atau mesin untuk update status</p>
             </header>
-            
             <div class="scanner-container fade-in">
-                <div id="reader" style="border: none;"></div>
+                <div id="reader"></div>
             </div>
-
             <div id="scanned-result" class="hidden">
-                <div class="card result-card fade-in">
-                    <p class="label" style="color: var(--accent);">DATA TERDETEKSI</p>
+                <div class="card result-card">
                     <p id="res-text" class="res-data"></p>
-                    <button onclick="restartScanner()" class="btn-primary">
-                        <i class="fa-solid fa-rotate-right"></i> Scan Lagi
-                    </button>
+                    <button onclick="restartScanner()" class="btn-primary">Scan Lagi</button>
                 </div>
             </div>
         </section>
@@ -75,22 +53,13 @@
             <header class="app-header text-center">
                 <h2>User Profile</h2>
             </header>
-            
             <div class="card profile-card fade-in">
-                <div class="profile-icon">
-                    <i class="fa-solid fa-user-tie"></i>
-                </div>
-                <h3 id="profileName" style="font-size: 1.4rem;">Memuat...</h3>
-                <div style="margin: 10px 0;">
-                    <span class="badge">OPERATOR AKTIF</span>
-                </div>
+                <div class="profile-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h3 id="profileName">Memuat...</h3>
                 <p id="profileID" class="profile-id">ID: -</p>
             </div>
-
-            <div style="padding: 0 1rem; margin-top: 1rem;">
-                <button onclick="logout()" class="btn-logout">
-                    <i class="fa-solid fa-power-off"></i> Sign Out
-                </button>
+            <div style="padding: 1rem;">
+                <button onclick="logout()" class="btn-logout">Sign Out</button>
             </div>
         </section>
 
@@ -98,20 +67,14 @@
 
     <nav class="bottom-nav">
         <div class="nav-pill" id="navPill"></div>
-        
         <button class="nav-item active" onclick="moveTab(0, this)">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
+            <i class="fa-solid fa-house"></i><span>Home</span>
         </button>
-        
         <button class="nav-item" onclick="moveTab(1, this)">
-            <i class="fa-solid fa-qrcode"></i>
-            <span>Scan</span>
+            <i class="fa-solid fa-qrcode"></i><span>Scan</span>
         </button>
-        
         <button class="nav-item" onclick="moveTab(2, this)">
-            <i class="fa-solid fa-user"></i>
-            <span>User</span>
+            <i class="fa-solid fa-user"></i><span>User</span>
         </button>
     </nav>
 
