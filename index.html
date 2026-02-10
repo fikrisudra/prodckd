@@ -2,33 +2,37 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MYPROD Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MYPROD | Secure Login</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
     <div class="auth-wrapper">
-        <div class="brand-header">
-            <div class="brand-logo"><i class="ri-command-fill"></i></div>
+        <header class="brand-header">
             <h1 class="brand-title">MY<span>PROD</span></h1>
-            <p style="color: var(--text-sub); font-weight: 500;">Production Management System</p>
-        </div>
+            <p class="brand-subtitle">Production Control System</p>
+        </header>
 
         <form id="loginForm">
             <div class="input-group">
-                <i class="ri-user-line"></i>
-                <input type="number" id="userId" placeholder="ID Karyawan" required>
+                <input type="number" id="userId" placeholder="ID Karyawan" required autofocus>
             </div>
             <div class="input-group">
-                <i class="ri-lock-password-line"></i>
-                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="password" placeholder="Kata Sandi" required>
             </div>
+            
             <button type="submit" id="loginBtn" class="btn-full">
-                Masuk Sistem <i class="ri-arrow-right-line"></i>
+                AUTHENTICATE
             </button>
         </form>
+
+        <footer style="margin-top: 40px; text-align: center;">
+            <p style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1px;">
+                SECURED BY SHA-256 ENCRYPTION
+            </p>
+        </footer>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

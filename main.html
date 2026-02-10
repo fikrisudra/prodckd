@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>MYPROD Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
@@ -11,8 +11,8 @@
     <main class="app-viewport" id="mainSlider">
         <section class="page-container">
             <header class="section-header">
-                <h2 class="section-title">Overview</h2>
-                <div style="background: #E8F5E9; color: #2E7D32; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 700;">LIVE</div>
+                <h1 class="section-title">Dashboard</h1>
+                <div style="background: #E8F5E9; color: #2E7D32; padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; letter-spacing: 1px;">LIVE</div>
             </header>
 
             <div class="bento-grid">
@@ -30,48 +30,73 @@
                 </div>
                 <div class="card full">
                     <p class="card-label">Status Report</p>
-                    <p style="font-weight: 600;">Semua mesin beroperasi normal tanpa kendala.</p>
+                    <p style="font-weight: 700; font-size: 14px;">Sistem beroperasi optimal tanpa kendala teknis.</p>
                 </div>
             </div>
         </section>
 
         <section class="page-container">
             <header class="section-header">
-                <h2 class="section-title">Scanner</h2>
+                <h1 class="section-title">Vision</h1>
             </header>
+            
             <div class="scanner-container">
                 <div id="reader"></div>
+                <div class="scanner-overlay">
+                    <div class="scanner-frame">
+                        <div class="scanner-laser"></div>
+                    </div>
+                </div>
             </div>
+
             <div class="card full">
-                <p class="card-label">Hasil Scan</p>
-                <p id="res-text" style="font-weight: 700; color: var(--text-sub);">Menunggu input...</p>
+                <p class="card-label">Scan Result</p>
+                <p id="res-text" style="font-weight: 800; color: var(--text-sub); text-align: center; padding: 10px 0;">READY TO SCAN</p>
             </div>
         </section>
 
         <section class="page-container">
             <header class="section-header">
-                <h2 class="section-title">Account</h2>
+                <h1 class="section-title">Account</h1>
             </header>
+            
             <div class="profile-hero">
-                <div class="avatar-l"><i class="ri-user-fill"></i></div>
-                <h3 id="profileName" style="font-weight: 800; font-size: 20px;">Operator</h3>
-                <p id="profileID" style="color: var(--text-sub); font-weight: 600;">ID: --</p>
+                <div class="avatar-l"><i class="ri-user-smile-fill"></i></div>
+                <h3 id="profileName" style="font-weight: 800; font-size: 24px; letter-spacing: -0.5px;">Operator</h3>
+                <p id="profileID" style="color: var(--text-sub); font-weight: 700; font-size: 14px; margin-top: 4px;">ID: --</p>
             </div>
+
             <div class="card full" style="margin-bottom: 12px;">
-                <p class="card-label">Versi Sistem</p>
-                <p style="font-weight: 700;">16.0.4-Stable</p>
+                <p class="card-label">System Architecture</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                    <span style="font-weight: 700; font-size: 14px;">MYPROD Engine</span>
+                    <span style="font-weight: 800; color: var(--accent-color); font-size: 12px;">V16.0.4</span>
+                </div>
             </div>
-            <button onclick="logout()" class="btn-full" style="background: #FEE2E2; color: var(--danger);">
-                Keluar Sesi <i class="ri-logout-box-r-line"></i>
+
+            <button onclick="logout()" class="btn-full btn-danger">
+                Sign Out <i class="ri-logout-circle-r-line"></i>
             </button>
         </section>
     </main>
 
     <nav class="nav-bar">
         <div class="nav-indicator" id="navPill"></div>
-        <button class="nav-btn active" onclick="moveTab(0, this)"><i class="ri-dashboard-fill"></i></button>
-        <button class="nav-btn" onclick="moveTab(1, this)"><i class="ri-qr-code-line"></i></button>
-        <button class="nav-btn" onclick="moveTab(2, this)"><i class="ri-user-settings-line"></i></button>
+        
+        <button class="nav-btn active" onclick="moveTab(0, this)">
+            <i class="ri-dashboard-3-fill"></i>
+            <span>Dashboard</span>
+        </button>
+        
+        <button class="nav-btn" onclick="moveTab(1, this)">
+            <i class="ri-qr-scan-2-line"></i>
+            <span>Vision</span>
+        </button>
+        
+        <button class="nav-btn" onclick="moveTab(2, this)">
+            <i class="ri-user-6-fill"></i>
+            <span>Profile</span>
+        </button>
     </nav>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
