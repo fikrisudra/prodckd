@@ -1,4 +1,3 @@
-/* --- MYPRODUCTION - All-in-One Professional Style --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -10,224 +9,41 @@
     --text: #111827;
     --muted: #6b7280;
     --danger: #ef4444;
-    --nav-bg: rgba(17, 24, 39, 0.95);
+    --nav-bg: rgba(255, 255, 255, 0.95);
 }
 
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Inter', sans-serif; 
-    -webkit-tap-highlight-color: transparent; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background-color: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
 
-body { 
-    background-color: var(--bg); 
-    color: var(--text); 
-    height: 100vh;
-    overflow: hidden; 
-}
+/* --- LOGIN PAGE --- */
+.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: radial-gradient(circle at top left, #fff7ed 0%, #ffffff 100%); }
+.login-box { width: 100%; max-width: 400px; margin: 0 auto; }
+.logo-text { font-size: 3.2rem; line-height: 0.85; letter-spacing: -3px; font-weight: 800; color: var(--text); }
+.logo-text span { color: var(--accent); }
+.logo-line { width: 45px; height: 5px; background: var(--accent); margin: 20px 0 15px; border-radius: 10px; }
+.sub-logo { color: var(--muted); font-weight: 500; font-size: 0.95rem; }
 
-/* --- 1. LOGIN PAGE (index.html) --- */
-.login-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
-    background: radial-gradient(circle at top left, #fff7ed 0%, #ffffff 100%);
-}
+/* FIX LABEL LOGIN */
+.input-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 12px; margin-left: 4px; letter-spacing: 0.5px; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group input { width: 100%; padding: 1.1rem 1.2rem; border: 1.5px solid #f1f5f9; border-radius: 16px; font-size: 1rem; background: white; transition: 0.3s; }
+.form-group input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 2.5rem;
-    border-radius: 32px;
-    border: 1px solid rgba(249, 115, 22, 0.1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-}
-
-.brand-section {
-    text-align: left;
-    margin-bottom: 3.5rem;
-}
-
-.logo-text {
-    font-size: 3.2rem;
-    line-height: 0.85;
-    letter-spacing: -3px;
-    font-weight: 800;
-    color: var(--text);
-}
-
-.logo-text span {
-    color: var(--accent);
-}
-
-.logo-line {
-    width: 45px;
-    height: 5px;
-    background: var(--accent);
-    margin: 20px 0 15px;
-    border-radius: 10px;
-}
-
-.sub-logo {
-    color: var(--muted);
-    font-weight: 500;
-    font-size: 0.95rem;
-    letter-spacing: -0.2px;
-}
-
-.input-label {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: var(--accent);
-    margin-bottom: 8px;
-    display: block;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.form-group { margin-bottom: 1.2rem; }
-
-.form-group input {
-    width: 100%;
-    padding: 1.1rem;
-    border: 1.5px solid #f1f5f9;
-    border-radius: 16px;
-    font-size: 1rem;
-    background: white;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-    transform: translateY(-2px);
-}
-
-.error-box {
-    margin-top: 1.5rem;
-    color: var(--danger);
-    font-size: 0.85rem;
-    text-align: center;
-    font-weight: 600;
-    padding: 12px;
-    background: #fff5f5;
-    border-radius: 15px;
-}
-
-.login-footer {
-    position: absolute;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 0.75rem;
-    color: #cbd5e1;
-    font-weight: 500;
-}
-
-/* --- 2. MAIN PAGE SPA SLIDER --- */
-.main-slider { 
-    display: flex; 
-    width: 300vw; 
-    height: 100vh; 
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
-}
-
-.tab-content { 
-    width: 100vw; 
-    height: 100vh; 
-    overflow-y: auto; 
-    padding-bottom: 120px; 
-}
-
-/* --- 3. UI DASHBOARD & PROFILE --- */
-.app-header { padding: 4rem 1.5rem 1.5rem; }
-.app-header p { color: var(--muted); font-size: 0.95rem; font-weight: 500; }
-.app-header h2 { font-size: 2rem; letter-spacing: -1px; font-weight: 800; margin-top: 4px; }
-
-.card { 
-    background: var(--card); 
-    border-radius: 28px; 
-    padding: 1.5rem; 
-    margin: 1rem; 
-    border: 1px solid #f1f5f9; 
-}
-
-.accent-card { 
-    background: var(--accent); 
-    color: white; 
-    border: none;
-    box-shadow: 0 10px 20px -5px rgba(249, 115, 22, 0.3);
-}
-
-.label { font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; opacity: 0.85; margin-bottom: 6px; text-transform: uppercase; }
-.value { font-size: 1.25rem; font-weight: 700; }
-
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; padding: 0 0.5rem; }
-.stat-value { font-size: 1.75rem; margin-top: 5px; font-weight: 800; }
-
-/* Profile Specific */
-.profile-card { text-align: center; padding: 3rem 1.5rem; }
-.profile-icon { 
-    width: 80px; height: 80px; background: var(--accent-soft); color: var(--accent); 
-    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-    margin: 0 auto 1.2rem; font-size: 2rem; 
-}
-.badge { background: var(--accent-soft); color: var(--accent); font-size: 0.7rem; font-weight: 800; padding: 6px 14px; border-radius: 30px; letter-spacing: 0.5px; }
-
-/* --- 4. BOTTOM NAV & DYNAMIC PILL --- */
-.bottom-nav { 
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
-    background: var(--nav-bg); 
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    padding: 6px; border-radius: 40px; 
-    display: flex; align-items: center; gap: 4px; 
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25); z-index: 10000; 
-}
-
-.nav-pill { 
-    position: absolute; background: var(--accent); border-radius: 35px; 
-    z-index: 0; 
-    /* Transisi Elastic Bounce */
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
-    height: calc(100% - 12px); 
-    pointer-events: none;
-}
-
-.nav-item { 
-    position: relative; z-index: 1;
-    border: none; background: none; color: #9ca3af; padding: 12px 22px; 
-    border-radius: 35px; display: flex; align-items: center; justify-content: center;
-    transition: color 0.4s; cursor: pointer; 
-}
-
+/* --- MAIN NAV & PILL --- */
+.bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 6px; border-radius: 40px; display: flex; gap: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); z-index: 10000; border: 1px solid rgba(0,0,0,0.02); }
+.nav-pill { position: absolute; background: var(--accent); border-radius: 35px; z-index: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); height: calc(100% - 12px); pointer-events: none; }
+.nav-item { position: relative; z-index: 1; border: none; background: none; color: #9ca3af; padding: 12px 22px; border-radius: 35px; display: flex; align-items: center; transition: color 0.3s; cursor: pointer; }
 .nav-item.active { color: white; }
-
-.nav-item span { 
-    max-width: 0; opacity: 0; overflow: hidden; 
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-    font-weight: 700; font-size: 0.85rem; white-space: nowrap;
-}
-
+.nav-item span { max-width: 0; opacity: 0; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
 .nav-item.active span { max-width: 100px; opacity: 1; margin-left: 10px; }
 
-/* --- 5. UTILITIES --- */
-.btn-primary { 
-    width: 100%; background: var(--accent); color: white; padding: 1.2rem; 
-    border: none; border-radius: 18px; font-weight: 700; font-size: 1rem;
-    cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.btn-primary:active { transform: scale(0.95); }
+/* --- SPA SLIDER --- */
+.main-slider { display: flex; width: 300vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+.tab-content { width: 100vw; height: 100vh; overflow-y: auto; padding-bottom: 120px; }
 
+/* --- UTILS --- */
+.btn-primary { width: 100%; background: var(--accent); color: white; padding: 1.2rem; border: none; border-radius: 18px; font-weight: 700; cursor: pointer; }
+.error-box { margin-top: 1.5rem; color: var(--danger); font-size: 0.85rem; text-align: center; padding: 12px; background: #fff5f5; border-radius: 15px; }
 .hidden { display: none !important; }
-.fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
