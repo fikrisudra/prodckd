@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD | Masuk ke Sistem</title>
+    <title>MYPROD | Secure Login</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body style="background-color: #FFFFFF;">
+<body style="background-color: var(--surface);">
 
     <div class="login-container">
         <header class="login-header">
-            <h1>MYPROD</h1>
-            <p>Kelola produksi Anda dengan lebih cerdas dan efisien.</p>
+            <h1>MY<span>PROD</span></h1>
+            <p>Production Management System</p>
         </header>
 
         <form id="loginForm" style="margin-top: 10px;">
             <div class="input-box">
                 <label>ID KARYAWAN</label>
-                <input type="number" id="userId" placeholder="Contoh: 12345" required autofocus>
+                <input type="number" id="userId" placeholder="Masukkan ID" required autofocus>
             </div>
 
             <div class="input-box">
                 <label>PIN AKSES / PASSWORD</label>
-                <input type="password" id="password" placeholder="Masukkan PIN" required>
+                <input type="password" id="password" placeholder="••••••" required>
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 32px;">
                 <button type="submit" id="loginBtn" class="btn-login">
-                    MASUK SEKARANG
+                    AUTHENTICATE
                 </button>
             </div>
         </form>
 
         <footer style="margin-top: auto; padding-top: 40px; text-align: center;">
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
-                <i class="ri-shield-check-fill" style="color: var(--primary); font-size: 20px;"></i>
-                <span style="font-size: 11px; font-weight: 700; color: var(--text-sub); letter-spacing: 1px;">
-                    ENKRIPSI DATA AKTIF
+                <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 20px;"></i>
+                <span style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1.5px; text-transform: uppercase;">
+                    Secured by SHA-256
                 </span>
             </div>
-            <p style="font-size: 11px; color: #BDBDBD; font-weight: 500;">
-                MYPROD Production System v16.0.4<br>
-                &copy; 2024 Tim Engineering
+            <p style="font-size: 11px; color: #BDBDBD; font-weight: 600; line-height: 1.5;">
+                MYPROD System v16.0.4-Stable<br>
+                &copy; 2026 Internal Operations
             </p>
         </footer>
     </div>
