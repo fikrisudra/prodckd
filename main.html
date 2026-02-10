@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -16,14 +16,13 @@
                     <img src="" id="barAvatar" alt="Profile">
                     <h2 id="userName">User</h2>
                 </div>
-                <button class="a16-icon-btn" onclick="logout()"><i class="ri-logout-circle-r-line"></i></button>
+                <div class="a16-status-tag">Live</div>
             </header>
 
             <div class="a16-bento">
                 <div class="a16-card large primary">
                     <label>CORE EFFICIENCY</label>
                     <div class="a16-stats">98.2<span>%</span></div>
-                    <div class="a16-mini-graph"></div>
                 </div>
                 <div class="a16-card medium">
                     <label>OUTPUT</label>
@@ -34,50 +33,72 @@
                     <div class="a16-stats">0m</div>
                 </div>
                 <div class="a16-card full-width info">
-                    <label>SYSTEM STATUS</label>
-                    <p>All production lines are running within optimal parameters.</p>
+                    <label>INSIGHTS</label>
+                    <p>System performance is stable. Line 02 is peak optimized.</p>
                 </div>
             </div>
         </section>
 
         <section class="a16-view">
-            <div class="a16-view-title">Vision Scanner</div>
-            <div class="a16-scanner-frame">
-                <div id="reader"></div>
-                <div class="a16-scanner-reticle"></div>
+            <header class="a16-header">
+                <h2 class="view-title">Vision Scanner</h2>
+            </header>
+            
+            <div class="a16-bento">
+                <div class="a16-card-scanner full-width">
+                    <div id="reader"></div>
+                    <div class="scan-guide"></div>
+                </div>
+                <div class="a16-card full-width">
+                    <label>SCAN STATUS</label>
+                    <p id="scan-hint">Point camera at the QR/Barcode to start.</p>
+                </div>
             </div>
+
             <div id="scanned-result" class="hidden">
                 <div class="a16-sheet">
                     <div class="a16-sheet-handle"></div>
-                    <i class="ri-checkbox-circle-fill"></i>
-                    <p id="res-text"></p>
-                    <button onclick="restartScanner()" class="a16-btn-tonal">Dismiss</button>
+                    <div class="sheet-body">
+                        <i class="ri-checkbox-circle-fill"></i>
+                        <p id="res-text">Scan Result Ready</p>
+                        <button onclick="restartScanner()" class="a16-btn-tonal">Dismiss</button>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="a16-view">
-            <div class="a16-profile-hero">
-                <div class="a16-avatar-giant">
-                    <i class="ri-user-heart-line"></i>
+            <header class="a16-header">
+                <h2 class="view-title">User Account</h2>
+            </header>
+
+            <div class="a16-bento">
+                <div class="a16-card-profile full-width">
+                    <div class="a16-avatar-wrap">
+                        <i class="ri-user-smile-3-fill"></i>
+                    </div>
+                    <div class="profile-meta">
+                        <h3 id="profileName">Operator</h3>
+                        <p id="profileID">ID: 000000</p>
+                    </div>
                 </div>
-                <h3 id="profileName">-</h3>
-                <p id="profileID" class="a16-mono">ID: -</p>
+                
+                <div class="a16-card medium">
+                    <label>ROLE</label>
+                    <div class="a16-stats-small">Operator</div>
+                </div>
+                <div class="a16-card medium">
+                    <label>SECURITY</label>
+                    <div class="a16-stats-small">AES-256</div>
+                </div>
+                
+                <div class="a16-card full-width danger" onclick="logout()">
+                    <div class="logout-content">
+                        <span>Sign Out Session</span>
+                        <i class="ri-logout-circle-r-line"></i>
+                    </div>
+                </div>
             </div>
-            
-            <div class="a16-list">
-                <div class="a16-list-item">
-                    <i class="ri-shield-user-line"></i>
-                    <span>Auth Level</span>
-                    <strong>Supervisor</strong>
-                </div>
-                <div class="a16-list-item">
-                    <i class="ri-wifi-line"></i>
-                    <span>Connection</span>
-                    <strong class="text-online">Secure</strong>
-                </div>
-            </div>
-            <button onclick="logout()" class="a16-btn-danger">Terminate Session</button>
         </section>
     </main>
 
@@ -87,10 +108,10 @@
             <i class="ri-home-5-fill"></i>
         </button>
         <button class="a16-nav-item" onclick="moveTab(1, this)">
-            <i class="ri-qr-code-line"></i>
+            <i class="ri-qr-scan-2-line"></i>
         </button>
         <button class="a16-nav-item" onclick="moveTab(2, this)">
-            <i class="ri-settings-5-fill"></i>
+            <i class="ri-user-settings-fill"></i>
         </button>
     </nav>
 
