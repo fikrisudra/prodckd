@@ -1,7 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
-let html5QrCode, currentTabIndex = 0, touchStartX = 0;
+let html5QrCode, currentTabIndex = 0;
 
-// Proper Security: SHA-256
 async function hashPassword(str) {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
@@ -9,49 +8,24 @@ async function hashPassword(str) {
     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// Seamless Navigation & Pill Positioning
 function moveTab(index, el = null) {
     currentTabIndex = index;
     const slider = document.getElementById('mainSlider');
-    const pill = document.getElementById('navPill');
-    const items = document.querySelectorAll('.m3-nav-item');
+    const items = document.querySelectorAll('.nav-btn');
     const target = el || items[index];
 
+    // Geser halaman secara linear (tanpa bounce)
     if (slider) slider.style.transform = `translateX(-${index * 100}vw)`;
+    
     items.forEach(item => item.classList.remove('active'));
     target.classList.add('active');
-
-    if (pill) {
-        const targetRect = target.getBoundingClientRect();
-        // Calculate exact horizontal center
-        const offset = targetRect.left + (targetRect.width / 2) - (pill.offsetWidth / 2);
-        pill.style.transform = `translateX(${offset}px)`;
-    }
 
     index === 1 ? startScanner() : stopScanner();
 }
 
-// Android Fluid Swipe
-document.addEventListener('touchstart', e => {
-    if (e.target.closest('input, button')) touchStartX = 0;
-    else touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-
-document.addEventListener('touchend', e => {
-    if (touchStartX === 0) return;
-    const diff = touchStartX - e.changedTouches[0].screenX;
-    if (Math.abs(diff) > 100) {
-        if (diff > 0 && currentTabIndex < 2) moveTab(currentTabIndex + 1);
-        else if (diff < 0 && currentTabIndex > 0) moveTab(currentTabIndex - 1);
-    }
-}, { passive: true });
-
-// App Init
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     const isMain = !!document.getElementById('mainSlider');
-
-    if (isMain) setTimeout(() => moveTab(0), 150);
 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -62,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass = document.getElementById('password').value;
 
             btn.disabled = true;
-            btn.innerHTML = 'Authenticating...';
+            btn.innerHTML = 'Otentikasi...';
 
             try {
                 const hp = await hashPassword(pass);
@@ -76,14 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     alert('Gagal: ' + (res.message || 'ID/Password salah'));
                     btn.disabled = false;
-                    btn.innerText = 'Sign In';
+                    btn.innerHTML = 'Masuk <i class="ri-arrow-right-line"></i>';
                 }
             } catch (err) {
-                alert('Connection Error');
+                alert('Gangguan koneksi.');
                 btn.disabled = false;
-                btn.innerText = 'Sign In';
             }
         });
+    }
+
+    if (session && isMain) {
+        document.getElementById('userName').innerText = session.name;
+        document.getElementById('profileName').innerText = session.name;
+        document.getElementById('profileID').innerText = 'ID: ' + session.id;
     }
 });
 
@@ -93,7 +72,6 @@ function startScanner() {
         html5QrCode.start({ facingMode: "environment" }, { fps: 20, qrbox: 220 }, (text) => {
             document.getElementById('res-text').innerText = text;
             document.getElementById('scanned-result').classList.remove('hidden');
-            if(navigator.vibrate) navigator.vibrate(50);
             stopScanner();
         }).catch(() => {});
     }
