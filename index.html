@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body style="background: var(--bg);"> <div class="login-container">
-        <header class="login-header" style="text-align: center; margin-bottom: 20px;">
+<body style="background: var(--bg);"> 
+    
+    <div class="login-container" style="display: flex; flex-direction: column; min-height: 100vh; justify-content: center; padding: 40px 24px;">
+        
+        <header class="login-header" style="text-align: center; margin-bottom: 30px;">
             <h1 style="font-size: 2.8rem; font-weight: 800; color: var(--primary); letter-spacing: -2px;">
                 MYPROD<span style="color: var(--text-main);">.</span>
             </h1>
@@ -35,18 +38,19 @@
             </form>
         </div>
 
-        <footer style="margin-top: auto; padding-top: 40px; text-align: center;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
-                <div style="width: 32px; height: 32px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                    <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 18px;"></i>
+        <footer style="margin-top: 40px; text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+                <div style="width: 28px; height: 28px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 16px;"></i>
                 </div>
-                <span style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1.5px; text-transform: uppercase;">
+                <span style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1.2px; text-transform: uppercase;">
                     Secured by SHA-256
                 </span>
             </div>
-            <p style="font-size: 11px; color: #BDBDBD; font-weight: 600; line-height: 1.5;">
-                MYPROD System v16.0.4-Stable<br>
-                &copy; 2026 Internal Operations
+            
+            <p style="font-size: 11px; color: #BDBDBD; font-weight: 600; line-height: 1.2; letter-spacing: 0.2px;">
+                v1.0.0-Stable<br>
+                <span style="font-size: 10px; opacity: 0.8;">&copy; 2026</span>
             </p>
         </footer>
     </div>
