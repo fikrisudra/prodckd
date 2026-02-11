@@ -396,3 +396,159 @@ textarea:focus {
     letter-spacing: 1px;
     white-space: nowrap;
 }
+
+/* --- Tambahkan kode ini di bagian paling bawah style.css Anda --- */
+
+/* --- APPROVAL LIST STYLES (NEW) --- */
+
+/* Container untuk List Antrean */
+.approval-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+/* Kartu Item Antrean */
+.approval-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 20px;
+    border: 1.5px solid var(--border);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.approval-card:active {
+    transform: scale(0.98);
+    background: #FAFAFA;
+}
+
+/* Header di dalam kartu (Tanggal & Shift) */
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.card-top .date {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.card-top .shift-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Info Operator */
+.card-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+}
+
+.card-user i {
+    width: 36px;
+    height: 36px;
+    background: #F8F9FA;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-sub);
+    font-size: 18px;
+}
+
+.user-details p {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-transform: uppercase;
+}
+
+.user-details h4 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+/* Status Badges */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pending {
+    background: #FFF9E6;
+    color: #F1C40F;
+    border: 1px solid #FEF5D4;
+}
+
+.badge-approved {
+    background: #EAFAF1;
+    color: var(--success);
+    border: 1px solid #D4EFDF;
+}
+
+/* Tombol Aksi di Kartu Approval */
+.btn-approve-sm {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 14px;
+    border: none;
+    background: var(--success);
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+}
+
+/* Empty State (Jika tidak ada antrean) */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state i {
+    font-size: 60px;
+    color: var(--border);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.empty-state p {
+    color: var(--text-sub);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Animasi untuk List Item Baru */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-list {
+    animation: fadeInUp 0.4s ease forwards;
+}
