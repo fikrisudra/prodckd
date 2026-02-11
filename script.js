@@ -1,6 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec';
 // URL Script untuk Daily Checklist Control Panel Operator
-const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbw4Y2dOu1JnDmd5-TRWyzOjEofuY_6wECQj14ACBgVombmgUoak6MiYEHs-7lHuNztv/exec';
+const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbzVko8klYdHUq6v4_gn2xRMSbsXyalb39BDNHpywVDWGxH6_FTPat6VCOPmtuVtXCHV/exec';
 
 let html5QrCode;
 let currentScanResult = ""; 
