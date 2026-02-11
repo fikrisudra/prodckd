@@ -1,6 +1,9 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec';
+// URL Script untuk Daily Checklist Control Panel Operator
+const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbw4Y2dOu1JnDmd5-TRWyzOjEofuY_6wECQj14ACBgVombmgUoak6MiYEHs-7lHuNztv/exec';
+
 let html5QrCode;
-let currentScanResult = ""; // Menyimpan hasil pindai terbaru
+let currentScanResult = ""; 
 
 // --- 1. SISTEM NOTIFIKASI TOAST ---
 function showToast(title, message, type = 'default') {
@@ -67,7 +70,7 @@ function openScanner() {
     const modal = document.getElementById('scanner-modal');
     if (modal) {
         modal.classList.add('active');
-        resetScannerView(); // Mulai dari tampilan kamera
+        resetScannerView(); 
     }
 }
 
@@ -107,14 +110,12 @@ function stopScanner() {
     }
 }
 
-// Menampilkan hasil pindai di dalam modal
 function showScanResult(text) {
-    stopScanner(); // Matikan kamera agar hemat baterai
+    stopScanner(); 
     document.getElementById('scanner-view').classList.add('hidden');
     document.getElementById('result-view').classList.remove('hidden');
     document.getElementById('scanned-data').innerText = text;
 
-    // Cek apakah data adalah URL untuk tombol "BUKA"
     const btnOpen = document.getElementById('btn-open-link');
     if (text.startsWith('http')) {
         btnOpen.style.display = "flex";
@@ -123,14 +124,12 @@ function showScanResult(text) {
     }
 }
 
-// Kembali ke tampilan kamera (Pindai Lagi)
 function resetScannerView() {
     document.getElementById('result-view').classList.add('hidden');
     document.getElementById('scanner-view').classList.remove('hidden');
     startScanner();
 }
 
-// Fungsi Salin Data
 function copyData() {
     navigator.clipboard.writeText(currentScanResult).then(() => {
         showToast("Tersalin", "Data berhasil disalin ke papan klip", "success");
@@ -139,7 +138,6 @@ function copyData() {
     });
 }
 
-// Fungsi Buka Link
 function openLink() {
     if (currentScanResult.startsWith('http')) {
         window.open(currentScanResult, '_blank');
@@ -150,6 +148,7 @@ function openLink() {
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (session) {
+        // Update tampilan nama dan avatar berdasarkan session
         const nameEl = document.getElementById('userName');
         const profNameEl = document.getElementById('profileName');
         const profIdEl = document.getElementById('profileID');
@@ -160,6 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (profIdEl) profIdEl.innerText = 'ID: ' + session.id;
         if (avatarEl) {
             avatarEl.src = `https://ui-avatars.com/api/?name=${session.name}&background=FF8C32&color=fff&bold=true`;
+        }
+
+        // Tampilkan tombol Checklist jika role diizinkan (pada main.html)
+        const menuChecklist = document.getElementById('menu-checklist');
+        const allowedRoles = ['Control Panel Operator', 'Supervisor', 'Admin'];
+        if (menuChecklist && allowedRoles.includes(session.role)) {
+            menuChecklist.classList.remove('hidden');
         }
     }
 
@@ -185,7 +191,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (res.status === 'success') {
                     showToast("Akses Diterima", "Selamat datang, " + res.name, "success");
-                    localStorage.setItem('userSession', JSON.stringify({ name: res.name, id: idInput.value }));
+                    
+                    // PENTING: Menyimpan 'role' dari server ke localStorage
+                    localStorage.setItem('userSession', JSON.stringify({ 
+                        name: res.name, 
+                        id: idInput.value,
+                        role: res.role 
+                    }));
+
                     setTimeout(() => { window.location.href = 'main.html'; }, 1500);
                 } else {
                     showToast("Akses Ditolak", "ID atau PIN yang Anda masukkan salah!", "error");
