@@ -1,5 +1,5 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec';
-// URL Script untuk Daily Checklist Control Panel Operator
+// URL Script untuk Daily Checklist & Approval
 const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbzVko8klYdHUq6v4_gn2xRMSbsXyalb39BDNHpywVDWGxH6_FTPat6VCOPmtuVtXCHV/exec';
 
 let html5QrCode;
@@ -65,7 +65,7 @@ function switchTab(target) {
     if (targetBtn) targetBtn.classList.add('active');
 }
 
-// --- 4. LOGIKA SCANNER & HASIL ---
+// --- 4. LOGIKA SCANNER ---
 function openScanner() {
     const modal = document.getElementById('scanner-modal');
     if (modal) {
@@ -84,29 +84,19 @@ function closeScanner() {
 
 function startScanner() {
     if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
-    
-    const config = { 
-        fps: 25, 
-        qrbox: { width: 220, height: 220 },
-        aspectRatio: 1.0
-    };
-
-    html5QrCode.start(
-        { facingMode: "environment" }, 
-        config, 
-        (text) => {
-            if(navigator.vibrate) navigator.vibrate(100);
-            currentScanResult = text;
-            showScanResult(text);
-        }
-    ).catch(err => {
-        showToast("Kesalahan Kamera", "Gagal mengakses kamera perangkat", "error");
+    const config = { fps: 25, qrbox: { width: 220, height: 220 }, aspectRatio: 1.0 };
+    html5QrCode.start({ facingMode: "environment" }, config, (text) => {
+        if(navigator.vibrate) navigator.vibrate(100);
+        currentScanResult = text;
+        showScanResult(text);
+    }).catch(err => {
+        showToast("Kesalahan Kamera", "Gagal mengakses kamera", "error");
     });
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.log("Gagal menghentikan kamera"));
+        html5QrCode.stop().catch(err => console.log("Gagal stop kamera"));
     }
 }
 
@@ -115,13 +105,8 @@ function showScanResult(text) {
     document.getElementById('scanner-view').classList.add('hidden');
     document.getElementById('result-view').classList.remove('hidden');
     document.getElementById('scanned-data').innerText = text;
-
     const btnOpen = document.getElementById('btn-open-link');
-    if (text.startsWith('http')) {
-        btnOpen.style.display = "flex";
-    } else {
-        btnOpen.style.display = "none";
-    }
+    btnOpen.style.display = text.startsWith('http') ? "flex" : "none";
 }
 
 function resetScannerView() {
@@ -130,25 +115,37 @@ function resetScannerView() {
     startScanner();
 }
 
-function copyData() {
-    navigator.clipboard.writeText(currentScanResult).then(() => {
-        showToast("Tersalin", "Data berhasil disalin ke papan klip", "success");
-    }).catch(() => {
-        showToast("Gagal", "Tidak dapat menyalin data", "error");
-    });
-}
+// --- 5. LOGIKA APPROVAL (NEW) ---
+async function approveChecklist(rowId) {
+    const session = JSON.parse(localStorage.getItem('userSession'));
+    if (!session || !['Supervisor', 'Admin'].includes(session.role)) {
+        return showToast("Akses Ditolak", "Hanya Supervisor yang bisa melakukan approval", "error");
+    }
 
-function openLink() {
-    if (currentScanResult.startsWith('http')) {
-        window.open(currentScanResult, '_blank');
+    if (!confirm("Setujui laporan ini?")) return;
+
+    try {
+        await fetch(SCRIPT_URL_CHECKLIST, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({
+                action: "approveChecklist",
+                rowId: rowId,
+                supervisorName: session.name
+            })
+        });
+        showToast("Berhasil", "Laporan disetujui", "success");
+        // Reload list jika fungsi loadPendingChecklist tersedia di halaman tersebut
+        if (typeof loadPendingChecklist === "function") loadPendingChecklist();
+    } catch (err) {
+        showToast("Gagal", "Kesalahan saat menyetujui laporan", "error");
     }
 }
 
-// --- 5. INISIALISASI & LOGIN ---
+// --- 6. INISIALISASI & LOGIN ---
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (session) {
-        // Update tampilan nama dan avatar berdasarkan session
         const nameEl = document.getElementById('userName');
         const profNameEl = document.getElementById('profileName');
         const profIdEl = document.getElementById('profileID');
@@ -161,11 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarEl.src = `https://ui-avatars.com/api/?name=${session.name}&background=FF8C32&color=fff&bold=true`;
         }
 
-        // Tampilkan tombol Checklist jika role diizinkan (pada main.html)
+        // Tampilkan menu Checklist untuk Operator & Supervisor
         const menuChecklist = document.getElementById('menu-checklist');
-        const allowedRoles = ['Control Panel Operator', 'Supervisor', 'Admin'];
-        if (menuChecklist && allowedRoles.includes(session.role)) {
+        if (menuChecklist && ['Control Panel Operator', 'Supervisor', 'Admin'].includes(session.role)) {
             menuChecklist.classList.remove('hidden');
+        }
+
+        // Tampilkan menu Approval HANYA untuk Supervisor & Admin
+        const menuApproval = document.getElementById('menu-approval');
+        if (menuApproval && ['Supervisor', 'Admin'].includes(session.role)) {
+            menuApproval.classList.remove('hidden');
         }
     }
 
@@ -173,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const btn = document.getElementById('loginBtn');
             const idInput = document.getElementById('userId');
             const passInput = document.getElementById('password');
@@ -191,22 +192,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (res.status === 'success') {
                     showToast("Akses Diterima", "Selamat datang, " + res.name, "success");
-                    
-                    // PENTING: Menyimpan 'role' dari server ke localStorage
                     localStorage.setItem('userSession', JSON.stringify({ 
                         name: res.name, 
                         id: idInput.value,
                         role: res.role 
                     }));
-
                     setTimeout(() => { window.location.href = 'main.html'; }, 1500);
                 } else {
-                    showToast("Akses Ditolak", "ID atau PIN yang Anda masukkan salah!", "error");
+                    showToast("Akses Ditolak", "ID atau PIN salah!", "error");
                     btn.disabled = false;
                     btn.innerText = 'VERIFIKASI AKSES';
                 }
             } catch (err) {
-                showToast("Kesalahan Server", "Silakan coba lagi beberapa saat lagi", "error");
+                showToast("Kesalahan Server", "Silakan coba lagi", "error");
                 btn.disabled = false;
                 btn.innerText = 'VERIFIKASI AKSES';
             }
@@ -214,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- 6. LOGOUT ---
+// --- 7. LOGOUT ---
 function logout() {
-    showToast("Keluar", "Menghapus sesi sesi login...", "default");
+    showToast("Keluar", "Menghapus sesi login...", "default");
     setTimeout(() => {
         localStorage.clear();
         window.location.href = 'index.html';
