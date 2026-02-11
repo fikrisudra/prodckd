@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMzqIJWN2LtbM04ZjjSSNkXA2k4ZjfAQeRHH9DXywiHvuCjiMgsyAbw54QG7WK3py5/exec';
 let html5QrCode;
 let currentScanResult = ""; // Menyimpan hasil pindai terbaru
 
