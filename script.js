@@ -1,6 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec';
 // URL Script untuk Daily Checklist & Approval
-const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbzVko8klYdHUq6v4_gn2xRMSbsXyalb39BDNHpywVDWGxH6_FTPat6VCOPmtuVtXCHV/exec';
+const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbyXy1MagNpoBk5jzHPhcSfCMal3SwJ9AICPv_EEua7Kmt-rURHVexfLUBeqlpMYHmYo/exec';
 
 let html5QrCode;
 let currentScanResult = ""; 
