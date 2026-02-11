@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body>
+<body style="background: var(--bg);">
 
     <div id="view-home">
         <header class="app-header">
@@ -49,7 +49,6 @@
 
         <section class="content-section">
             <span class="section-label">Status Produksi</span>
-            
             <div class="info-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p style="font-weight: 700; color: var(--text-sub); font-size: 14px;">OEE Efisiensi</p>
@@ -61,50 +60,51 @@
             </div>
 
             <span class="section-label">Informasi Terbaru</span>
-
             <div class="info-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                     <i class="ri-notification-3-line" style="color: var(--primary); font-weight: bold;"></i>
                     <p style="font-weight: 800; font-size: 15px;">Pemberitahuan</p>
                 </div>
                 <p style="font-size: 13px; color: var(--text-sub); line-height: 1.6;">
-                    Semua lini produksi berjalan normal. Shift pagi dijadwalkan selesai tepat waktu pada jam 16:00 WIB.
+                    Semua lini produksi berjalan normal. Shift pagi dijadwalkan selesai tepat waktu.
                 </p>
             </div>
         </section>
     </div>
 
     <div id="view-profile" class="hidden">
-        <div style="padding: 40px 24px;">
-            <h2 style="font-weight: 800; font-size: 24px; margin-bottom: 24px; letter-spacing: -0.5px;">Akun Saya</h2>
-            
-            <div class="info-card" style="display: flex; align-items: center; gap: 18px; padding: 20px;">
-                <div style="width: 64px; height: 64px; background: var(--primary-light); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--primary);">
-                    <i class="ri-user-smile-fill"></i>
-                </div>
-                <div>
-                    <p id="profileName" style="font-weight: 800; font-size: 18px;">User Name</p>
-                    <p id="profileID" style="font-size: 13px; color: var(--text-sub); font-weight: 600; margin-top: 2px;">ID: ---</p>
-                </div>
+        <div class="profile-header">
+            <div class="profile-avatar-big">
+                <i class="ri-user-smile-fill"></i>
             </div>
+            <h2 id="profileName" style="font-weight: 800;">Operator Utama</h2>
+            <p id="profileID" style="opacity: 0.85; font-size: 13px; font-weight: 600;">ID Karyawan: 1002394</p>
+        </div>
 
-            <div style="margin-top: 30px;">
-                <button onclick="logout()" class="btn-login" style="background: #FFF0F0; color: #FF4D4D; box-shadow: none; border: 1.5px solid #FFE0E0;">
-                    <i class="ri-logout-circle-r-line" style="vertical-align: middle; margin-right: 8px;"></i> Log Keluar
-                </button>
+        <div style="padding: 0 24px;">
+            <div class="menu-list">
+                <div class="menu-item">
+                    <i class="ri-shield-user-line"></i>
+                    <span>Keamanan Akun</span>
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+                <div class="menu-item">
+                    <i class="ri-notification-badge-line"></i>
+                    <span>Pengaturan Notifikasi</span>
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+                <div class="menu-item" onclick="logout()" style="margin-top: 20px; background: #FFF5F5; border: 1px solid #FFE0E0;">
+                    <i class="ri-logout-circle-line" style="background: #FFE0E0; color: #FF4D4D;"></i>
+                    <span style="color: #FF4D4D;">Keluar Aplikasi</span>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="scanner-modal" class="scanner-modal">
         <div class="modal-content">
-            <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800; color: var(--text-main);">Scan QR Produksi</h3>
-            <div class="scanner-box">
-                <div id="reader"></div>
-            </div>
-            <div id="res-text" style="text-align: center; margin-top: 15px; font-size: 13px; font-weight: 700; color: var(--text-sub);">
-                Arahkan kamera ke Kode QR
-            </div>
+            <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800;">Scan QR Produksi</h3>
+            <div class="scanner-box"><div id="reader"></div></div>
             <div class="close-modal" onclick="closeScanner()">BATALKAN</div>
         </div>
     </div>
@@ -116,8 +116,10 @@
         </button>
         
         <button class="nav-item nav-scan-flat" onclick="openScanner()">
-            <i class="ri-qr-scan-2-line"></i>
-            <span>Scan</span>
+            <div class="scan-circle">
+                <i class="ri-qr-scan-2-line"></i>
+                <span>Scan</span>
+            </div>
         </button>
         
         <button class="nav-item" id="btn-profile" onclick="switchTab('profile')">

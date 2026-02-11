@@ -7,35 +7,39 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-<body style="background-color: var(--surface);">
-
-    <div class="login-container">
-        <header class="login-header">
-            <h1>MY<span>PROD</span></h1>
-            <p>Production Management System</p>
+<body style="background: var(--bg);"> <div class="login-container">
+        <header class="login-header" style="text-align: center; margin-bottom: 20px;">
+            <h1 style="font-size: 2.8rem; font-weight: 800; color: var(--primary); letter-spacing: -2px;">
+                MYPROD<span style="color: var(--text-main);">.</span>
+            </h1>
+            <p style="font-weight: 600; color: var(--text-sub); font-size: 14px;">Production Management System</p>
         </header>
 
-        <form id="loginForm" style="margin-top: 10px;">
-            <div class="input-box">
-                <label>ID KARYAWAN</label>
-                <input type="number" id="userId" placeholder="Masukkan ID" required autofocus>
-            </div>
+        <div class="login-card">
+            <form id="loginForm">
+                <div class="input-box">
+                    <label>ID KARYAWAN</label>
+                    <input type="number" id="userId" placeholder="Masukkan ID" required autofocus>
+                </div>
 
-            <div class="input-box">
-                <label>PIN AKSES / PASSWORD</label>
-                <input type="password" id="password" placeholder="••••••" required>
-            </div>
+                <div class="input-box">
+                    <label>PIN AKSES / PASSWORD</label>
+                    <input type="password" id="password" placeholder="••••••" required>
+                </div>
 
-            <div style="margin-top: 32px;">
-                <button type="submit" id="loginBtn" class="btn-login">
-                    AUTHENTICATE
-                </button>
-            </div>
-        </form>
+                <div style="margin-top: 32px;">
+                    <button type="submit" id="loginBtn" class="btn-login" onclick="login()">
+                        AUTHENTICATE
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <footer style="margin-top: auto; padding-top: 40px; text-align: center;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
-                <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 20px;"></i>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
+                <div style="width: 32px; height: 32px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 18px;"></i>
+                </div>
                 <span style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1.5px; text-transform: uppercase;">
                     Secured by SHA-256
                 </span>

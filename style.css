@@ -4,7 +4,7 @@
 :root {
     --primary: #FF8C32;         /* Soft Orange utama */
     --primary-light: #FFF1E6;   /* Orange sangat muda untuk aksen */
-    --bg: #F8F9FA;              /* Sedikit lebih abu agar kartu putih terlihat pop */
+    --bg: #F8F9FA;              /* Abu-abu sangat muda agar kartu putih pop */
     --surface: #FFFFFF;
     --text-main: #2D3134;
     --text-sub: #6C757D;
@@ -28,27 +28,37 @@ body {
     overflow-x: hidden; 
 }
 
-/* --- LOGIN SCREEN --- */
+/* --- LOGIN SCREEN (PROPER CARD STYLE) --- */
 .login-container { 
-    padding: 40px 24px; 
-    height: 100vh; 
+    padding: 60px 24px; 
+    min-height: 100vh; 
     display: flex; 
     flex-direction: column; 
-    background: #fff; 
+    background: var(--bg); 
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .login-header h1 { 
-    font-size: 2.8rem; 
+    font-size: 3rem; 
     font-weight: 800; 
     color: var(--primary); 
     letter-spacing: -2px;
-    margin-bottom: 8px; 
 }
 
 .login-header p { 
     font-weight: 600; 
     color: var(--text-sub); 
-    margin-bottom: 40px; 
+}
+
+.login-card {
+    background: white;
+    padding: 35px 24px;
+    border-radius: 32px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
 }
 
 .input-box { margin-bottom: 20px; }
@@ -91,7 +101,10 @@ body {
     font-weight: 800; 
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(255, 140, 50, 0.25);
+    transition: transform 0.2s ease;
 }
+
+.btn-login:active { transform: scale(0.97); }
 
 /* --- MAIN DASHBOARD (HEADER & GRID) --- */
 .app-header { 
@@ -108,6 +121,8 @@ body {
     height: 50px; 
     border-radius: 18px; 
     border: 2px solid rgba(255,255,255,0.4); 
+    object-fit: cover;
+    background: #eee;
 }
 
 .quick-actions { 
@@ -149,58 +164,87 @@ body {
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.action-item:active .action-icon {
-    transform: scale(0.9);
-}
+.action-item:active .action-icon { transform: scale(0.9); }
 
 /* Konten Section */
 .content-section { padding: 0 20px 140px; }
 
-.section-label { font-weight: 800; font-size: 15px; margin-bottom: 15px; display: block; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
+.section-label { 
+    font-weight: 800; 
+    font-size: 14px; 
+    margin: 10px 0 15px; 
+    display: block; 
+    color: var(--text-sub); 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+}
 
-/* --- KARTU PUTIH BERSIH --- */
 .info-card { 
     background: #ffffff; 
     border-radius: 24px; 
     padding: 20px; 
     margin-bottom: 16px; 
     border: none;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Bayangan halus */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
-/* --- SCANNER POP-UP (MODAL) --- */
-.scanner-modal {
-    position: fixed; inset: 0; 
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    z-index: 3000; 
-    display: none; align-items: center; justify-content: center;
-    padding: 24px;
+/* --- PROFILE SCREEN STYLE --- */
+.profile-header {
+    background: var(--primary);
+    padding: 50px 24px 40px;
+    text-align: center;
+    color: white;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    margin-bottom: 30px;
 }
 
-.scanner-modal.active { display: flex; }
-
-.modal-content {
-    width: 100%; max-width: 400px; 
-    background: #fff; border-radius: 32px;
-    padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+.profile-avatar-big {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 35px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    color: var(--primary);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.scanner-box {
-    width: 100%; aspect-ratio: 1/1; 
-    border-radius: 24px; overflow: hidden;
-    background: #000;
+.menu-list { margin-top: 10px; }
+.menu-item {
+    background: white;
+    padding: 18px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 
-#reader { width: 100% !important; height: 100% !important; }
-
-.close-modal {
-    margin-top: 20px; text-align: center; 
-    font-weight: 800; color: var(--primary); font-size: 14px;
-    cursor: pointer;
+.menu-item i:first-child {
+    width: 38px;
+    height: 38px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
 }
 
-/* --- BOTTOM NAVIGATION (FLOATING CAPSULE) --- */
+.menu-item span {
+    flex: 1;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+/* --- BOTTOM NAVIGATION (PRECISION SCAN) --- */
 .bottom-nav { 
     position: fixed; 
     bottom: 24px; 
@@ -228,41 +272,62 @@ body {
     justify-content: center; 
     height: 100%;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-/* Tombol Scan dengan Lingkaran Orange Sejajar */
-.nav-scan-flat i {
-    width: 48px;
-    height: 48px;
+/* Lingkaran Scan Presisi (Teks & Ikon di Dalam) */
+.scan-circle {
+    width: 62px;
+    height: 62px;
     background: var(--primary);
     color: white !important;
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    box-shadow: 0 6px 15px rgba(255, 140, 50, 0.3);
-    margin-bottom: 2px;
+    box-shadow: 0 8px 20px rgba(255, 140, 50, 0.4);
+    transform: translateY(-5px); /* Sedikit naik agar menonjol */
 }
 
-.nav-item.active { 
-    color: var(--primary); 
+.scan-circle i { font-size: 24px !important; margin: 0 !important; }
+.scan-circle span { 
+    font-size: 9px !important; 
+    font-weight: 800; 
+    margin-top: -2px; 
+    text-transform: uppercase;
+    color: white !important;
 }
 
-.nav-item i { 
-    font-size: 24px; 
-    margin-bottom: 2px;
+.nav-item.active { color: var(--primary); }
+.nav-item i { font-size: 24px; margin-bottom: 2px; }
+.nav-item span { font-size: 10px; font-weight: 700; }
+.nav-item:active { transform: scale(0.95); }
+
+/* --- SCANNER MODAL --- */
+.scanner-modal {
+    position: fixed; inset: 0; 
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 3000; 
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+}
+.scanner-modal.active { display: flex; }
+.modal-content {
+    width: 100%; max-width: 400px; 
+    background: #fff; border-radius: 32px;
+    padding: 24px;
+}
+.scanner-box {
+    width: 100%; aspect-ratio: 1/1; 
+    border-radius: 24px; overflow: hidden;
+    background: #000;
+}
+#reader { width: 100% !important; height: 100% !important; }
+.close-modal {
+    margin-top: 20px; text-align: center; 
+    font-weight: 800; color: var(--primary); font-size: 14px;
+    cursor: pointer;
 }
 
-.nav-item span { 
-    font-size: 10px; 
-    font-weight: 700; 
-}
-
-.nav-item:active {
-    transform: scale(0.92);
-}
-
-/* UTILITY */
 .hidden { display: none; }
