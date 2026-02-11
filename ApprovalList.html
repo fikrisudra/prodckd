@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Approval | MYPROD</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body style="background: var(--bg);">
+    <header class="app-header">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="ri-arrow-left-line" onclick="window.location.href='main.html'" style="font-size: 24px; cursor: pointer;"></i>
+            <h2 style="font-weight: 800; font-size: 18px;">Menunggu Persetujuan</h2>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <div class="content-section" id="approval-container">
+            <div style="text-align: center; padding: 40px; opacity: 0.5;">
+                <i class="ri-loader-4-line ri-spin" style="font-size: 40px;"></i>
+                <p>Memuat data checklist...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function loadPendingChecklist() {
+            const container = document.getElementById('approval-container');
+            try {
+                const response = await fetch(SCRIPT_URL_CHECKLIST + "?action=getPending");
+                const data = await response.json();
+                
+                if (data.length === 0) {
+                    container.innerHTML = `<div class="info-card" style="text-align:center;">Semua laporan telah disetujui ✅</div>`;
+                    return;
+                }
+
+                container.innerHTML = data.map((item, index) => `
+                    <div class="info-card" style="border-left: 5px solid var(--primary);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-weight: 800; color: var(--primary);">#${item.row}</span>
+                            <span style="font-size: 11px; font-weight: 700; color: var(--text-sub);">${item.tglDibuat}</span>
+                        </div>
+                        <p style="font-weight: 800; font-size: 16px;">${item.operator}</p>
+                        <p style="font-size: 13px; color: var(--text-sub);">Shift ${item.shift} • Control Panel</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button onclick="approve('${item.row}')" class="btn-login" style="padding: 10px; font-size: 12px; background: var(--success);">APPROVE</button>
+                            <button onclick="viewDetail('${index}')" class="btn-login" style="padding: 10px; font-size: 12px; background: var(--text-main);">DETAIL</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                container.innerHTML = "Gagal memuat data.";
+            }
+        }
+        
+        async function approve(rowId) {
+            const session = JSON.parse(localStorage.getItem('userSession'));
+            if(!confirm("Setujui laporan ini?")) return;
+            
+            // Kirim perintah approve ke Apps Script
+            await fetch(SCRIPT_URL_CHECKLIST, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    action: "approve",
+                    row: rowId,
+                    supervisor: session.name
+                })
+            });
+            alert("Berhasil disetujui!");
+            loadPendingChecklist();
+        }
+
+        window.onload = loadPendingChecklist;
+    </script>
+</body>
+</html>
