@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD | Secure Login</title>
+    <title>MYPROD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -17,24 +17,24 @@
             <h1 style="font-size: 2.8rem; font-weight: 800; color: var(--primary); letter-spacing: -2px;">
                 MYPROD<span style="color: var(--text-main);">.</span>
             </h1>
-            <p style="font-weight: 600; color: var(--text-sub); font-size: 14px;">Production Management System</p>
+            <p style="font-weight: 600; color: var(--text-sub); font-size: 14px;">Sistem Manajemen Produksi</p>
         </header>
 
         <div class="login-card">
-            <form id="loginForm" onsubmit="event.preventDefault(); login();">
+            <form id="loginForm">
                 <div class="input-box">
                     <label>ID KARYAWAN</label>
-                    <input type="number" id="userId" placeholder="Masukkan ID" required autofocus>
+                    <input type="number" id="userId" placeholder="Masukkan nomor ID" required autofocus>
                 </div>
 
                 <div class="input-box">
-                    <label>PASSWORD</label>
+                    <label>KATA SANDI</label>
                     <input type="password" id="password" placeholder="••••••" required>
                 </div>
 
                 <div style="margin-top: 32px;">
                     <button type="submit" id="loginBtn" class="btn-login">
-                        AUTHENTICATE
+                        VERIFIKASI AKSES
                     </button>
                 </div>
             </form>
@@ -46,13 +46,13 @@
                     <i class="ri-shield-keyhole-fill" style="color: var(--primary); font-size: 16px;"></i>
                 </div>
                 <span style="font-size: 10px; font-weight: 800; color: var(--text-sub); letter-spacing: 1.2px; text-transform: uppercase;">
-                    Secured by SHA-256
+                    Dilindungi oleh SHA-256
                 </span>
             </div>
             
             <p style="font-size: 11px; color: #BDBDBD; font-weight: 600; line-height: 1.2; letter-spacing: 0.2px;">
-                v1.0.0-Stable<br>
-                <span style="font-size: 10px; opacity: 0.8;">Made with ♥️ by Fikri Sudrajat</span>
+                v1.0.0-Stabil<br>
+                <span style="font-size: 10px; opacity: 0.8;">Dibuat dengan ♥️ oleh Fikri Sudrajat</span>
             </p>
         </footer>
     </div>

@@ -1,6 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode;
-let currentScanResult = ""; // Menyimpan hasil scan terbaru
+let currentScanResult = ""; // Menyimpan hasil pindai terbaru
 
 // --- 1. SISTEM NOTIFIKASI TOAST ---
 function showToast(title, message, type = 'default') {
@@ -67,7 +67,7 @@ function openScanner() {
     const modal = document.getElementById('scanner-modal');
     if (modal) {
         modal.classList.add('active');
-        resetScannerView(); // Pastikan mulai dari tampilan kamera
+        resetScannerView(); // Mulai dari tampilan kamera
     }
 }
 
@@ -97,17 +97,17 @@ function startScanner() {
             showScanResult(text);
         }
     ).catch(err => {
-        showToast("Kamera Error", "Gagal mengakses kamera", "error");
+        showToast("Kesalahan Kamera", "Gagal mengakses kamera perangkat", "error");
     });
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.log("Gagal stop kamera"));
+        html5QrCode.stop().catch(err => console.log("Gagal menghentikan kamera"));
     }
 }
 
-// Menampilkan hasil scan di dalam modal
+// Menampilkan hasil pindai di dalam modal
 function showScanResult(text) {
     stopScanner(); // Matikan kamera agar hemat baterai
     document.getElementById('scanner-view').classList.add('hidden');
@@ -123,7 +123,7 @@ function showScanResult(text) {
     }
 }
 
-// Kembali ke tampilan kamera (Scan Lagi)
+// Kembali ke tampilan kamera (Pindai Lagi)
 function resetScannerView() {
     document.getElementById('result-view').classList.add('hidden');
     document.getElementById('scanner-view').classList.remove('hidden');
@@ -133,9 +133,9 @@ function resetScannerView() {
 // Fungsi Salin Data
 function copyData() {
     navigator.clipboard.writeText(currentScanResult).then(() => {
-        showToast("Berhasil", "Data disalin ke clipboard", "success");
+        showToast("Tersalin", "Data berhasil disalin ke papan klip", "success");
     }).catch(() => {
-        showToast("Gagal", "Gagal menyalin data", "error");
+        showToast("Gagal", "Tidak dapat menyalin data", "error");
     });
 }
 
@@ -146,7 +146,7 @@ function openLink() {
     }
 }
 
-// --- 5. INITIALIZATION & LOGIN ---
+// --- 5. INISIALISASI & LOGIN ---
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (session) {
@@ -188,14 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userSession', JSON.stringify({ name: res.name, id: idInput.value }));
                     setTimeout(() => { window.location.href = 'main.html'; }, 1500);
                 } else {
-                    showToast("Akses Ditolak", "ID atau PIN Salah!", "error");
+                    showToast("Akses Ditolak", "ID atau PIN yang Anda masukkan salah!", "error");
                     btn.disabled = false;
-                    btn.innerText = 'AUTHENTICATE';
+                    btn.innerText = 'VERIFIKASI AKSES';
                 }
             } catch (err) {
-                showToast("Server Error", "Coba lagi beberapa saat lagi", "error");
+                showToast("Kesalahan Server", "Silakan coba lagi beberapa saat lagi", "error");
                 btn.disabled = false;
-                btn.innerText = 'AUTHENTICATE';
+                btn.innerText = 'VERIFIKASI AKSES';
             }
         });
     }
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- 6. LOGOUT ---
 function logout() {
-    showToast("Keluar", "Menghapus sesi...", "default");
+    showToast("Keluar", "Menghapus sesi sesi login...", "default");
     setTimeout(() => {
         localStorage.clear();
         window.location.href = 'index.html';
