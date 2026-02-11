@@ -3,25 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Daily Checklist | Control Panel</title>
+    <title>Daily Checklist Control Panel Operator</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-    <style>
-        .check-group { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
-        .check-group label { font-size: 13px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 10px; line-height: 1.4; }
-        .options { display: flex; gap: 12px; }
-        .opt { flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 12px; border: 1.5px solid var(--border); font-weight: 800; font-size: 12px; cursor: pointer; transition: 0.2s; }
-        input[type="radio"] { display: none; }
-        input[type="radio"]:checked + .opt.yes { background: var(--success); color: white; border-color: var(--success); }
-        input[type="radio"]:checked + .opt.no { background: var(--error); color: white; border-color: var(--error); }
-    </style>
 </head>
 <body style="background: var(--bg);">
     <div id="toast-container" class="toast-container"></div>
 
     <header class="app-header">
         <div style="display: flex; align-items: center; gap: 15px;">
-            <i class="ri-arrow-left-line" onclick="window.location.href='main.html'" style="font-size: 24px;"></i>
+            <i class="ri-arrow-left-line" onclick="window.location.href='main.html'" style="font-size: 24px; cursor: pointer;"></i>
             <h2 style="font-weight: 800; font-size: 18px;">Checklist Control Panel</h2>
         </div>
     </header>
@@ -30,172 +21,98 @@
         <div class="content-section">
             <div class="info-card">
                 <form id="checklistForm">
-                    <div class="input-box"><label>SHIFT</label>
-                        <select id="shift" style="width:100%; padding:15px; border-radius:12px; border:1.5px solid var(--border); font-weight:700;">
-                            <option value="1">SHIFT 1</option><option value="2">SHIFT 2</option><option value="3">SHIFT 3</option>
+                    <div class="input-box">
+                        <label>SHIFT</label>
+                        <select id="shift" class="custom-select">
+                            <option value="1">SHIFT 1</option>
+                            <option value="2">SHIFT 2</option>
+                            <option value="3">SHIFT 3</option>
                         </select>
                     </div>
-                    <div class="input-box"><label>SUPERVISOR</label>
-                        <input type="text" id="supervisor" placeholder="Nama Supervisor" required style="width:100%; padding:15px; border-radius:12px; border:1.5px solid var(--border);">
+
+                    <div class="input-box">
+                        <label>SUPERVISOR ON DUTY</label>
+                        <input type="text" id="supervisor" placeholder="Nama Supervisor" required>
                     </div>
+
+                    <hr class="form-divider">
 
                     <div id="questions-container">
-                        <div class="check-group">
-                            <label>1. Apakah resep sudah diprint dan dicek sesuai dengan order produksi PPIC?</label>
-                            <div class="options">
-                                <label><input type="radio" name="q1" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q1" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
+                        <script>
+                            const questions = [
+                                "Apakah resep sudah diprint dan dicek sesuai dengan order produksi PPIC?",
+                                "Cek screen HM Post dan HM Pre pastikan sesuai pakan yang akan di produksi",
+                                "Pastikan line dosing dalam keadaan normal dan aman",
+                                "Cek stok bin press dan bin finish",
+                                "Apakah stok bahan baku dan hand add sudah terpenuhi sesuai order produksi",
+                                "Apakah pemakaian bahan baku sudah sesuai FIFO dan RBRM (rigth bin right material)",
+                                "Periksa particle size after HM Post, HM Pre dan after Mixer",
+                                "Bersihkan magnet 325 dan 377",
+                                "Bersihkan magnet HM Post dan HM Pre",
+                                "Apakah hand add yang dicurah sesuai dengan pakan yang diproduksi",
+                                "Apakah tidak ada penyimpangan penimbangan bahan baku (jika ada atasi sesuai prosedur)",
+                                "Apakah mixing time sesuai dengan standar QC"
+                            ];
 
-                        <div class="check-group">
-                            <label>2. Cek screen HM Post dan HM Pre pastikan sesuai pakan yang akan di produksi</label>
-                            <div class="options">
-                                <label><input type="radio" name="q2" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q2" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>3. Pastikan line dosing dalam keadaan normal dan aman</label>
-                            <div class="options">
-                                <label><input type="radio" name="q3" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q3" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>4. Cek stok bin press dan bin finish</label>
-                            <div class="options">
-                                <label><input type="radio" name="q4" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q4" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>5. Apakah stok bahan baku dan hand add sudah terpenuhi sesuai order produksi</label>
-                            <div class="options">
-                                <label><input type="radio" name="q5" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q5" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>6. Apakah pemakaian bahan baku sudah sesuai FIFO dan RBRM (rigth bin right material)</label>
-                            <div class="options">
-                                <label><input type="radio" name="q6" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q6" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>7. Periksa particle size after HM Post, HM Pre dan after Mixer</label>
-                            <div class="options">
-                                <label><input type="radio" name="q7" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q7" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>8. Bersihkan magnet 325 dan 377</label>
-                            <div class="options">
-                                <label><input type="radio" name="q8" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q8" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>9. Bersihkan magnet HM Post dan HM Pre</label>
-                            <div class="options">
-                                <label><input type="radio" name="q9" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q9" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>10. Apakah hand add yang dicurah sesuai dengan pakan yang diproduksi</label>
-                            <div class="options">
-                                <label><input type="radio" name="q10" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q10" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>11. Apakah tidak ada penyimpangan penimbangan bahan baku (jika ada atasi sesuai prosedur)</label>
-                            <div class="options">
-                                <label><input type="radio" name="q11" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q11" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="check-group">
-                            <label>12. Apakah mixing time sesuai dengan standar QC</label>
-                            <div class="options">
-                                <label><input type="radio" name="q12" value="Ya" required><div class="opt yes">YA</div></label>
-                                <label><input type="radio" name="q12" value="Tidak"><div class="opt no">TIDAK</div></label>
-                            </div>
-                        </div>
+                            questions.forEach((q, i) => {
+                                document.write(`
+                                    <div class="check-group">
+                                        <label>${i+1}. ${q}</label>
+                                        <div class="options">
+                                            <label><input type="radio" name="q${i+1}" value="Ya" required><div class="opt yes">YA</div></label>
+                                            <label><input type="radio" name="q${i+1}" value="Tidak"><div class="opt no">TIDAK</div></label>
+                                        </div>
+                                    </div>
+                                `);
+                            });
+                        </script>
                     </div>
 
-                    <button type="button" id="submitBtn" onclick="submitChecklist()" class="btn-login" style="margin-top: 20px;">KIRIM LAPORAN</button>
+                    <button type="submit" id="submitBtn" class="btn-login" style="margin-top: 20px;">KIRIM LAPORAN</button>
                 </form>
             </div>
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
-        const SCRIPT_URL_CHECKLIST = 'URL_WEB_APP_SAMA_DENGAN_URL_DEPLOY_APPS_SCRIPT';
-
-        async function submitChecklist() {
+        document.getElementById('checklistForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            const session = JSON.parse(localStorage.getItem('userSession'));
-            const supervisor = document.getElementById('supervisor').value;
-
-            if(!supervisor) return alert("Isi nama Supervisor!");
-
-            // Cek apakah semua radio sudah dipilih
-            for(let i=1; i<=12; i++) {
-                if(!document.querySelector(`input[name="q${i}"]:checked`)) {
-                    return alert(`Pertanyaan nomor ${i} belum diisi!`);
-                }
-            }
-
+            const session = JSON.parse(localStorage.getItem('userSession')) || { name: "Guest" };
+            
             btn.disabled = true;
-            btn.innerHTML = "MENGIRIM...";
+            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> MENGIRIM...';
 
             const payload = {
                 tanggal: new Date().toLocaleDateString('id-ID'),
                 shift: document.getElementById('shift').value,
                 operator: session.name,
-                supervisor: supervisor,
-                tglDibuat: new Date().toLocaleString('id-ID'),
-                q1: document.querySelector('input[name="q1"]:checked').value,
-                q2: document.querySelector('input[name="q2"]:checked').value,
-                q3: document.querySelector('input[name="q3"]:checked').value,
-                q4: document.querySelector('input[name="q4"]:checked').value,
-                q5: document.querySelector('input[name="q5"]:checked').value,
-                q6: document.querySelector('input[name="q6"]:checked').value,
-                q7: document.querySelector('input[name="q7"]:checked').value,
-                q8: document.querySelector('input[name="q8"]:checked').value,
-                q9: document.querySelector('input[name="q9"]:checked').value,
-                q10: document.querySelector('input[name="q10"]:checked').value,
-                q11: document.querySelector('input[name="q11"]:checked').value,
-                q12: document.querySelector('input[name="q12"]:checked').value
+                supervisor: document.getElementById('supervisor').value,
+                tglDibuat: new Date().toLocaleString('id-ID')
             };
 
+            // Menambah hasil Q1 - Q12 ke payload
+            for(let i=1; i<=12; i++) {
+                payload['q'+i] = document.querySelector(`input[name="q${i}"]:checked`).value;
+            }
+
             try {
-                const response = await fetch(SCRIPT_URL_CHECKLIST, {
+                // Menggunakan URL Checklist yang ada di script.js
+                await fetch(SCRIPT_URL_CHECKLIST, {
                     method: 'POST',
+                    mode: 'no-cors', // Mode paling aman untuk Apps Script
                     body: JSON.stringify(payload)
                 });
-                alert("Laporan Berhasil Terkirim!");
-                window.location.href = 'main.html';
+                
+                showToast("Berhasil", "Laporan telah masuk ke spreadsheet", "success");
+                setTimeout(() => { window.location.href = 'main.html'; }, 2000);
             } catch (err) {
-                alert("Gagal mengirim data ke server.");
+                alert("Gagal mengirim: " + err.message);
                 btn.disabled = false;
-                btn.innerHTML = "KIRIM LAPORAN";
+                btn.innerText = "KIRIM LAPORAN";
             }
-        }
+        });
     </script>
 </body>
 </html>
