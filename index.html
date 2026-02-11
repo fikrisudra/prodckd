@@ -9,6 +9,8 @@
 </head>
 <body style="background: var(--bg);"> 
     
+    <div id="toast-container" class="toast-container"></div>
+
     <div class="login-container" style="display: flex; flex-direction: column; min-height: 100vh; justify-content: center; padding: 40px 24px;">
         
         <header class="login-header" style="text-align: center; margin-bottom: 30px;">
@@ -19,7 +21,7 @@
         </header>
 
         <div class="login-card">
-            <form id="loginForm">
+            <form id="loginForm" onsubmit="event.preventDefault(); login();">
                 <div class="input-box">
                     <label>ID KARYAWAN</label>
                     <input type="number" id="userId" placeholder="Masukkan ID" required autofocus>
@@ -31,7 +33,7 @@
                 </div>
 
                 <div style="margin-top: 32px;">
-                    <button type="submit" id="loginBtn" class="btn-login" onclick="login()">
+                    <button type="submit" id="loginBtn" class="btn-login">
                         AUTHENTICATE
                     </button>
                 </div>
@@ -50,7 +52,7 @@
             
             <p style="font-size: 11px; color: #BDBDBD; font-weight: 600; line-height: 1.2; letter-spacing: 0.2px;">
                 v1.0.0-Stable<br>
-                <span style="font-size: 10px; opacity: 0.8;">&copy; 2026</span>
+                <span style="font-size: 10px; opacity: 0.8;">&copy; 2026 Internal Operations</span>
             </p>
         </footer>
     </div>

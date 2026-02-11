@@ -9,6 +9,8 @@
 </head>
 <body style="background: var(--bg);">
 
+    <div id="toast-container" class="toast-container"></div>
+
     <div id="view-home">
         <header class="app-header">
             <div class="user-info">
@@ -21,13 +23,12 @@
         </header>
 
         <div class="dashboard-content">
-            
             <div class="quick-actions">
                 <div class="action-item" onclick="openScanner()">
                     <div class="action-icon"><i class="ri-qr-scan-2-line"></i></div>
                     <span>Scan QR</span>
                 </div>
-                <div class="action-item">
+                <div class="action-item" onclick="showToast('Fitur Riwayat', 'Sedang dalam pengembangan', 'default')">
                     <div class="action-icon"><i class="ri-history-line"></i></div>
                     <span>Riwayat</span>
                 </div>
@@ -86,7 +87,7 @@
 
         <div class="profile-content-wrapper">
             <div class="menu-list">
-                <div class="menu-item">
+                <div class="menu-item" onclick="showToast('Keamanan', 'Fitur keamanan akun aktif', 'success')">
                     <i class="ri-shield-user-line"></i>
                     <span>Keamanan Akun</span>
                     <i class="ri-arrow-right-s-line"></i>

@@ -1,7 +1,34 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode;
 
-// 1. Fungsi Hash SHA-256
+// --- 1. SISTEM NOTIFIKASI TOAST ---
+function showToast(title, message, type = 'default') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    let icon = 'ri-information-line';
+    if (type === 'error') icon = 'ri-error-warning-line';
+    if (type === 'success') icon = 'ri-checkbox-circle-line';
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <i class="${icon}"></i>
+        <div class="toast-content">
+            <p>${title}</p>
+            <span>${message}</span>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// --- 2. FUNGSI HASH SHA-256 ---
 async function hashPassword(str) {
     try {
         const encoder = new TextEncoder();
@@ -13,14 +40,13 @@ async function hashPassword(str) {
     }
 }
 
-// 2. Sistem Navigasi Tab (Beralih antar View)
+// --- 3. NAVIGASI TAB ---
 function switchTab(target) {
-    if (target === 'scan') return openScanner(); // Jika klik scan, buka popup
+    if (target === 'scan') return openScanner();
 
     const views = ['home', 'profile'];
     const navItems = document.querySelectorAll('.nav-item');
 
-    // Sembunyikan semua halaman & reset icon
     views.forEach(v => {
         const el = document.getElementById('view-' + v);
         if (el) el.classList.add('hidden');
@@ -28,7 +54,6 @@ function switchTab(target) {
     
     navItems.forEach(btn => btn.classList.remove('active'));
 
-    // Tampilkan halaman target
     const targetView = document.getElementById('view-' + target);
     const targetBtn = document.getElementById('btn-' + target);
     
@@ -36,7 +61,7 @@ function switchTab(target) {
     if (targetBtn) targetBtn.classList.add('active');
 }
 
-// 3. Logika Pop-up Scanner
+// --- 4. LOGIKA SCANNER ---
 function openScanner() {
     const modal = document.getElementById('scanner-modal');
     if (modal) {
@@ -66,34 +91,28 @@ function startScanner() {
         { facingMode: "environment" }, 
         config, 
         (text) => {
-            // Haptic feedback & feedback visual
             if(navigator.vibrate) navigator.vibrate(100);
             
-            // Logika setelah scan berhasil
-            console.log("Scan Result:", text);
-            document.getElementById('res-text').innerText = "Berhasil: " + text;
-            
-            // Tutup otomatis setelah 1 detik atau langsung
             setTimeout(() => {
                 closeScanner();
-                alert("Data Berhasil Dimuat: " + text);
+                showToast("Scan Berhasil", "Data: " + text, "success");
             }, 500);
         }
-    ).catch(err => console.warn("Kamera tidak diizinkan atau error:", err));
+    ).catch(err => {
+        showToast("Kamera Error", "Pastikan izin kamera aktif", "error");
+    });
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.log("Gagal menghentikan kamera"));
+        html5QrCode.stop().catch(err => console.log("Gagal stop kamera"));
     }
 }
 
-// 4. Inisialisasi DOM
+// --- 5. INITIALIZATION & LOGIN ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Load Sesi Pengguna
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (session) {
-        // Update UI Dashboard (Tema Orange)
         const nameEl = document.getElementById('userName');
         const profNameEl = document.getElementById('profileName');
         const profIdEl = document.getElementById('profileID');
@@ -102,14 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nameEl) nameEl.innerText = session.name;
         if (profNameEl) profNameEl.innerText = session.name;
         if (profIdEl) profIdEl.innerText = 'ID: ' + session.id;
-        
-        // Update avatar dengan warna Orange (#FF8C32)
         if (avatarEl) {
             avatarEl.src = `https://ui-avatars.com/api/?name=${session.name}&background=FF8C32&color=fff&bold=true`;
         }
     }
 
-    // Login Form Handler
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -120,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const passInput = document.getElementById('password');
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> MEMVERIFIKASI...';
+            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> VERIFIKASI...';
 
             try {
                 const hashedPass = await hashPassword(passInput.value);
@@ -131,26 +147,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await response.json();
 
                 if (res.status === 'success') {
+                    showToast("Akses Diterima", "Selamat datang, " + res.name, "success");
                     localStorage.setItem('userSession', JSON.stringify({ name: res.name, id: idInput.value }));
-                    window.location.href = 'main.html';
+                    setTimeout(() => { window.location.href = 'main.html'; }, 1500);
                 } else {
-                    alert('Akses Ditolak: ID atau PIN Salah');
+                    showToast("Akses Ditolak", "ID atau PIN Salah!", "error");
                     btn.disabled = false;
-                    btn.innerText = 'MASUK SEKARANG';
+                    btn.innerText = 'AUTHENTICATE';
                 }
             } catch (err) {
-                alert('Gangguan Server, Coba lagi nanti.');
+                showToast("Server Error", "Coba lagi beberapa saat lagi", "error");
                 btn.disabled = false;
-                btn.innerText = 'MASUK SEKARANG';
+                btn.innerText = 'AUTHENTICATE';
             }
         });
     }
 });
 
-// 5. Logout Sesi
+// --- 6. LOGOUT ---
 function logout() {
-    if(confirm("Apakah Anda ingin keluar dari sistem?")) {
+    // Mengganti confirm() dengan toast informasi sebelum redirect
+    showToast("Keluar", "Menghapus sesi...", "default");
+    setTimeout(() => {
         localStorage.clear();
         window.location.href = 'index.html';
-    }
+    }, 1000);
 }
