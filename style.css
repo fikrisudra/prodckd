@@ -154,7 +154,7 @@ body {
 }
 
 /* Konten Section */
-.content-section { padding: 0 20px 140px; } /* Padding bawah ditingkatkan agar konten tidak tertutup kapsul */
+.content-section { padding: 0 20px 120px; }
 
 .section-label { font-weight: 800; font-size: 16px; margin-bottom: 15px; display: block; color: var(--text-main); }
 
@@ -198,23 +198,23 @@ body {
     cursor: pointer;
 }
 
-/* --- BOTTOM NAVIGATION (FLOATING CAPSULE) --- */
+/* --- BOTTOM NAVIGATION (FLAT FLOATING CAPSULE) --- */
 .bottom-nav { 
     position: fixed; 
-    bottom: 24px; /* Memberi jarak agar melayang */
+    bottom: 24px; 
     left: 20px; 
     right: 20px; 
-    height: 72px; 
-    background: rgba(255, 255, 255, 0.9); /* Transparansi untuk efek glass */
-    backdrop-filter: blur(12px); /* Blur latar belakang */
+    height: 68px; /* Tinggi ramping untuk efek sejajar */
+    background: rgba(255, 255, 255, 0.95); 
+    backdrop-filter: blur(12px); 
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     align-items: center; 
-    border-radius: 40px; /* Bentuk Kapsul/Pill */
+    border-radius: 24px; /* Kapsul dengan radius proporsional */
     z-index: 1000;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.4);
-    padding: 0 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid var(--border);
+    padding: 0 12px;
 }
 
 .nav-item { 
@@ -226,50 +226,31 @@ body {
     align-items: center; 
     justify-content: center; 
     height: 100%;
-    position: relative;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.nav-item.active { color: var(--primary); }
-.nav-item i { font-size: 24px; }
-.nav-item span { font-size: 10px; font-weight: 700; }
-
-/* Container khusus Tombol Scan */
-.scan-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
+/* Tombol Scan Sejajar */
+.nav-scan-flat {
+    color: var(--primary) !important; /* Tetap orange sebagai pembeda fungsi utama */
 }
 
-.scan-wrapper {
-    width: 58px; 
-    height: 58px; 
-    background: var(--primary); 
-    border-radius: 50%; /* Menjadi bulat sempurna untuk model kapsul */
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    color: white; 
-    position: absolute;
-    top: -30px; 
-    border: 5px solid var(--bg); /* Menyesuaikan dengan background body agar terlihat memotong */
-    box-shadow: 0 8px 20px rgba(255, 140, 50, 0.35);
-    font-size: 24px;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.nav-item.active { 
+    color: var(--primary); 
 }
 
-.scan-wrapper:active {
-    transform: scale(0.85) translateY(4px);
+.nav-item i { 
+    font-size: 22px; 
+    margin-bottom: 2px;
 }
 
-.scan-label {
-    margin-top: 32px; 
-    font-size: 10px;
-    font-weight: 700;
+.nav-item span { 
+    font-size: 10px; 
+    font-weight: 700; 
+}
+
+.nav-item:active {
+    transform: scale(0.92);
 }
 
 /* UTILITY */
