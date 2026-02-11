@@ -110,7 +110,6 @@ body {
     border: 2px solid rgba(255,255,255,0.4); 
 }
 
-/* Dashboard Menu Grid 3-Kolom */
 .quick-actions { 
     background: #fff; 
     margin: -45px 20px 25px; 
@@ -155,8 +154,10 @@ body {
 }
 
 /* Konten Section */
-.content-section { padding: 0 20px 120px; }
+.content-section { padding: 0 20px 140px; } /* Padding bawah ditingkatkan agar konten tidak tertutup kapsul */
+
 .section-label { font-weight: 800; font-size: 16px; margin-bottom: 15px; display: block; color: var(--text-main); }
+
 .info-card { 
     background: #fff; 
     border-radius: 20px; 
@@ -197,21 +198,23 @@ body {
     cursor: pointer;
 }
 
-/* --- BOTTOM NAVIGATION (PRESISI & FLOATING) --- */
+/* --- BOTTOM NAVIGATION (FLOATING CAPSULE) --- */
 .bottom-nav { 
     position: fixed; 
-    bottom: 0; 
-    left: 0; 
-    right: 0; 
-    height: 75px; 
-    background: #FFFFFF; 
+    bottom: 24px; /* Memberi jarak agar melayang */
+    left: 20px; 
+    right: 20px; 
+    height: 72px; 
+    background: rgba(255, 255, 255, 0.9); /* Transparansi untuk efek glass */
+    backdrop-filter: blur(12px); /* Blur latar belakang */
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     align-items: center; 
-    border-top: 1px solid var(--border); 
+    border-radius: 40px; /* Bentuk Kapsul/Pill */
     z-index: 1000;
-    padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 0 8px;
 }
 
 .nav-item { 
@@ -223,7 +226,6 @@ body {
     align-items: center; 
     justify-content: center; 
     height: 100%;
-    width: 100%;
     position: relative;
     cursor: pointer;
 }
@@ -244,24 +246,24 @@ body {
 }
 
 .scan-wrapper {
-    width: 60px; 
-    height: 60px; 
+    width: 58px; 
+    height: 58px; 
     background: var(--primary); 
-    border-radius: 20px; 
+    border-radius: 50%; /* Menjadi bulat sempurna untuk model kapsul */
     display: flex; 
     align-items: center; 
     justify-content: center; 
     color: white; 
     position: absolute;
-    top: -32px; 
-    border: 5px solid #FFFFFF; 
-    box-shadow: 0 10px 20px rgba(255, 140, 50, 0.3);
-    font-size: 26px;
-    transition: transform 0.2s ease;
+    top: -30px; 
+    border: 5px solid var(--bg); /* Menyesuaikan dengan background body agar terlihat memotong */
+    box-shadow: 0 8px 20px rgba(255, 140, 50, 0.35);
+    font-size: 24px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .scan-wrapper:active {
-    transform: scale(0.9) translateY(2px);
+    transform: scale(0.85) translateY(4px);
 }
 
 .scan-label {
