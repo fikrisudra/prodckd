@@ -28,6 +28,14 @@
                     <div class="action-icon"><i class="ri-qr-scan-2-line"></i></div>
                     <span>Pindai QR</span>
                 </div>
+
+                <div class="action-item hidden" id="menu-checklist" onclick="window.location.href='DailyChecklistControlPanelOperator.html'">
+                    <div class="action-icon" style="background: var(--primary); color: white;">
+                        <i class="ri-list-check-3"></i>
+                    </div>
+                    <span>Checklist</span>
+                </div>
+
                 <div class="action-item" onclick="showToast('Fitur Riwayat', 'Sedang dalam pengembangan', 'default')">
                     <div class="action-icon"><i class="ri-history-line"></i></div>
                     <span>Riwayat</span>
@@ -43,10 +51,6 @@
                 <div class="action-item">
                     <div class="action-icon"><i class="ri-error-warning-line"></i></div>
                     <span>Kendala</span>
-                </div>
-                <div class="action-item">
-                    <div class="action-icon"><i class="ri-booklet-line"></i></div>
-                    <span>Panduan</span>
                 </div>
             </div>
 
@@ -149,14 +153,12 @@
             <i class="ri-home-5-fill"></i>
             <span>Beranda</span>
         </button>
-        
         <button class="nav-item" onclick="openScanner()">
             <div class="scan-circle">
                 <i class="ri-qr-scan-2-line"></i>
                 <span>Pindai</span>
             </div>
         </button>
-        
         <button class="nav-item" id="btn-profile" onclick="switchTab('profile')">
             <i class="ri-user-3-fill"></i>
             <span>Profil</span>
@@ -165,5 +167,19 @@
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script src="script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = JSON.parse(localStorage.getItem('userSession'));
+            const checklistMenu = document.getElementById('menu-checklist');
+            
+            // Role yang diizinkan melihat menu checklist
+            const allowedRoles = ['Control Panel Operator', 'Supervisor', 'Admin'];
+
+            if (session && allowedRoles.includes(session.role)) {
+                checklistMenu.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
