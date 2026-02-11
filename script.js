@@ -1,5 +1,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGNRPPBJfuG6SwjRK7onLVJR7-JADtm-jLbWx7B_d3n0g1hd9p5_ZuBNNhxhW3zZ4i/exec';
 let html5QrCode;
+let currentScanResult = ""; // Menyimpan hasil scan terbaru
 
 // --- 1. SISTEM NOTIFIKASI TOAST ---
 function showToast(title, message, type = 'default') {
@@ -61,12 +62,12 @@ function switchTab(target) {
     if (targetBtn) targetBtn.classList.add('active');
 }
 
-// --- 4. LOGIKA SCANNER ---
+// --- 4. LOGIKA SCANNER & HASIL ---
 function openScanner() {
     const modal = document.getElementById('scanner-modal');
     if (modal) {
         modal.classList.add('active');
-        startScanner();
+        resetScannerView(); // Pastikan mulai dari tampilan kamera
     }
 }
 
@@ -92,20 +93,56 @@ function startScanner() {
         config, 
         (text) => {
             if(navigator.vibrate) navigator.vibrate(100);
-            
-            setTimeout(() => {
-                closeScanner();
-                showToast("Scan Berhasil", "Data: " + text, "success");
-            }, 500);
+            currentScanResult = text;
+            showScanResult(text);
         }
     ).catch(err => {
-        showToast("Kamera Error", "Pastikan izin kamera aktif", "error");
+        showToast("Kamera Error", "Gagal mengakses kamera", "error");
     });
 }
 
 function stopScanner() {
     if (html5QrCode && html5QrCode.isScanning) {
         html5QrCode.stop().catch(err => console.log("Gagal stop kamera"));
+    }
+}
+
+// Menampilkan hasil scan di dalam modal
+function showScanResult(text) {
+    stopScanner(); // Matikan kamera agar hemat baterai
+    document.getElementById('scanner-view').classList.add('hidden');
+    document.getElementById('result-view').classList.remove('hidden');
+    document.getElementById('scanned-data').innerText = text;
+
+    // Cek apakah data adalah URL untuk tombol "BUKA"
+    const btnOpen = document.getElementById('btn-open-link');
+    if (text.startsWith('http')) {
+        btnOpen.style.display = "flex";
+    } else {
+        btnOpen.style.display = "none";
+    }
+}
+
+// Kembali ke tampilan kamera (Scan Lagi)
+function resetScannerView() {
+    document.getElementById('result-view').classList.add('hidden');
+    document.getElementById('scanner-view').classList.remove('hidden');
+    startScanner();
+}
+
+// Fungsi Salin Data
+function copyData() {
+    navigator.clipboard.writeText(currentScanResult).then(() => {
+        showToast("Berhasil", "Data disalin ke clipboard", "success");
+    }).catch(() => {
+        showToast("Gagal", "Gagal menyalin data", "error");
+    });
+}
+
+// Fungsi Buka Link
+function openLink() {
+    if (currentScanResult.startsWith('http')) {
+        window.open(currentScanResult, '_blank');
     }
 }
 
@@ -166,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- 6. LOGOUT ---
 function logout() {
-    // Mengganti confirm() dengan toast informasi sebelum redirect
     showToast("Keluar", "Menghapus sesi...", "default");
     setTimeout(() => {
         localStorage.clear();

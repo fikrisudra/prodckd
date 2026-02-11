@@ -107,9 +107,40 @@
 
     <div id="scanner-modal" class="scanner-modal">
         <div class="modal-content">
-            <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800;">Scan QR Produksi</h3>
-            <div class="scanner-box"><div id="reader"></div></div>
-            <div class="close-modal" onclick="closeScanner()">BATALKAN</div>
+            <div id="scanner-view">
+                <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800;">Scan QR Produksi</h3>
+                <div class="scanner-box"><div id="reader"></div></div>
+                <div class="close-modal" onclick="closeScanner()" style="margin-top: 20px; color: var(--text-sub); font-size: 14px;">BATALKAN</div>
+            </div>
+
+            <div id="result-view" class="hidden" style="text-align: center;">
+                <div style="width: 56px; height: 56px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px;">
+                    <i class="ri-checkbox-circle-fill"></i>
+                </div>
+                <h3 style="font-weight: 800; margin-bottom: 4px;">Pemindaian Berhasil</h3>
+                <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 16px;">Hasil data yang terbaca:</p>
+                
+                <div id="scanned-data" style="background: #F8F9FA; padding: 16px; border-radius: 16px; font-family: monospace; font-size: 14px; word-break: break-all; border: 1.5px solid var(--border); margin-bottom: 24px; font-weight: 700; color: var(--text-main);">
+                    </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+                    <button onclick="copyData()" style="padding: 14px; border-radius: 12px; border: none; background: var(--primary-light); color: var(--primary); font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="ri-file-copy-line"></i> SALIN
+                    </button>
+                    <button onclick="openLink()" id="btn-open-link" style="padding: 14px; border-radius: 12px; border: none; background: var(--primary); color: white; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="ri-external-link-line"></i> BUKA
+                    </button>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button onclick="resetScannerView()" style="background: none; border: none; color: var(--primary); font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: underline;">
+                        SCAN LAGI
+                    </button>
+                    <button onclick="closeScanner()" style="background: none; border: none; color: var(--text-sub); font-weight: 700; font-size: 13px; cursor: pointer;">
+                        TUTUP
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
