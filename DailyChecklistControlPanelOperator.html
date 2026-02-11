@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Daily Checklist Control Panel Operator</title>
+    <title>Daily Checklist | MYPROD</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -13,62 +13,46 @@
     <header class="app-header">
         <div style="display: flex; align-items: center; gap: 15px;">
             <i class="ri-arrow-left-line" onclick="window.location.href='main.html'" style="font-size: 24px; cursor: pointer;"></i>
-            <h2 style="font-weight: 800; font-size: 18px;">Checklist Control Panel</h2>
+            <h2 style="font-weight: 800; font-size: 18px;">Form Daily Checklist</h2>
         </div>
     </header>
 
     <div class="dashboard-content">
         <div class="content-section">
+            
+            <div class="info-card" style="background: var(--primary); color: white; margin-bottom: 20px; border: none; box-shadow: 0 10px 20px rgba(255,140,50,0.2);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="font-size: 11px; font-weight: 700; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Tanggal Pelaporan</p>
+                        <h3 id="display-date" style="font-weight: 800; font-size: 18px;">-</h3>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 11px; font-weight: 700; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Status</p>
+                        <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 10px; font-size: 12px; font-weight: 800; border: 1px solid rgba(255,255,255,0.3);">PENDING</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="info-card">
                 <form id="checklistForm">
                     <div class="input-box">
-                        <label>SHIFT</label>
-                        <select id="shift" class="custom-select">
-                            <option value="1">SHIFT 1</option>
-                            <option value="2">SHIFT 2</option>
-                            <option value="3">SHIFT 3</option>
+                        <label><i class="ri-time-line"></i> PILIH SHIFT</label>
+                        <select id="shift" class="custom-select" required>
+                            <option value="" disabled selected>Pilih Shift Kerja</option>
+                            <option value="1">SHIFT 1 (Pagi)</option>
+                            <option value="2">SHIFT 2 (Sore)</option>
+                            <option value="3">SHIFT 3 (Malam)</option>
                         </select>
                     </div>
 
-                    <div class="input-box">
-                        <label>SUPERVISOR ON DUTY</label>
-                        <input type="text" id="supervisor" placeholder="Nama Supervisor" required>
-                    </div>
-
-                    <hr class="form-divider">
+                    <div class="form-divider"></div>
 
                     <div id="questions-container">
-                        <script>
-                            const questions = [
-                                "Apakah resep sudah diprint dan dicek sesuai dengan order produksi PPIC?",
-                                "Cek screen HM Post dan HM Pre pastikan sesuai pakan yang akan di produksi",
-                                "Pastikan line dosing dalam keadaan normal dan aman",
-                                "Cek stok bin press dan bin finish",
-                                "Apakah stok bahan baku dan hand add sudah terpenuhi sesuai order produksi",
-                                "Apakah pemakaian bahan baku sudah sesuai FIFO dan RBRM (rigth bin right material)",
-                                "Periksa particle size after HM Post, HM Pre dan after Mixer",
-                                "Bersihkan magnet 325 dan 377",
-                                "Bersihkan magnet HM Post dan HM Pre",
-                                "Apakah hand add yang dicurah sesuai dengan pakan yang diproduksi",
-                                "Apakah tidak ada penyimpangan penimbangan bahan baku (jika ada atasi sesuai prosedur)",
-                                "Apakah mixing time sesuai dengan standar QC"
-                            ];
+                        </div>
 
-                            questions.forEach((q, i) => {
-                                document.write(`
-                                    <div class="check-group">
-                                        <label>${i+1}. ${q}</label>
-                                        <div class="options">
-                                            <label><input type="radio" name="q${i+1}" value="Ya" required><div class="opt yes">YA</div></label>
-                                            <label><input type="radio" name="q${i+1}" value="Tidak"><div class="opt no">TIDAK</div></label>
-                                        </div>
-                                    </div>
-                                `);
-                            });
-                        </script>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="btn-login" style="margin-top: 20px;">KIRIM LAPORAN</button>
+                    <button type="submit" id="submitBtn" class="btn-login" style="margin-top: 30px; box-shadow: 0 8px 25px rgba(255, 140, 50, 0.4);">
+                        <i class="ri-send-plane-fill"></i> KIRIM KE SUPERVISOR
+                    </button>
                 </form>
             </div>
         </div>
@@ -76,41 +60,83 @@
 
     <script src="script.js"></script>
     <script>
+        // 1. Tampilkan Tanggal Hari Ini secara otomatis
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('display-date').innerText = new Date().toLocaleDateString('id-ID', options);
+
+        // 2. Daftar Pertanyaan
+        const questions = [
+            "Apakah resep sudah diprint dan dicek sesuai dengan order produksi PPIC?",
+            "Cek screen HM Post dan HM Pre pastikan sesuai pakan yang akan di produksi",
+            "Pastikan line dosing dalam keadaan normal dan aman",
+            "Cek stok bin press dan bin finish",
+            "Apakah stok bahan baku dan hand add sudah terpenuhi sesuai order produksi",
+            "Apakah pemakaian bahan baku sudah sesuai FIFO dan RBRM (right bin right material)",
+            "Periksa particle size after HM Post, HM Pre dan after Mixer",
+            "Bersihkan magnet 325 dan 377",
+            "Bersihkan magnet HM Post dan HM Pre",
+            "Apakah hand add yang dicurah sesuai dengan pakan yang diproduksi",
+            "Apakah tidak ada penyimpangan penimbangan bahan baku (jika ada atasi sesuai prosedur)",
+            "Apakah mixing time sesuai dengan standar QC"
+        ];
+
+        // 3. Render Pertanyaan ke UI
+        const container = document.getElementById('questions-container');
+        questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.className = 'check-group';
+            div.innerHTML = `
+                <label>${i+1}. ${q}</label>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q${i+1}" value="Ya" required style="display:none">
+                        <div class="opt yes">YA</div>
+                    </label>
+                    <label>
+                        <input type="radio" name="q${i+1}" value="Tidak" style="display:none">
+                        <div class="opt no">TIDAK</div>
+                    </label>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        // 4. Logika Pengiriman Form
         document.getElementById('checklistForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const session = JSON.parse(localStorage.getItem('userSession')) || { name: "Guest" };
             
             btn.disabled = true;
-            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> MENGIRIM...';
+            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> PROSES PENGIRIMAN...';
 
+            // Payload Data (Tanpa Supervisor - akan diisi di Approval)
             const payload = {
+                action: "submitChecklist", // Menandai ini adalah kiriman baru
                 tanggal: new Date().toLocaleDateString('id-ID'),
                 shift: document.getElementById('shift').value,
                 operator: session.name,
-                supervisor: document.getElementById('supervisor').value,
                 tglDibuat: new Date().toLocaleString('id-ID')
             };
 
-            // Menambah hasil Q1 - Q12 ke payload
             for(let i=1; i<=12; i++) {
                 payload['q'+i] = document.querySelector(`input[name="q${i}"]:checked`).value;
             }
 
             try {
-                // Menggunakan URL Checklist yang ada di script.js
+                // SCRIPT_URL_CHECKLIST harus didefinisikan di script.js
                 await fetch(SCRIPT_URL_CHECKLIST, {
                     method: 'POST',
-                    mode: 'no-cors', // Mode paling aman untuk Apps Script
+                    mode: 'no-cors', 
                     body: JSON.stringify(payload)
                 });
                 
-                showToast("Berhasil", "Laporan telah masuk ke spreadsheet", "success");
+                showToast("Berhasil", "Laporan telah dikirim untuk disetujui", "success");
                 setTimeout(() => { window.location.href = 'main.html'; }, 2000);
             } catch (err) {
-                alert("Gagal mengirim: " + err.message);
+                showToast("Gagal", "Terjadi kesalahan koneksi", "error");
                 btn.disabled = false;
-                btn.innerText = "KIRIM LAPORAN";
+                btn.innerHTML = '<i class="ri-send-plane-fill"></i> KIRIM KE SUPERVISOR';
             }
         });
     </script>
