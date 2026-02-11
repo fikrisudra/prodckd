@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MYPROD</title>
+    <title>MYPROD | Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -36,6 +36,13 @@
                     <span>Checklist</span>
                 </div>
 
+                <div class="action-item hidden" id="menu-approval" onclick="window.location.href='ApprovalList.html'">
+                    <div class="action-icon" style="background: #2ECC71; color: white;">
+                        <i class="ri-shield-check-line"></i>
+                    </div>
+                    <span>Approval</span>
+                </div>
+
                 <div class="action-item" onclick="showToast('Fitur Riwayat', 'Sedang dalam pengembangan', 'default')">
                     <div class="action-icon"><i class="ri-history-line"></i></div>
                     <span>Riwayat</span>
@@ -47,10 +54,6 @@
                 <div class="action-item">
                     <div class="action-icon"><i class="ri-settings-5-line"></i></div>
                     <span>Mesin</span>
-                </div>
-                <div class="action-item">
-                    <div class="action-icon"><i class="ri-error-warning-line"></i></div>
-                    <span>Kendala</span>
                 </div>
             </div>
 
@@ -73,7 +76,7 @@
                         <p style="font-weight: 800; font-size: 15px;">Pemberitahuan</p>
                     </div>
                     <p style="font-size: 13px; color: var(--text-sub); line-height: 1.6;">
-                        Semua lini produksi berjalan normal. Shift pagi dijadwalkan selesai tepat waktu.
+                        Sistem checklist sekarang memerlukan approval Supervisor. Pastikan data yang dikirim sudah benar.
                     </p>
                 </div>
             </section>
@@ -85,8 +88,8 @@
             <div class="profile-avatar-big">
                 <i class="ri-user-smile-fill"></i>
             </div>
-            <h2 id="profileName" style="font-weight: 800; color: #fff;">Operator Utama</h2>
-            <p id="profileID" style="opacity: 0.85; font-size: 13px; font-weight: 600; color: #fff;">ID Karyawan: 1002394</p>
+            <h2 id="profileName" style="font-weight: 800; color: #fff;">User Name</h2>
+            <p id="profileID" style="opacity: 0.85; font-size: 13px; font-weight: 600; color: #fff;">ID Karyawan: -</p>
         </div>
 
         <div class="profile-content-wrapper">
@@ -94,11 +97,6 @@
                 <div class="menu-item" onclick="showToast('Keamanan', 'Fitur keamanan akun aktif', 'success')">
                     <i class="ri-shield-user-line"></i>
                     <span>Keamanan Akun</span>
-                    <i class="ri-arrow-right-s-line"></i>
-                </div>
-                <div class="menu-item">
-                    <i class="ri-notification-badge-line"></i>
-                    <span>Pengaturan Notifikasi</span>
                     <i class="ri-arrow-right-s-line"></i>
                 </div>
                 <div class="menu-item" onclick="logout()" style="margin-top: 20px; background: #FFF5F5; border: 1px solid #FFE0E0;">
@@ -110,43 +108,7 @@
     </div>
 
     <div id="scanner-modal" class="scanner-modal">
-        <div class="modal-content">
-            <div id="scanner-view">
-                <h3 style="text-align: center; margin-bottom: 20px; font-weight: 800;">Pindai QR Produksi</h3>
-                <div class="scanner-box"><div id="reader"></div></div>
-                <div class="close-modal" onclick="closeScanner()" style="margin-top: 20px; color: var(--text-sub); font-size: 14px;">BATALKAN</div>
-            </div>
-
-            <div id="result-view" class="hidden" style="text-align: center;">
-                <div style="width: 56px; height: 56px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px;">
-                    <i class="ri-checkbox-circle-fill"></i>
-                </div>
-                <h3 style="font-weight: 800; margin-bottom: 4px;">Pemindaian Berhasil</h3>
-                <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 16px;">Data yang terbaca:</p>
-                
-                <div id="scanned-data" style="background: #F8F9FA; padding: 16px; border-radius: 16px; font-family: monospace; font-size: 14px; word-break: break-all; border: 1.5px solid var(--border); margin-bottom: 24px; font-weight: 700; color: var(--text-main);">
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-                    <button onclick="copyData()" style="padding: 14px; border-radius: 12px; border: none; background: var(--primary-light); color: var(--primary); font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                        <i class="ri-file-copy-line"></i> SALIN
-                    </button>
-                    <button onclick="openLink()" id="btn-open-link" style="padding: 14px; border-radius: 12px; border: none; background: var(--primary); color: white; font-weight: 800; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                        <i class="ri-external-link-line"></i> BUKA
-                    </button>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <button onclick="resetScannerView()" style="background: none; border: none; color: var(--primary); font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: underline;">
-                        PINDAI LAGI
-                    </button>
-                    <button onclick="closeScanner()" style="background: none; border: none; color: var(--text-sub); font-weight: 700; font-size: 13px; cursor: pointer;">
-                        TUTUP
-                    </button>
-                </div>
-            </div>
         </div>
-    </div>
 
     <nav class="bottom-nav">
         <button class="nav-item active" id="btn-home" onclick="switchTab('home')">
@@ -169,15 +131,27 @@
     <script src="script.js"></script>
 
     <script>
+        // LOGIKA FILTER MENU BERDASARKAN ROLE
         document.addEventListener('DOMContentLoaded', () => {
             const session = JSON.parse(localStorage.getItem('userSession'));
-            const checklistMenu = document.getElementById('menu-checklist');
-            
-            // Role yang diizinkan melihat menu checklist
-            const allowedRoles = ['Control Panel Operator', 'Supervisor', 'Admin'];
+            if (!session) {
+                window.location.href = 'index.html';
+                return;
+            }
 
-            if (session && allowedRoles.includes(session.role)) {
+            const checklistMenu = document.getElementById('menu-checklist');
+            const approvalMenu = document.getElementById('menu-approval');
+            
+            // 1. Cek akses Checklist (Operator, Spv, Admin)
+            const canChecklist = ['Control Panel Operator', 'Supervisor', 'Admin'];
+            if (checklistMenu && canChecklist.includes(session.role)) {
                 checklistMenu.classList.remove('hidden');
+            }
+
+            // 2. Cek akses Approval (Hanya Spv & Admin)
+            const canApprove = ['Supervisor', 'Admin'];
+            if (approvalMenu && canApprove.includes(session.role)) {
+                approvalMenu.classList.remove('hidden');
             }
         });
     </script>
