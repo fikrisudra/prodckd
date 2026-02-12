@@ -1,7 +1,6 @@
 // GANTI DENGAN URL WEB APP TERBARU ANDA
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec
-'; 
-const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbw8ARR82VDxfd84YNhu3V-hxOWFsl-gMK4cHMBoW5Fy3pgucZHrzJuWAt0FJ0NMtMAr/exec'; 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyI-8_yxAZjMGH59gnjzh1ooFaRVZplmlKsokQAcd9_B55MUCNlyiIqshY6H4eXkz-/exec'; 
+const SCRIPT_URL_CHECKLIST = 'https://script.google.com/macros/s/AKfycbyILXeN_2U_dRgJebukndZkEm6aN69TaWnMuJTRLhvExeAH469kdc14fljR16_h-41d/exec'; 
 
 let html5QrCode;
 
@@ -59,48 +58,76 @@ async function handleLogin(e) {
     }
 }
 
-// --- 4. LOGIKA APPROVAL ---
+// --- 4. LOGIKA APPROVAL (Target Cell E) ---
 async function loadPendingChecklist() {
     const listContainer = document.getElementById('approval-list-container');
     if (!listContainer) return;
 
-    listContainer.innerHTML = '<div style="text-align:center; padding:40px;"><i class="ri-loader-4-line ri-spin" style="font-size:30px; color:var(--primary);"></i><p>Sinkronisasi data...</p></div>';
+    listContainer.innerHTML = `
+        <div style="text-align:center; padding:40px;">
+            <i class="ri-loader-4-line ri-spin" style="font-size:30px; color:var(--primary);"></i>
+            <p style="margin-top:10px; font-weight:700;">Sinkronisasi data...</p>
+        </div>`;
 
     try {
+        // action=getPending akan mencari data dengan status "Pending Approval" di Kolom E
         const response = await fetch(`${SCRIPT_URL_CHECKLIST}?action=getPending&t=${Date.now()}`);
         const data = await response.json();
 
         if (data.length === 0) {
-            listContainer.innerHTML = '<div class="empty-state"><i class="ri-checkbox-circle-fill"></i><p>Semua laporan sudah disetujui!</p></div>';
+            listContainer.innerHTML = `
+                <div style="text-align:center; padding:40px; opacity:0.6;">
+                    <i class="ri-checkbox-circle-fill" style="font-size:48px; color:var(--success);"></i>
+                    <p style="margin-top:10px; font-weight:700;">Semua laporan sudah disetujui!</p>
+                </div>`;
             return;
         }
 
         listContainer.innerHTML = '';
         data.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'approval-card';
+            card.className = 'approval-card'; // Pastikan class ini ada di style.css
+            card.style = "background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--primary);";
             card.innerHTML = `
-                <div class="card-top"><span>${item.tanggal}</span><span class="shift-badge">SHIFT ${item.shift}</span></div>
-                <div class="card-user"><i class="ri-user-follow-line"></i><div class="user-details"><p>OPERATOR</p><h4>${item.operator}</h4></div></div>
-                <button class="btn-approve-sm" onclick="approveChecklist(${item.rowId})">SETUJUI</button>`;
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:12px; color:var(--text-sub); font-weight:600;">#ID-${item.rowId}</span>
+                    <span style="font-size:11px; background:var(--bg); padding:2px 8px; border-radius:10px; font-weight:700;">SHIFT ${item.shift}</span>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <p style="font-size:11px; color:var(--text-sub); margin:0;">OPERATOR</p>
+                    <h4 style="margin:0; font-size:16px;">${item.operator}</h4>
+                    <p style="font-size:12px; margin-top:4px;"><i class="ri-calendar-line"></i> ${item.tanggal}</p>
+                </div>
+                <button class="btn-login" onclick="approveChecklist(${item.rowId})" style="padding:10px; font-size:12px; background:var(--success); width:100%;">
+                    <i class="ri-check-double-line"></i> SETUJUI LAPORAN
+                </button>`;
             listContainer.appendChild(card);
         });
     } catch (err) {
-        listContainer.innerHTML = '<p style="text-align:center; color:red;">Gagal memuat data.</p>';
+        listContainer.innerHTML = '<p style="text-align:center; color:red; padding:20px;">Gagal memuat data. Cek koneksi atau URL Script.</p>';
     }
 }
 
 async function approveChecklist(rowId) {
     const session = JSON.parse(localStorage.getItem('userSession'));
-    if (!confirm("Setujui laporan ini?")) return;
+    if (!session) return showToast("Error", "Sesi berakhir, silakan login ulang", "error");
+    
+    if (!confirm("Konfirmasi Persetujuan untuk Baris #" + rowId + "?")) return;
 
     try {
+        // Mengirimkan rowId agar GAS tahu baris mana yang diubah Statusnya di Kolom E
         await fetch(SCRIPT_URL_CHECKLIST, {
             method: 'POST',
             mode: 'no-cors',
-            body: JSON.stringify({ action: "approveChecklist", rowId: rowId, supervisorName: session.name })
+            body: JSON.stringify({ 
+                action: "approveChecklist", 
+                rowId: rowId, 
+                supervisorName: session.name 
+            })
         });
-        showToast("Berhasil", "Laporan telah disetujui", "success");
+        
+        showToast("Berhasil", "Laporan baris #" + rowId + " disetujui", "success");
+        // Beri jeda 1 detik agar Spreadsheet selesai menulis sebelum list di-refresh
         setTimeout(loadPendingChecklist, 1000);
     } catch (err) {
         showToast("Gagal", "Kesalahan server", "error");
@@ -112,13 +139,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) loginForm.addEventListener('submit', handleLogin);
 
-    if (document.getElementById('approval-list-container')) loadPendingChecklist();
+    // Otomatis load data jika elemen container ada (di halaman ApprovalList.html)
+    if (document.getElementById('approval-list-container')) {
+        loadPendingChecklist();
+    }
 
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (session) {
         if (document.getElementById('userName')) document.getElementById('userName').innerText = session.name;
-        // Role based menu filtering logic here...
+        if (document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
+        if (document.getElementById('profileID')) document.getElementById('profileID').innerText = 'ID: ' + session.id;
+        
+        // Filter Menu berdasarkan Role
+        const menuChecklist = document.getElementById('menu-checklist');
+        const menuApproval = document.getElementById('menu-approval');
+        
+        if (menuChecklist && ['Control Panel Operator', 'Supervisor', 'Admin'].includes(session.role)) {
+            menuChecklist.classList.remove('hidden');
+        }
+        if (menuApproval && ['Supervisor', 'Admin'].includes(session.role)) {
+            menuApproval.classList.remove('hidden');
+        }
     }
 });
 
-function logout() { localStorage.clear(); window.location.href = 'index.html'; }
+function logout() { 
+    localStorage.clear(); 
+    window.location.href = 'index.html'; 
+}
