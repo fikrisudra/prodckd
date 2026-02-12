@@ -10,71 +10,46 @@
 <body style="background: var(--bg);">
     <header class="app-header">
         <div style="display: flex; align-items: center; gap: 15px;">
-            <i class="ri-arrow-left-line" onclick="window.location.href='main.html'" style="font-size: 24px; cursor: pointer;"></i>
-            <h2 style="font-weight: 800; font-size: 18px;">Menunggu Persetujuan</h2>
+            <i class="ri-arrow-left-s-line" onclick="window.location.href='main.html'" style="font-size: 28px; cursor: pointer;"></i>
+            <div>
+                <h2 style="font-weight: 800; font-size: 18px; letter-spacing: -0.5px;">Persetujuan</h2>
+                <p style="font-size: 11px; opacity: 0.8; font-weight: 600;">Antrean Laporan Pending</p>
+            </div>
         </div>
     </header>
 
     <div class="dashboard-content">
-        <div class="content-section" id="approval-container">
-            <div style="text-align: center; padding: 40px; opacity: 0.5;">
-                <i class="ri-loader-4-line ri-spin" style="font-size: 40px;"></i>
-                <p>Memuat data checklist...</p>
+        <div class="content-section">
+            <span class="section-label">Laporan Masuk</span>
+            
+            <div id="approval-list-container" class="approval-list">
+                <div style="text-align: center; padding: 60px 20px; opacity: 0.6;">
+                    <i class="ri-loader-4-line ri-spin" style="font-size: 40px; color: var(--primary);"></i>
+                    <p style="margin-top: 10px; font-weight: 700; font-size: 13px;">Sinkronisasi data...</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
+    
     <script>
-        async function loadPendingChecklist() {
-            const container = document.getElementById('approval-container');
-            try {
-                const response = await fetch(SCRIPT_URL_CHECKLIST + "?action=getPending");
-                const data = await response.json();
-                
-                if (data.length === 0) {
-                    container.innerHTML = `<div class="info-card" style="text-align:center;">Semua laporan telah disetujui ✅</div>`;
-                    return;
-                }
-
-                container.innerHTML = data.map((item, index) => `
-                    <div class="info-card" style="border-left: 5px solid var(--primary);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="font-weight: 800; color: var(--primary);">#${item.row}</span>
-                            <span style="font-size: 11px; font-weight: 700; color: var(--text-sub);">${item.tglDibuat}</span>
-                        </div>
-                        <p style="font-weight: 800; font-size: 16px;">${item.operator}</p>
-                        <p style="font-size: 13px; color: var(--text-sub);">Shift ${item.shift} • Control Panel</p>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <button onclick="approve('${item.row}')" class="btn-login" style="padding: 10px; font-size: 12px; background: var(--success);">APPROVE</button>
-                            <button onclick="viewDetail('${index}')" class="btn-login" style="padding: 10px; font-size: 12px; background: var(--text-main);">DETAIL</button>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) {
-                container.innerHTML = "Gagal memuat data.";
+        // Fungsi pemanggil awal saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pastikan fungsi loadPendingChecklist ada di script.js
+            if (typeof loadPendingChecklist === 'function') {
+                loadPendingChecklist();
+            } else {
+                console.error("Fungsi loadPendingChecklist tidak ditemukan di script.js");
             }
-        }
-        
-        async function approve(rowId) {
-            const session = JSON.parse(localStorage.getItem('userSession'));
-            if(!confirm("Setujui laporan ini?")) return;
-            
-            // Kirim perintah approve ke Apps Script
-            await fetch(SCRIPT_URL_CHECKLIST, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({
-                    action: "approve",
-                    row: rowId,
-                    supervisor: session.name
-                })
-            });
-            alert("Berhasil disetujui!");
-            loadPendingChecklist();
-        }
+        });
 
-        window.onload = loadPendingChecklist;
+        // Fungsi opsional untuk melihat detail (jika diperlukan kedepannya)
+        function viewDetail(rowId) {
+            showToast("Fitur Detail", "Detail laporan ID #" + rowId + " sedang disiapkan", "default");
+        }
     </script>
+
+    <div id="toast-container" class="toast-container"></div>
 </body>
 </html>
