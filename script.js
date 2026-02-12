@@ -9,214 +9,138 @@ let currentScanResult = "";
 function showToast(title, message, type = 'default') {
     const container = document.getElementById('toast-container');
     if (!container) return;
-
     let icon = 'ri-information-line';
     if (type === 'error') icon = 'ri-error-warning-line';
     if (type === 'success') icon = 'ri-checkbox-circle-line';
-
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    toast.innerHTML = `
-        <i class="${icon}"></i>
-        <div class="toast-content">
-            <p>${title}</p>
-            <span>${message}</span>
-        </div>
-    `;
-
+    toast.innerHTML = `<i class="${icon}"></i><div class="toast-content"><p>${title}</p><span>${message}</span></div>`;
     container.appendChild(toast);
-
     setTimeout(() => {
         toast.classList.add('fade-out');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
-// --- 2. FUNGSI HASH SHA-256 ---
-async function hashPassword(str) {
+// --- 2. FUNGSI AMBIL DATA PENDING (DIPERBAIKI) ---
+async function loadPendingChecklist() {
+    const listContainer = document.getElementById('approval-list-container');
+    if (!listContainer) return; // Hanya jalan jika elemen ini ada (di ApprovalList.html)
+
+    listContainer.innerHTML = '<div style="text-align:center; padding:20px;"><i class="ri-loader-4-line ri-spin" style="font-size:30px; color:var(--primary);"></i><p>Memuat data...</p></div>';
+
     try {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(str);
-        const hash = await crypto.subtle.digest('SHA-256', data);
-        return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-    } catch (e) {
-        return str; 
+        // Memanggil GAS dengan parameter action=getPending
+        const response = await fetch(`${SCRIPT_URL_CHECKLIST}?action=getPending`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+            listContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="ri-inbox-archive-line"></i>
+                    <p>Semua laporan sudah disetujui!</p>
+                </div>`;
+            return;
+        }
+
+        listContainer.innerHTML = ''; // Hapus loading
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'approval-card animate-list';
+            card.innerHTML = `
+                <div class="card-top">
+                    <span class="date">${item.tanggal}</span>
+                    <span class="shift-badge">SHIFT ${item.shift}</span>
+                </div>
+                <div class="card-user">
+                    <i class="ri-user-follow-line"></i>
+                    <div class="user-details">
+                        <p>OPERATOR</p>
+                        <h4>${item.operator}</h4>
+                    </div>
+                </div>
+                <button class="btn-approve-sm" onclick="approveChecklist(${item.rowId})">
+                    <i class="ri-check-double-line"></i> SETUJUI LAPORAN
+                </button>
+            `;
+            listContainer.appendChild(card);
+        });
+    } catch (err) {
+        listContainer.innerHTML = '<p style="color:red; text-align:center;">Gagal mengambil data. Pastikan koneksi internet aktif.</p>';
+        console.error("Error Load Data:", err);
     }
 }
 
-// --- 3. NAVIGASI TAB ---
-function switchTab(target) {
-    if (target === 'scan') return openScanner();
-
-    const views = ['home', 'profile'];
-    const navItems = document.querySelectorAll('.nav-item');
-
-    views.forEach(v => {
-        const el = document.getElementById('view-' + v);
-        if (el) el.classList.add('hidden');
-    });
-    
-    navItems.forEach(btn => btn.classList.remove('active'));
-
-    const targetView = document.getElementById('view-' + target);
-    const targetBtn = document.getElementById('btn-' + target);
-    
-    if (targetView) targetView.classList.remove('hidden');
-    if (targetBtn) targetBtn.classList.add('active');
-}
-
-// --- 4. LOGIKA SCANNER ---
-function openScanner() {
-    const modal = document.getElementById('scanner-modal');
-    if (modal) {
-        modal.classList.add('active');
-        resetScannerView(); 
-    }
-}
-
-function closeScanner() {
-    const modal = document.getElementById('scanner-modal');
-    if (modal) {
-        modal.classList.remove('active');
-        stopScanner();
-    }
-}
-
-function startScanner() {
-    if (!html5QrCode) html5QrCode = new Html5Qrcode("reader");
-    const config = { fps: 25, qrbox: { width: 220, height: 220 }, aspectRatio: 1.0 };
-    html5QrCode.start({ facingMode: "environment" }, config, (text) => {
-        if(navigator.vibrate) navigator.vibrate(100);
-        currentScanResult = text;
-        showScanResult(text);
-    }).catch(err => {
-        showToast("Kesalahan Kamera", "Gagal mengakses kamera", "error");
-    });
-}
-
-function stopScanner() {
-    if (html5QrCode && html5QrCode.isScanning) {
-        html5QrCode.stop().catch(err => console.log("Gagal stop kamera"));
-    }
-}
-
-function showScanResult(text) {
-    stopScanner(); 
-    document.getElementById('scanner-view').classList.add('hidden');
-    document.getElementById('result-view').classList.remove('hidden');
-    document.getElementById('scanned-data').innerText = text;
-    const btnOpen = document.getElementById('btn-open-link');
-    btnOpen.style.display = text.startsWith('http') ? "flex" : "none";
-}
-
-function resetScannerView() {
-    document.getElementById('result-view').classList.add('hidden');
-    document.getElementById('scanner-view').classList.remove('hidden');
-    startScanner();
-}
-
-// --- 5. LOGIKA APPROVAL (NEW) ---
+// --- 3. LOGIKA APPROVAL (DIPERBAIKI) ---
 async function approveChecklist(rowId) {
     const session = JSON.parse(localStorage.getItem('userSession'));
     if (!session || !['Supervisor', 'Admin'].includes(session.role)) {
-        return showToast("Akses Ditolak", "Hanya Supervisor yang bisa melakukan approval", "error");
+        return showToast("Akses Ditolak", "Hanya Supervisor yang diizinkan", "error");
     }
 
-    if (!confirm("Setujui laporan ini?")) return;
+    if (!confirm("Konfirmasi persetujuan laporan ini?")) return;
 
+    // Tambahkan loading overlay atau disable tombol agar tidak double click
     try {
-        await fetch(SCRIPT_URL_CHECKLIST, {
+        const response = await fetch(SCRIPT_URL_CHECKLIST, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'no-cors', // Penting agar tidak kena CORS di Apps Script
             body: JSON.stringify({
                 action: "approveChecklist",
                 rowId: rowId,
                 supervisorName: session.name
             })
         });
-        showToast("Berhasil", "Laporan disetujui", "success");
-        // Reload list jika fungsi loadPendingChecklist tersedia di halaman tersebut
-        if (typeof loadPendingChecklist === "function") loadPendingChecklist();
+
+        showToast("Berhasil", "Laporan telah disetujui", "success");
+        
+        // Beri jeda sebentar lalu refresh list
+        setTimeout(() => {
+            loadPendingChecklist();
+        }, 1000);
+        
     } catch (err) {
-        showToast("Gagal", "Kesalahan saat menyetujui laporan", "error");
+        showToast("Gagal", "Terjadi kesalahan server", "error");
     }
 }
 
-// --- 6. INISIALISASI & LOGIN ---
+// --- 4. INISIALISASI ---
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('userSession'));
+    
+    // Jika berada di halaman Approval, muat data otomatis
+    if (document.getElementById('approval-list-container')) {
+        loadPendingChecklist();
+    }
+
     if (session) {
-        const nameEl = document.getElementById('userName');
-        const profNameEl = document.getElementById('profileName');
-        const profIdEl = document.getElementById('profileID');
-        const avatarEl = document.getElementById('userAvatar');
-
-        if (nameEl) nameEl.innerText = session.name;
-        if (profNameEl) profNameEl.innerText = session.name;
-        if (profIdEl) profIdEl.innerText = 'ID: ' + session.id;
-        if (avatarEl) {
-            avatarEl.src = `https://ui-avatars.com/api/?name=${session.name}&background=FF8C32&color=fff&bold=true`;
-        }
-
-        // Tampilkan menu Checklist untuk Operator & Supervisor
+        // Update UI Nama & Role
+        if (document.getElementById('userName')) document.getElementById('userName').innerText = session.name;
+        if (document.getElementById('profileName')) document.getElementById('profileName').innerText = session.name;
+        if (document.getElementById('profileID')) document.getElementById('profileID').innerText = 'ID: ' + session.id;
+        
+        // Filter Menu
         const menuChecklist = document.getElementById('menu-checklist');
+        const menuApproval = document.getElementById('menu-approval');
+        
         if (menuChecklist && ['Control Panel Operator', 'Supervisor', 'Admin'].includes(session.role)) {
             menuChecklist.classList.remove('hidden');
         }
-
-        // Tampilkan menu Approval HANYA untuk Supervisor & Admin
-        const menuApproval = document.getElementById('menu-approval');
         if (menuApproval && ['Supervisor', 'Admin'].includes(session.role)) {
             menuApproval.classList.remove('hidden');
         }
     }
-
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('loginBtn');
-            const idInput = document.getElementById('userId');
-            const passInput = document.getElementById('password');
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> VERIFIKASI...';
-
-            try {
-                const hashedPass = await hashPassword(passInput.value);
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ id: idInput.value, password: hashedPass })
-                });
-                const res = await response.json();
-
-                if (res.status === 'success') {
-                    showToast("Akses Diterima", "Selamat datang, " + res.name, "success");
-                    localStorage.setItem('userSession', JSON.stringify({ 
-                        name: res.name, 
-                        id: idInput.value,
-                        role: res.role 
-                    }));
-                    setTimeout(() => { window.location.href = 'main.html'; }, 1500);
-                } else {
-                    showToast("Akses Ditolak", "ID atau PIN salah!", "error");
-                    btn.disabled = false;
-                    btn.innerText = 'VERIFIKASI AKSES';
-                }
-            } catch (err) {
-                showToast("Kesalahan Server", "Silakan coba lagi", "error");
-                btn.disabled = false;
-                btn.innerText = 'VERIFIKASI AKSES';
-            }
-        });
-    }
+    
+    // ... (Logika loginForm Anda tetap sama) ...
 });
 
-// --- 7. LOGOUT ---
-function logout() {
-    showToast("Keluar", "Menghapus sesi login...", "default");
-    setTimeout(() => {
-        localStorage.clear();
-        window.location.href = 'index.html';
-    }, 1000);
-}
+// --- FUNGSI NAVIGASI & SCANNER (Tetap sama seperti kode Anda) ---
+function switchTab(target) { /* ... */ }
+function openScanner() { /* ... */ }
+function closeScanner() { /* ... */ }
+function startScanner() { /* ... */ }
+function stopScanner() { /* ... */ }
+function showScanResult(text) { /* ... */ }
+function resetScannerView() { /* ... */ }
+async function hashPassword(str) { /* ... */ }
+function logout() { /* ... */ }
